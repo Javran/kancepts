@@ -1,2 +1,3 @@
-# kc-expedition-planner
-Expedition planner
+# kancepts
+
+KANColle ExPedition ToolSets
