@@ -1,5 +1,15 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    font-family: sans-serif;
+}
+
+.panel.exped-row-edit-panel > .panel-heading {
+    padding: 5px 10px;
+}
+
+.panel.exped-row-edit-panel > .panel-body {
+    padding: 5px;
+}
+
+.panel.exped-row-edit-panel .nav-tabs > li > a {
+    padding: 5px 10px;
 }

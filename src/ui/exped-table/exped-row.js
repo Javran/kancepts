@@ -1,152 +1,129 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
-import FontAwesome from 'react-fontawesome'
+import { Collapse } from 'react-bootstrap'
+import { ExpedRowView } from './exped-row-view'
+import { ExpedRowEdit } from './exped-row-edit'
 
-import { ItemIcon } from '../item-icon'
-
-const formatTime = minutes => {
-  const mm = minutes % 60
-  const hh = Math.round((minutes - mm) / 60)
-  const mmText = _.padStart(mm, 2, '0')
-  const hhText = _.padStart(hh, 2, '0')
-  return `${hhText}:${mmText}`
-}
-
-const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
-
-const resourceColor = {
-  fuel: '#276F1D',
-  ammo: '#615233',
-  steel: '#727272',
-  bauxite: '#B98154',
-}
-
-// eslint-disable-next-line react/prop-types
-const mkItem = ({name, count}, isGS) => {
-  if (name === null || count === 0)
-    return (<span>-</span>)
-  const countText = isGS ?
-    (count > 1 ? `1~${count}` : '1') :
-    `0~${count}`
-  return (
-    <span>
-      <ItemIcon style={{width: '1.1em'}} name={name} />
-      <span>{`x${countText}`}</span>
-    </span>
-  )
-}
-
-const viewModifier = modifier => {
+const createModifierEditorState = modifier => {
   if (modifier.type === 'standard') {
-    return (
-      <div style={{display: 'flex', alignItems: 'center'}}>
-        <div style={{
-          fontWeight: 'bold',
-          width: '1.1em',
-          marginRight: 4,
-        }}>
-          {modifier.gs ? '大' : '普'}
-        </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-          <ItemIcon name="dlc" style={{height: '2em'}} />
-          <span>x{modifier.daihatsu}</span>
-        </div>
-      </div>
-    )
+    return {
+      curType: 'standard',
+      standard: {
+        gs: modifier.gs,
+        daihatsu: modifier.daihatsu,
+      },
+      custom: {
+        value: 1,
+      },
+    }
   }
-  if (modifier.type === 'custom')
-    return (<div>{`${modifier.value.toFixed(2)}`}</div>)
+
+  if (modifier.type === 'custom') {
+    return {
+      curType: 'custom',
+      standard: {
+        gs: false,
+        daihatsu: 0,
+      },
+      custom: {
+        value: modifier.value,
+      },
+    }
+  }
 }
 
-const viewCost = cost => {
+const createCostEditorState = cost => {
   if (cost.type === 'cost-model') {
-    return (
-      <div>
-        {cost.wildcard === false ? 'N/A' : `>=${cost.count}, *=${cost.wildcard}`}
-      </div>
-    )
+    return {
+      curType: 'cost-model',
+      costModel: {
+        wildcard: cost.wildcard,
+        count: cost.count,
+      },
+      custom: {
+        fuel: 0,
+        ammo: 0,
+      },
+    }
   }
+
   if (cost.type === 'custom') {
-    return (
-      <div style={{display: 'flex'}}>
-        <div style={{
-          flex: 1,
-          fontWeight: 'bold',
-          color: resourceColor.fuel,
-        }}>
-          {-cost.fuel}
-        </div>
-        <div style={{
-          flex: 1,
-          fontWeight: 'bold',
-          color: resourceColor.ammo,
-        }}>
-          {-cost.ammo}
-        </div>
-      </div>
-    )
+    return {
+      curType: 'custom',
+      costModel: {
+        wildcard: false,
+        count: 6,
+      },
+      custom: {
+        fuel: cost.fuel,
+        ammo: cost.ammo,
+      },
+    }
+  }
+}
+
+const createEditorState = config => {
+  const {modifier, cost} = config
+  return {
+    modifier: createModifierEditorState(modifier),
+    cost: createCostEditorState(cost),
   }
 }
 
 class ExpedRow extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      editing: false,
+
+      modifier: null,
+      cost: null,
+    }
+  }
+
+  handleToggleEditor = prevEditing => () => {
+    const editing = !prevEditing
+    if (editing) {
+      // relying on batch update
+      this.setState(createEditorState(this.props.config))
+    }
+    this.setState({editing})
+  }
+
+  handleModifyModifier = mod =>
+    this.setState(state => ({
+      ...state,
+      modifier: mod(state.modifier),
+    }))
+
+  handleModifyCost = mod =>
+    this.setState(state => ({
+      ...state,
+      cost: mod(state.cost),
+    }))
+
   render() {
     const {info, config} = this.props
-    const {
-      id, name, time,
-      resource, itemProb, itemGS,
-    } = info
-    const {
-      modifier, cost,
-    } = config
+    const {editing} = this.state
     return (
-      <div style={{display: 'flex', alignItems: 'center'}}>
-        <div style={{
-          display: 'flex', alignItems: 'baseline',
-          width: '20%', marginRight: 10,
-        }}>
-          <div style={{width: '2em', marginRight: 8}}>{id}</div>
-          <div style={{
-            flex: 1,
-            width: 'auto',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden'}}>
-            {name}
+      <div>
+        <ExpedRowView
+          info={info}
+          config={config}
+          editing={editing}
+          onToggleEditor={this.handleToggleEditor(editing)}
+        />
+        <Collapse timeout={0} in={editing}>
+          <div>
+            <ExpedRowEdit
+              id={info.id}
+              modifier={this.state.modifier}
+              cost={this.state.cost}
+              onModifyModifier={this.handleModifyModifier}
+              onModifyCost={this.handleModifyCost}
+            />
           </div>
-          <div style={{width: '3em'}}>{formatTime(time)}</div>
-        </div>
-        <div style={{display: 'flex', flex: 1, width: '45%'}}>
-          {
-            resourceProperties.map(rp => {
-              const nz = resource[rp] !== 0
-              const style = nz ?
-                {fontWeight: 'bold', color: resourceColor[rp]} :
-                {}
-              return (
-                <div key={rp} style={{
-                  width: '14%',
-                  ...style,
-                }}>
-                  {resource[rp]}
-                </div>
-              )
-            })
-          }
-          <div key="item1" style={{width: '21%'}}>
-            {mkItem(itemProb,false)}
-          </div>
-          <div key="item2" style={{width: '21%'}}>
-            {mkItem(itemGS,true)}
-          </div>
-        </div>
-        <div style={{width: '30%', display: 'flex'}}>
-          <div style={{width: '50%'}}>{viewModifier(modifier)}</div>
-          <div style={{width: '50%'}}>{viewCost(cost)}</div>
-        </div>
-        <Button bsSize="xsmall" style={{width: '5%'}}>
-          <FontAwesome name="edit" />
-        </Button>
+        </Collapse>
       </div>
     )
   }
