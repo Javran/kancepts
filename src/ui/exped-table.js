@@ -71,23 +71,91 @@ const resourceColor = {
   bauxite: '#B98154',
 }
 
+const genBool = () => _.sample([false,true])
+
+const genIncomeModifier = () => {
+  const type = _.sample(['standard','custom'])
+  if (type === 'standard') {
+    return {
+      type,
+      gs: genBool(),
+      daihatsu: _.random(0,4),
+    }
+  }
+
+  if (type === 'custom') {
+    return {
+      type,
+      value: _.random(1,1.3),
+    }
+  }
+}
+
+const genCostConfig = () => {
+  const type = _.sample(['cost-model','custom'])
+  if (type === 'cost-model') {
+    const wildcard = _.sample([false, 'DD','DE','SS'])
+    return {
+      type,
+      wildcard,
+      count: _.random(1,6),
+    }
+  }
+
+  if (type === 'custom') {
+    return {
+      type,
+      fuel: _.random(0,500),
+      ammo: _.random(0,500),
+    }
+  }
+}
+
+const genExpedConfig = () => {
+  const modifier = genIncomeModifier()
+  const cost = genCostConfig()
+  return {modifier, cost}
+}
+
+const randomExpedConfigTable = {}
+for (let i = 1; i <= 40; ++i) {
+  randomExpedConfigTable[i] = genExpedConfig()
+}
+
+const pprModifier = modifier => {
+  if (modifier.type === 'standard')
+    return `${modifier.gs ? 'gs' : 'norm'}, DLC x ${modifier.daihatsu}`
+  if (modifier.type === 'custom')
+    return `${modifier.value.toFixed(2)}`
+}
+
+const pprCost = cost => {
+  if (cost.type === 'cost-model') {
+    return cost.wildcard === false ? 'N/A' : `>=${cost.count}, *=${cost.wildcard}`
+  }
+  if (cost.type === 'custom')
+    return `${-cost.fuel} ${-cost.ammo}`
+}
+
 class ExpedTable extends Component {
-  static defineHeader = (key, content, weight) => ({key, content, weight})
+  static defineHeader = (key, content, style) => ({key, content, style})
 
   static headers = [
-    ExpedTable.defineHeader('id', '#', 1.5),
-    ExpedTable.defineHeader('name', 'Name', 5),
-    ExpedTable.defineHeader('time', <FontAwesome name="clock-o" />, 3),
+    ExpedTable.defineHeader(
+      'id', '#', {width: '2em'}),
+    ExpedTable.defineHeader(
+      'name', 'Name', {}),
+    ExpedTable.defineHeader(
+      'time', <FontAwesome name="clock-o" />, {width: '3.2em'}),
     ...resourceProperties.map(rp =>
-      ExpedTable.defineHeader(rp, <ItemIcon name={rp} style={{height: '1em'}} /> , 3)),
-    ExpedTable.defineHeader('item-1', 'Item 1', 4),
-    ExpedTable.defineHeader('item-2', 'Item 2', 4),
-    ExpedTable.defineHeader('mod', 'Modifier', 4),
-    ExpedTable.defineHeader('cost', 'Cost', 4),
-    ExpedTable.defineHeader('control', '...', 2),
+      ExpedTable.defineHeader(
+        rp, <ItemIcon name={rp} style={{height: '1em'}} /> , {width: '3.4em'})),
+    ExpedTable.defineHeader('item-1', 'Item 1', {width: '4em'}),
+    ExpedTable.defineHeader('item-2', 'Item 2', {width: '4em'}),
+    ExpedTable.defineHeader('mod', 'Modifier', {width: '8em'}),
+    ExpedTable.defineHeader('cost', 'Cost', {width: '8em'}),
+    ExpedTable.defineHeader('control', '...', {width: '4em'}),
   ]
-
-  static totalWeight = ExpedTable.headers.reduce((curTotal, {weight}) => curTotal + weight, 0)
 
   constructor(props) {
     super(props)
@@ -118,9 +186,9 @@ class ExpedTable extends Component {
         <thead>
           <tr>
             {
-              ExpedTable.headers.map(({key, content, weight}) => (
+              ExpedTable.headers.map(({key, content, style}) => (
                 <th
-                  style={{width: `${Math.round(weight * 100/ExpedTable.totalWeight)}%`}}
+                  style={style}
                   key={key}>
                   {content}
                 </th>
@@ -161,8 +229,8 @@ class ExpedTable extends Component {
                   }
                   <td>{mkItem(itemProb,false)}</td>
                   <td>{mkItem(itemGS,true)}</td>
-                  <td>TODO</td>
-                  <td>TODO</td>
+                  <td>{pprModifier(randomExpedConfigTable[expedInfo.id].modifier)}</td>
+                  <td>{pprCost(randomExpedConfigTable[expedInfo.id].cost)}</td>
                   <td>
                     <Button
                       bsSize="xsmall"
