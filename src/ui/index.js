@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  Tabs, Tab,
+  Tab,
   Row, Col,
   Nav, NavItem,
 } from 'react-bootstrap'

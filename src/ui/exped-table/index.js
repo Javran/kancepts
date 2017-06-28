@@ -3,12 +3,14 @@ import React, { Component } from 'react'
 import {
   Table,
   Button,
+  ListGroup, ListGroupItem,
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
-import expedInfoListRaw from '../assets/exped-info.json'
+import expedInfoListRaw from '../../assets/exped-info.json'
 
-import { ItemIcon } from './item-icon'
+import { ItemIcon } from '../item-icon'
+import { ExpedRow } from './exped-row'
 
 const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
 
@@ -40,14 +42,6 @@ const expedInfoList = expedInfoListRaw.map(raw => {
     itemProb, itemGS,
   }
 })
-
-const formatTime = minutes => {
-  const mm = minutes % 60
-  const hh = Math.round((minutes - mm) / 60)
-  const mmText = _.padStart(mm, 2, '0')
-  const hhText = _.padStart(hh, 2, '0')
-  return `${hhText}:${mmText}`
-}
 
 // eslint-disable-next-line react/prop-types
 const mkItem = ({name, count}, isGS) => {
@@ -180,77 +174,18 @@ class ExpedTable extends Component {
 
   render() {
     return (
-      <Table
-        style={{tableLayout: 'fixed'}}
-        striped bordered condensed hover>
-        <thead>
-          <tr>
-            {
-              ExpedTable.headers.map(({key, content, style}) => (
-                <th
-                  style={style}
-                  key={key}>
-                  {content}
-                </th>
-              ))
-            }
-          </tr>
-        </thead>
-        <tbody>
-          {
-            _.flatMap(expedInfoList, expedInfo => {
-              const {
-                id, name, time, resource,
-                itemProb, itemGS,
-              } = expedInfo
-              return [(
-                <tr key={`${expedInfo.id}-view`}>
-                  <td>{id}</td>
-                  <td style={{
-                    width: '100%',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden'}}
-                  >
-                    {name}
-                  </td>
-                  <td>{formatTime(time)}</td>
-                  {
-                    resourceProperties.map(rp => {
-                      const style = resource[rp] > 0 ?
-                        {fontWeight: 'bold', color: resourceColor[rp]} :
-                        {}
-                      return (
-                        <td key={rp} style={style}>
-                          {resource[rp]}
-                        </td>
-                      )
-                    })
-                  }
-                  <td>{mkItem(itemProb,false)}</td>
-                  <td>{mkItem(itemGS,true)}</td>
-                  <td>{pprModifier(randomExpedConfigTable[expedInfo.id].modifier)}</td>
-                  <td>{pprCost(randomExpedConfigTable[expedInfo.id].cost)}</td>
-                  <td>
-                    <Button
-                      bsSize="xsmall"
-                      style={{width: '100%'}}
-                      onClick={this.handleToggleEditComponent(expedInfo.id)}
-                    >
-                      <FontAwesome name="edit" />
-                    </Button>
-                  </td>
-                </tr>),
-                (
-                  <tr key={`${expedInfo.id}-edit`} style={this.state.expanded[expedInfo.id] ? {} : {display: 'none'} }>
-                    <td colSpan={ExpedTable.headers.length}>Placeholder for editor</td>
-                  </tr>
-                ),
-              ]
-            })
-          }
-        </tbody>
-      </Table>
+      <ListGroup>
+        {
+          expedInfoList.map(expedInfo => {
+            const expedConfig = randomExpedConfigTable[expedInfo.id]
+            return (
+              <ListGroupItem style={{padding: 5}} key={expedInfo.id}>
+                <ExpedRow config={expedConfig} info={expedInfo} />
+              </ListGroupItem>
+            )
+          })
+        }
+      </ListGroup>
     )
   }
 }
