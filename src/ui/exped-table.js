@@ -64,18 +64,25 @@ const mkItem = ({name, count}, isGS) => {
   )
 }
 
+const resourceColor = {
+  fuel: '#276F1D',
+  ammo: '#615233',
+  steel: '#727272',
+  bauxite: '#B98154',
+}
+
 class ExpedTable extends Component {
   static defineHeader = (key, content, weight) => ({key, content, weight})
 
   static headers = [
-    ExpedTable.defineHeader('id', '#', 1),
+    ExpedTable.defineHeader('id', '#', 1.5),
     ExpedTable.defineHeader('name', 'Name', 5),
     ExpedTable.defineHeader('time', <FontAwesome name="clock-o" />, 3),
     ...resourceProperties.map(rp =>
-      ExpedTable.defineHeader(rp, <ItemIcon name={rp} /> , 3)),
+      ExpedTable.defineHeader(rp, <ItemIcon name={rp} style={{height: '1em'}} /> , 3)),
     ExpedTable.defineHeader('item-1', 'Item 1', 4),
     ExpedTable.defineHeader('item-2', 'Item 2', 4),
-    ExpedTable.defineHeader('income', 'Income', 4),
+    ExpedTable.defineHeader('mod', 'Modifier', 4),
     ExpedTable.defineHeader('cost', 'Cost', 4),
     ExpedTable.defineHeader('control', '...', 2),
   ]
@@ -141,11 +148,16 @@ class ExpedTable extends Component {
                   </td>
                   <td>{formatTime(time)}</td>
                   {
-                    resourceProperties.map(rp => (
-                      <td key={rp}>
-                        {resource[rp]}
-                      </td>
-                    ))
+                    resourceProperties.map(rp => {
+                      const style = resource[rp] > 0 ?
+                        {fontWeight: 'bold', color: resourceColor[rp]} :
+                        {}
+                      return (
+                        <td key={rp} style={style}>
+                          {resource[rp]}
+                        </td>
+                      )
+                    })
                   }
                   <td>{mkItem(itemProb,false)}</td>
                   <td>{mkItem(itemGS,true)}</td>
