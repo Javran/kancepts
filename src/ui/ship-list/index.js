@@ -3,14 +3,14 @@ import React, { Component } from 'react'
 import {
   ButtonGroup, Button,
   Table,
-  DropdownButton, MenuItem,
-  ButtonToolbar,
 } from 'react-bootstrap'
 
 import rawShipList from '../../assets/default-ship-list.json'
 import masterData from '../../assets/api_start2.json'
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
+
+import { CostPicker } from '../cost-picker'
 
 // TODO: list sorting perhaps after we have redux setups.
 
@@ -97,26 +97,6 @@ defineFilter('av', 'AV', s =>
 defineFilter('cve', 'CVE', s =>
   [521, 526, 380, 529].includes(s.mstId))
 
-
-// table copied from:
-// https://github.com/KC3Kai/KC3Kai/blob/7d551f3d84a386027286947552e3ef112c65a06b/src/pages/strategy/tabs/expedtable/expedtable.js#L108-L118
-const expedCostGrouping = [
-  {ammo: 0,fuel: 50,expeds: [2,4,5,7,9,11,12,14,31]},
-  {ammo: 80,fuel: 80,expeds: [23,26,27,28,35,36,37,38]},
-  {ammo: 40,fuel: 50,expeds: [13,15,16,19,20]},
-  {ammo: 70,fuel: 80,expeds: [21,22,40]},
-  {ammo: 80,fuel: 50,expeds: [25,33,34]},
-  {ammo: 20,fuel: 50,expeds: [8,18]},
-  {ammo: 20,fuel: 30,expeds: [3,6]},
-  {ammo: 0,fuel: 30,expeds: [1,10]},
-  {ammo: 90,fuel: 90,expeds: [39]},
-  {ammo: 70,fuel: 90,expeds: [30]},
-  {ammo: 60,fuel: 90,expeds: [24]},
-  {ammo: 40,fuel: 90,expeds: [29]},
-  {ammo: 30,fuel: 90,expeds: [32]},
-  {ammo: 40,fuel: 30,expeds: [17]},
-]
-
 class ShipList extends Component {
   constructor(props) {
     super(props)
@@ -130,17 +110,8 @@ class ShipList extends Component {
   handleChangeFilter = filter => () =>
     this.setState({filter})
 
-  handleChangeFuelPercent = fuelPercent =>
-    this.setState({fuelPercent})
-
-  handleChangeAmmoPercent = ammoPercent =>
-    this.setState({ammoPercent})
-
-  handleApplyPreset = ({ammo,fuel}) =>
-    this.setState({
-      ammoPercent: ammo,
-      fuelPercent: fuel,
-    })
+  handleChangeCost = s =>
+    this.setState(s)
 
   render() {
     const filterFunc =
@@ -153,69 +124,13 @@ class ShipList extends Component {
     }
     return (
       <div>
-        <div style={{width: '90%', marginLeft: 10}}>
-          <ButtonToolbar justified>
-            <DropdownButton
-              onSelect={this.handleApplyPreset}
-              style={{
-                width: '15vw',
-                maxWidth: 200,
-              }}
-              title="Presets"
-              id="ship-list-preset">
-              {
-                expedCostGrouping.map(({fuel,ammo,expeds}) => {
-                  const key = `f${fuel}-a${ammo}`
-                  const es = expeds.join(', ')
-                  const desc = `Fuel: ${fuel}%, Ammo: ${ammo}%, Expeditions: ${es}`
-                  return (
-                    <MenuItem key={key} eventKey={{ammo,fuel}}>
-                      {desc}
-                    </MenuItem>
-                  )
-                })
-              }
-            </DropdownButton>
-            <DropdownButton
-              style={{
-                width: '20vw',
-                maxWidth: 250,
-              }}
-              onSelect={this.handleChangeFuelPercent}
-              title={`Fuel: ${fuelPercent}%`}
-              id="ship-list-fuel">
-              {
-                _.times(10+1).map(x => {
-                  const percent = x*10
-                  return (
-                    <MenuItem eventKey={percent}>
-                      {`${percent}%`}
-                    </MenuItem>
-                  )
-                })
-              }
-            </DropdownButton>
-            <DropdownButton
-              style={{
-                width: '20vw',
-                maxWidth: 250,
-              }}
-              onSelect={this.handleChangeAmmoPercent}
-              title={`Ammo: ${ammoPercent}%`}
-              id="ship-list-ammo">
-              {
-                _.times(10+1).map(x => {
-                  const percent = x*10
-                  return (
-                    <MenuItem eventKey={percent}>
-                      {`${percent}%`}
-                    </MenuItem>
-                  )
-                })
-              }
-            </DropdownButton>
-          </ButtonToolbar>
-        </div>
+        <CostPicker
+          prefix="ship-list-"
+          fuelPercent={fuelPercent}
+          ammoPercent={ammoPercent}
+          onChangeCost={this.handleChangeCost}
+          style={{width: '90%', marginLeft: 10}}
+        />
         <div style={{display: 'flex'}}>
           <div style={{margin: 10}}>
             <ButtonGroup vertical>
