@@ -36,7 +36,7 @@ const normalizeData = v => {
       return v.map(normalizeData)
     } else {
       const keys = Object.keys(v).sort()
-      return _.fromPairs(keys.map(k => [k,v[k]]))
+      return _.fromPairs(keys.map(k => [k, normalizeData(v[k])]))
     }
   } else {
     return v
