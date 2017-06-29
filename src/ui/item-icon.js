@@ -20,6 +20,8 @@ import coinLargeImg from '../assets/icons/coin-large.png'
 
 import dlcImg from '../assets/icons/dlc.png'
 
+import ringImg from '../assets/icons/ring.png'
+
 const imgMap = new Map([
   ['fuel', fuelImg],
   ['ammo', ammoImg],
@@ -33,6 +35,7 @@ const imgMap = new Map([
   ['coin-medium', coinMediumImg],
   ['coin-large', coinLargeImg],
   ['dlc', dlcImg],
+  ['ring', ringImg],
 ])
 
 class ItemIcon extends PureComponent {

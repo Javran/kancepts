@@ -6,12 +6,13 @@ import {
 } from 'react-bootstrap'
 
 import { ExpedTable } from './exped-table'
+import { ShipList } from './ship-list'
 
 class ExpedRecommender extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeKey: 'config',
+      activeKey: 'ship-list',
     }
   }
 
@@ -34,6 +35,12 @@ class ExpedRecommender extends Component {
                 <NavItem eventKey="config">
                   Table & Config
                 </NavItem>
+                <NavItem eventKey="cost-model">
+                  Cost Model
+                </NavItem>
+                <NavItem eventKey="ship-list">
+                  Ship List
+                </NavItem>
               </Nav>
             </Col>
             <Col sm={10}>
@@ -43,6 +50,12 @@ class ExpedRecommender extends Component {
                 </Tab.Pane>
                 <Tab.Pane eventKey="config">
                   <ExpedTable />
+                </Tab.Pane>
+                <Tab.Pane eventKey="cost-model">
+                  cost model placeholder
+                </Tab.Pane>
+                <Tab.Pane eventKey="ship-list">
+                  <ShipList />
                 </Tab.Pane>
               </Tab.Content>
             </Col>
