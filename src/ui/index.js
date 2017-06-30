@@ -7,12 +7,13 @@ import {
 
 import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
+import { CostModel } from './cost-model'
 
 class ExpedRecommender extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeKey: 'ship-list',
+      activeKey: 'cost-model',
     }
   }
 
@@ -52,7 +53,7 @@ class ExpedRecommender extends Component {
                   <ExpedTable />
                 </Tab.Pane>
                 <Tab.Pane eventKey="cost-model">
-                  cost model placeholder
+                  <CostModel />
                 </Tab.Pane>
                 <Tab.Pane eventKey="ship-list">
                   <ShipList />
