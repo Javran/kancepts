@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { CostPicker } from '../cost-picker'
+import { CostTable } from './cost-table'
 
 class CostModel extends Component {
   constructor(props) {
@@ -25,9 +26,7 @@ class CostModel extends Component {
           onChangeCost={this.handleChangeCost}
           style={{width: '90%', marginLeft: 10}}
         />
-        <div>
-          Table placeholder
-        </div>
+        <CostTable />
       </div>
     )
   }
