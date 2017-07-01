@@ -88,6 +88,7 @@ class ShipList extends Component {
     this.setState(s)
 
   render() {
+    console.log(this.props)
     const filterFunc =
       filters.find(x => x.id === this.state.filter).func
     const {fuelPercent, ammoPercent} = this.state
