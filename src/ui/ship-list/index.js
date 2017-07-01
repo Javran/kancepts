@@ -35,7 +35,9 @@ const shipResupplyCost = ship => {
   }
 }
 
-const shipList = rawShipList.map((raw,ind) => {
+const shipList = rawShipList
+  .map(id => ({id, m: false}))
+  .map((raw,ind) => {
   const mstId = raw.id
   // const ring = raw.m TODO: testing
   const ring = _.sample([false,true])

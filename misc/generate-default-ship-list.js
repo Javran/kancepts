@@ -99,6 +99,5 @@ const stypeGroupedMstIdsFinal = _.fromPairs(
 
 const shipList =
   _.concat(...Object.values(stypeGroupedMstIdsFinal))
-    .map(id => ({id, m: false}))
 
 writeJsonSync('default-ship-list.json', shipList)

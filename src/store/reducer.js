@@ -1,23 +1,16 @@
 import { combineReducers } from 'redux'
 import defaultShipList from '../assets/default-ship-list.json'
 
-const loadShipList = () => {
-  const raw = localStorage.shipList
-  if (typeof raw === 'undefined') {
-    return defaultShipList
-  } else {
-    try {
-      return JSON.parse(raw)
-    } catch (e) {
-      console.error(`Error while loading ship list: `, e)
-      return defaultShipList
-    }
-  }
-}
-
-const shipList = (state = loadShipList(), _action) => {
+// NOTE: shipList, as a reducer, should provide a default value when it's missing
+// it's preloadedState that loads user settings and has it passed to this reducer.
+const shipList = (state = defaultShipList, _action) => {
   return state
 }
+
+// TODO:
+// - need a observer to observe changes on slice of store needed to be serialized,
+//   and write to localStorage when necessary
+// - preload state from localStorage
 
 const reducer = combineReducers({shipList})
 
