@@ -4,10 +4,16 @@ import {
   Row, Col,
   Nav, NavItem,
 } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
 import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
 import { CostModel } from './cost-model'
+
+const ShipListInst = connect(state => {
+  const { shipList } = state
+  return { shipList }
+})(ShipList)
 
 class ExpedRecommender extends Component {
   constructor(props) {
@@ -56,7 +62,7 @@ class ExpedRecommender extends Component {
                   <CostModel />
                 </Tab.Pane>
                 <Tab.Pane eventKey="ship-list">
-                  <ShipList />
+                  <ShipListInst />
                 </Tab.Pane>
               </Tab.Content>
             </Col>

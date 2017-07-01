@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux'
 import defaultShipList from '../assets/default-ship-list.json'
 
 const loadShipList = () => {
@@ -14,9 +15,11 @@ const loadShipList = () => {
   }
 }
 
-const reducer = (state = loadShipList(), _action) => {
+const shipList = (state = loadShipList(), _action) => {
   return state
 }
+
+const reducer = combineReducers({shipList})
 
 export {
   reducer,
