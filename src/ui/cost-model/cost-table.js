@@ -48,22 +48,19 @@ class CostTable extends Component {
                 shipCostListByFilter[id]
                   .map(s => {
                     const {fuelCost, ammoCost} = s.computeCost(fuelCostFactor,ammoCostFactor)
-                    return {...s, fuelCost, ammoCost}
+                    return {...s, fuelCost, ammoCost, nameList: [s.shipName]}
                   })
                   .sort( (x,y) => (x.fuelCost+x.ammoCost) - (y.fuelCost+y.ammoCost) ),
                 6)
-              const addCost = (x,y) => ({
+              const plusCost = (x,y) => ({
                 fuelCost: x.fuelCost + y.fuelCost,
                 ammoCost: x.ammoCost + y.ammoCost,
+                nameList: [...x.nameList, ...y.nameList],
               })
               const accumulatedCostList = scan(
                 shipCostList,
-                (xs, shipCost) => {
-                  // const accCost = _.last(xs)
-                  // return [...xs, addCost(accCost,shipCost)]
-                  return addCost(xs,shipCost)
-                },
-                {fuelCost: 0, ammoCost: 0})
+                plusCost,
+                {fuelCost: 0, ammoCost: 0, nameList: []})
               return (
                 <tr key={id}>
                   <th>{title}</th>
@@ -71,7 +68,7 @@ class CostTable extends Component {
                     enumFromTo(1,6).map(x => {
                       const cost = accumulatedCostList[x]
                       const content = typeof cost !== 'undefined' ?
-                        `F: ${cost.fuelCost}, A: ${cost.ammoCost}` :
+                        `F: ${cost.fuelCost}, A: ${cost.ammoCost} (${cost.nameList.join(', ')})` :
                         'N/A'
                       return (
                         <th key={x}>{content}</th>
