@@ -16,6 +16,7 @@ class CostModel extends Component {
     this.setState(s)
 
   render() {
+    const { shipCostListByFilter } = this.props
     const {fuelPercent, ammoPercent} = this.state
     return (
       <div>
@@ -26,7 +27,11 @@ class CostModel extends Component {
           onChangeCost={this.handleChangeCost}
           style={{width: '90%', marginLeft: 10}}
         />
-        <CostTable />
+        <CostTable
+          fuelPercent={fuelPercent}
+          ammoPercent={ammoPercent}
+          shipCostListByFilter={shipCostListByFilter}
+        />
       </div>
     )
   }

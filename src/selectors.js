@@ -49,19 +49,20 @@ const shipDetailListSelector = createSelector(
       }
     }
     const shipDetailList = shipList.map(shipToDetail)
-    return { shipDetailList }
+    return shipDetailList
   })
 
 const shipCostListByFilterSelector = createSelector(
   shipDetailListSelector,
-  ({shipDetailList}) => {
+  shipDetailList => {
     const mkPair = filterInfo => {
       const {id,func} = filterInfo
-      const filteredShipList = shipDetailList.filter(func)
+      const filteredShipList = shipDetailList
+        .filter(func)
       return [id, filteredShipList]
     }
     const shipCostListByFilter = _.fromPairs(filters.map(mkPair))
-    return {shipCostListByFilter}
+    return shipCostListByFilter
   })
 
 export {
