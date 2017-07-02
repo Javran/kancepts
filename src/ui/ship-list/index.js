@@ -6,18 +6,15 @@ import {
 } from 'react-bootstrap'
 
 import rawShipList from '../../assets/default-ship-list.json'
-import masterData from '../../assets/api_start2.json'
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
 
 import { CostPicker } from '../cost-picker'
 import { filters } from '../../ship-filters'
 
+import { $ships, $shipTypes } from '../../master-data.js'
+
 // TODO: list sorting perhaps after we have redux setups.
-
-const $ships = _.fromPairs(masterData.api_mst_ship.map(x => [x.api_id, x]))
-const $shipTypes = _.fromPairs(masterData.api_mst_stype.map(x => [x.api_id,x]))
-
 const shipResupplyCost = ship => {
   // "after marriage modifier":
   // - if there's no consumption before marriage, no consumption applied after marriage either.
