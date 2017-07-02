@@ -6,20 +6,22 @@ import { Provider } from 'react-redux'
 import 'font-awesome/css/font-awesome.css'
 import './assets/index.css'
 
-import { ExpedRecommender } from './ui'
+import { KanceptsMain } from './ui'
 import { register } from './registerServiceWorker'
 
 import { store } from './store'
 
 ReactDOM.render(
-  <Provider store={store}>
+  (
     <div className="root">
       <link
         rel="stylesheet"
         href={join(__dirname,'..','assets','index.css')}
       />
-      <ExpedRecommender />
+      <Provider store={store}>
+        <KanceptsMain />
+      </Provider>
     </div>
-  </Provider>,
+  ),
   document.getElementById('root'))
 register()

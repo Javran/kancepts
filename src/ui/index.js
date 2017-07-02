@@ -15,7 +15,7 @@ const ShipListInst = connect(state => {
   return { shipList }
 })(ShipList)
 
-class ExpedRecommender extends Component {
+class KanceptsMain extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -73,4 +73,4 @@ class ExpedRecommender extends Component {
   }
 }
 
-export { ExpedRecommender }
+export { KanceptsMain }
