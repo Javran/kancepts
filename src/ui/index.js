@@ -10,11 +10,18 @@ import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
 import { CostModel } from './cost-model'
 
-import { shipDetailListSelector } from '../selectors'
+import {
+  shipDetailListSelector,
+  shipCostListByFilterSelector,
+} from '../selectors'
 
 const ShipListInst = connect(
   shipDetailListSelector
 )(ShipList)
+
+const CostModelInst = connect(
+  shipCostListByFilterSelector
+)(CostModel)
 
 class KanceptsMain extends Component {
   constructor(props) {
@@ -60,7 +67,7 @@ class KanceptsMain extends Component {
                   <ExpedTable />
                 </Tab.Pane>
                 <Tab.Pane eventKey="cost-model">
-                  <CostModel />
+                  <CostModelInst />
                 </Tab.Pane>
                 <Tab.Pane eventKey="ship-list">
                   <ShipListInst />

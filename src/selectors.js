@@ -3,6 +3,10 @@ import { createSelector } from 'reselect'
 
 import { $ships, $shipTypes } from './master-data.js'
 
+import { filters } from './ship-filters'
+
+const shipListSelector = state => state.shipList
+
 // TODO: list sorting perhaps after we have redux setups.
 const shipResupplyCost = ship => {
   // "after marriage modifier":
@@ -22,7 +26,7 @@ const shipResupplyCost = ship => {
 }
 
 const shipDetailListSelector = createSelector(
-  state => state.shipList,
+  shipListSelector,
   shipList => {
     const shipToDetail = (ship,ind) => {
       const mstId = ship.id
@@ -48,4 +52,19 @@ const shipDetailListSelector = createSelector(
     return { shipDetailList }
   })
 
-export { shipDetailListSelector }
+const shipCostListByFilterSelector = createSelector(
+  shipDetailListSelector,
+  ({shipDetailList}) => {
+    const mkPair = filterInfo => {
+      const {id,func} = filterInfo
+      const filteredShipList = shipDetailList.filter(func)
+      return [id, filteredShipList]
+    }
+    const shipCostListByFilter = _.fromPairs(filters.map(mkPair))
+    return {shipCostListByFilter}
+  })
+
+export {
+  shipDetailListSelector,
+  shipCostListByFilterSelector,
+}
