@@ -5,9 +5,18 @@ import _ from 'lodash'
 import { enumFromTo } from '../../utils'
 import { filters } from '../../ship-filters'
 
+const scan = (xs, acc, zero) => {
+  const ys = new Array(xs.length+1)
+  ys[0] = zero
+  for (let i=0; i<xs.length; ++i) {
+    ys[i+1] = acc(ys[i],xs[i])
+  }
+  return ys
+}
+
 class CostTable extends Component {
   render() {
-    const { 
+    const {
       shipCostListByFilter,
       fuelPercent,
       ammoPercent,
@@ -43,13 +52,31 @@ class CostTable extends Component {
                   })
                   .sort( (x,y) => (x.fuelCost+x.ammoCost) - (y.fuelCost+y.ammoCost) ),
                 6)
+              const addCost = (x,y) => ({
+                fuelCost: x.fuelCost + y.fuelCost,
+                ammoCost: x.ammoCost + y.ammoCost,
+              })
+              const accumulatedCostList = scan(
+                shipCostList,
+                (xs, shipCost) => {
+                  // const accCost = _.last(xs)
+                  // return [...xs, addCost(accCost,shipCost)]
+                  return addCost(xs,shipCost)
+                },
+                {fuelCost: 0, ammoCost: 0})
               return (
                 <tr key={id}>
                   <th>{title}</th>
                   {
-                    enumFromTo(1,6).map(x => (
-                      <th key={x}>cell placeholder</th>
-                    ))
+                    enumFromTo(1,6).map(x => {
+                      const cost = accumulatedCostList[x]
+                      const content = typeof cost !== 'undefined' ?
+                        `F: ${cost.fuelCost}, A: ${cost.ammoCost}` :
+                        'N/A'
+                      return (
+                        <th key={x}>{content}</th>
+                      )
+                    })
                   }
                 </tr>
               )
