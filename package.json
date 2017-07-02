@@ -1,5 +1,5 @@
 {
-  "name": "kc-expedition-planner",
+  "name": "kancepts",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,7 +12,8 @@
     "react-dom": "^15.6.1",
     "react-fontawesome": "^1.6.1",
     "react-redux": "^5.0.5",
-    "redux": "^3.7.1"
+    "redux": "^3.7.1",
+    "reselect": "^3.0.1"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

@@ -10,10 +10,11 @@ import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
 import { CostModel } from './cost-model'
 
-const ShipListInst = connect(state => {
-  const { shipList } = state
-  return { shipList }
-})(ShipList)
+import { shipDetailListSelector } from '../selectors'
+
+const ShipListInst = connect(
+  shipDetailListSelector
+)(ShipList)
 
 class KanceptsMain extends Component {
   constructor(props) {
