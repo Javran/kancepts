@@ -12,7 +12,7 @@ import { CostModel } from './cost-model'
 
 import {
   shipDetailListSelector,
-  shipCostListByFilterSelector,
+  costModelSelector,
 } from '../selectors'
 
 const ShipListInst = connect(state => {
@@ -21,8 +21,8 @@ const ShipListInst = connect(state => {
 })(ShipList)
 
 const CostModelInst = connect(state => {
-  const shipCostListByFilter = shipCostListByFilterSelector(state)
-  return {shipCostListByFilter}
+  const costModel = costModelSelector(state)
+  return {costModel}
 })(CostModel)
 
 class KanceptsMain extends Component {

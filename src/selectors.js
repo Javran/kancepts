@@ -65,6 +65,15 @@ const shipCostListByFilterSelector = createSelector(
     return shipCostListByFilter
   })
 
+const scan = (xs, acc, zero) => {
+  const ys = new Array(xs.length+1)
+  ys[0] = zero
+  for (let i=0; i<xs.length; ++i) {
+    ys[i+1] = acc(ys[i],xs[i])
+  }
+  return ys
+}
+
 /*
 
    costModel is a function:
@@ -75,7 +84,7 @@ const shipCostListByFilterSelector = createSelector(
    - ShipType: ship filter id
    - Count: an integer >= 0
    - ActualCost:
-     - {actualFuel, actualAmmo}
+     - {actualFuel, actualAmmo} (might include other fields like 'nameList')
      - or null if the number of qualified ships is not sufficient
 
    TODO:
@@ -84,8 +93,40 @@ const shipCostListByFilterSelector = createSelector(
    - consider memoize if necessary
 
  */
+const costModelSelector = createSelector(
+  shipCostListByFilterSelector,
+  shipCostListByFilter => {
+    // filterId is ShipType.
+    const costModel = ({fuelPercent, ammoPercent}) => (filterId,count) => {
+      const fuelCostFactor = fuelPercent / 100
+      const ammoCostFactor = ammoPercent / 100
+
+      // sort and select first <count> ships with lowest cost
+      const shipCostList = _.take(
+        shipCostListByFilter[filterId]
+          .map(s => {
+            const {fuelCost, ammoCost} = s.computeCost(fuelCostFactor,ammoCostFactor)
+            return {...s, fuelCost, ammoCost, nameList: [s.shipName]}
+          })
+          .sort( (x,y) => (x.fuelCost+x.ammoCost) - (y.fuelCost+y.ammoCost) ),
+        count)
+      const plusCost = (x,y) => ({
+        fuelCost: x.fuelCost + y.fuelCost,
+        ammoCost: x.ammoCost + y.ammoCost,
+        nameList: [...x.nameList, ...y.nameList],
+      })
+      const accumulatedCostList = scan(
+        shipCostList,
+        plusCost,
+        {fuelCost: 0, ammoCost: 0, nameList: []})
+
+      return accumulatedCostList[count]
+    }
+    return costModel
+  })
 
 export {
   shipDetailListSelector,
   shipCostListByFilterSelector,
+  costModelSelector,
 }

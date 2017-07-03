@@ -16,7 +16,7 @@ class CostModel extends Component {
     this.setState(s)
 
   render() {
-    const { shipCostListByFilter } = this.props
+    const { costModel } = this.props
     const {fuelPercent, ammoPercent} = this.state
     return (
       <div>
@@ -30,7 +30,7 @@ class CostModel extends Component {
         <CostTable
           fuelPercent={fuelPercent}
           ammoPercent={ammoPercent}
-          shipCostListByFilter={shipCostListByFilter}
+          costModel={costModel}
         />
       </div>
     )
