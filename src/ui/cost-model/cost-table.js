@@ -38,7 +38,7 @@ class CostTable extends Component {
                   {
                     enumFromTo(1,6).map(x => {
                       const cost = costModel({fuelPercent,ammoPercent})(id,x)
-                      const content = typeof cost !== 'undefined' ?
+                      const content = cost !== null ?
                         `F: ${cost.fuelCost}, A: ${cost.ammoCost} (${cost.nameList.join(', ')})` :
                         'N/A'
                       return (

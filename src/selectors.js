@@ -120,7 +120,7 @@ const costModelSelector = createSelector(
         plusCost,
         {fuelCost: 0, ammoCost: 0, nameList: []})
 
-      return accumulatedCostList[count]
+      return accumulatedCostList.length > count ? accumulatedCostList[count] : null
     }
     return costModel
   })
