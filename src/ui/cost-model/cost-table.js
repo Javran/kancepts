@@ -41,7 +41,7 @@ class CostTable extends Component {
         </thead>
         <tbody>
           {
-            _.tail(filters).map(flt => {
+            filters.map(flt => {
               const {id, title} = flt
               // sort and select first 6 ships with lowest cost
               const shipCostList = _.take(
