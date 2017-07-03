@@ -89,6 +89,53 @@ const mergeResults = (...funcs) => (...args) =>
   funcs.map(f => f.call(null,...args)).reduce((acc,x) => ({
     ...acc, ...x}), {})
 
+// TODO: guess we need some testing
+
+// `deepWrite(map)([k1,k2,k3...])(value)`
+// - assigns `value` to `map.get(k1).get(k2).get(k3)...`.
+// - new Map objects are created if some key is missing along the path.
+// - INVARIANT: keys.length >= 1
+const deepWrite = map => keys => value => {
+  if (keys.length === 0) {
+    console.error(`invariant violation: empty key array`)
+    return undefined
+  }
+  if (keys.length === 1) {
+    const [key] = keys
+    map.set(key,value)
+    return map
+  } else {
+    const [key, ...ks] = keys
+    const subMap = map.has(key) ? map.get(key) : new Map()
+    const subMapAfter = deepWrite(subMap)(ks)(value)
+    map.set(key,subMapAfter)
+    return map
+  }
+}
+
+const deepLookup = map => keys => {
+  if (keys.length === 0) {
+    return map
+  }
+
+  const [key, ...restKeys] = keys
+  return map.has(key) ?
+    deepLookup(map.get(key))(restKeys) :
+    undefined
+}
+
+const deepMapToObject = map => {
+  if (map instanceof Map) {
+    const obj = {}
+    map.forEach((v,k) => {
+      obj[k] = deepMapToObject(v)
+    })
+    return obj
+  } else {
+    return map
+  }
+}
+
 export {
   enumFromTo,
   ignore,
@@ -106,4 +153,8 @@ export {
   shallowObjectEqual,
   precompose,
   mergeResults,
+
+  deepWrite,
+  deepLookup,
+  deepMapToObject,
 }
