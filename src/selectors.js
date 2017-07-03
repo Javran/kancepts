@@ -102,14 +102,14 @@ const costModelSelector = createSelector(
       const ammoCostFactor = ammoPercent / 100
 
       // sort and select first <count> ships with lowest cost
-      const shipCostList = _.take(
+      const shipCostList =
         shipCostListByFilter[filterId]
           .map(s => {
             const {fuelCost, ammoCost} = s.computeCost(fuelCostFactor,ammoCostFactor)
             return {...s, fuelCost, ammoCost, nameList: [s.shipName]}
           })
-          .sort( (x,y) => (x.fuelCost+x.ammoCost) - (y.fuelCost+y.ammoCost) ),
-        count)
+          .sort((x,y) => (x.fuelCost+x.ammoCost) - (y.fuelCost+y.ammoCost))
+
       const plusCost = (x,y) => ({
         fuelCost: x.fuelCost + y.fuelCost,
         ammoCost: x.ammoCost + y.ammoCost,
