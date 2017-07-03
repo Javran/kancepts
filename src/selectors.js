@@ -65,6 +65,26 @@ const shipCostListByFilterSelector = createSelector(
     return shipCostListByFilter
   })
 
+/*
+
+   costModel is a function:
+   - costModel(<CostPercent>)(<ShipType>,<Count>) = <ActualCost>
+
+   - CostPercent: {fuelPercent, ammoPercent}, where both fuelPercent and ammoPercent
+     are integers between 0~100 (inclusive)
+   - ShipType: ship filter id
+   - Count: an integer >= 0
+   - ActualCost:
+     - {actualFuel, actualAmmo}
+     - or null if the number of qualified ships is not sufficient
+
+   TODO:
+
+   - impl using selector
+   - consider memoize if necessary
+
+ */
+
 export {
   shipDetailListSelector,
   shipCostListByFilterSelector,
