@@ -136,6 +136,31 @@ const deepMapToObject = map => {
   }
 }
 
+const memoizeFixedArity = arity => func => {
+  if (typeof arity !== 'number' || arity <= 0) {
+    console.warn(`invariant violation: arity should be a positive number`)
+    // in this case we just leave the function intact and return it.
+    return func
+  }
+  let cache = new Map()
+
+  return (...args) => {
+    if (args.length !== arity) {
+      console.warn(`arity mismatched, skipping cache lookup.`)
+      return func(...args)
+    }
+
+    const cached = deepLookup(cache)(args)
+    if (typeof cached === 'undefined') {
+      const result = func(...args)
+      cache = deepWrite(cache)(args)(result)
+      return result
+    } else {
+      return cached
+    }
+  }
+}
+
 export {
   enumFromTo,
   ignore,
@@ -157,4 +182,6 @@ export {
   deepWrite,
   deepLookup,
   deepMapToObject,
+
+  memoizeFixedArity,
 }
