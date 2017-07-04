@@ -19,8 +19,25 @@ const genDefExpedConfigs = () =>
     allExpedIdList.map(expedId =>
       [expedId, defExpedConfig]))
 
-const expedConfigs = (state = genDefExpedConfigs(), _action) => {
+const reducer = (state = genDefExpedConfigs(), action) => {
+  if (action.type === 'ExpedConfigList@modifyExpedConfig') {
+    const {expedId, modifier} = action
+    return {
+      ...state,
+      [expedId]: modifier(state[expedId]),
+    }
+  }
   return state
 }
 
-export { expedConfigs }
+const mapDispatchToProps = dispatch => ({
+  modifyExpedConfig: (expedId, modifier) => dispatch({
+    type: 'ExpedConfigList@modifyExpedConfig',
+    expedId, modifier,
+  }),
+})
+
+export {
+  reducer,
+  mapDispatchToProps,
+}

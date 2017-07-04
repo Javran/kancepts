@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import { shipList } from './ship-list'
-import { expedConfigs } from './exped-configs'
+import * as shipList from './ship-list'
+import * as expedConfigs from './exped-configs'
 
 // TODO:
 // - need a observer to observe changes on slice of store needed to be serialized,
@@ -9,8 +9,8 @@ import { expedConfigs } from './exped-configs'
 // - preload state from localStorage
 
 const reducer = combineReducers({
-  shipList,
-  expedConfigs,
+  shipList: shipList.reducer,
+  expedConfigs: expedConfigs.reducer,
 })
 
 export {
