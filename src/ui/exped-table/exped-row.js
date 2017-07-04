@@ -148,11 +148,10 @@ class ExpedRow extends Component {
 
   handleToggleEditor = prevEditing => () => {
     const editing = !prevEditing
-    if (editing) {
-      // relying on batch update
-      this.setState(createEditorState(this.props.config))
-    }
-    this.setState({editing})
+    this.setState({
+      editing,
+      ...(editing ? createEditorState(this.props.config) : {}),
+    })
   }
 
   handleModifyModifier = mod =>
