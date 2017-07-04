@@ -9,6 +9,8 @@ import {
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
+import { mapDispatchToProps } from '../../store/reducer/exped-configs'
+
 import { expedConfigsSelector } from '../../selectors'
 import expedInfoListRaw from '../../assets/exped-info.json'
 
@@ -175,6 +177,11 @@ class ExpedTableImpl extends Component {
       }
     })
 
+  handleModifyConfig = expedId => modifier => {
+    const {modifyExpedConfig} = this.props
+    modifyExpedConfig(expedId, modifier)
+  }
+
   render() {
     const { expedConfigs } = this.props
     return (
@@ -184,7 +191,11 @@ class ExpedTableImpl extends Component {
             const expedConfig = expedConfigs[expedInfo.id]
             return (
               <ListGroupItem style={{padding: 5}} key={expedInfo.id}>
-                <ExpedRow config={expedConfig} info={expedInfo} />
+                <ExpedRow
+                  onModify={this.handleModifyConfig(expedInfo.id)}
+                  config={expedConfig}
+                  info={expedInfo}
+                />
               </ListGroupItem>
             )
           })
@@ -194,9 +205,12 @@ class ExpedTableImpl extends Component {
   }
 }
 
-const ExpedTable = connect(state => {
-  const expedConfigs = expedConfigsSelector(state)
-  return {expedConfigs}
-})(ExpedTableImpl)
+const ExpedTable = connect(
+  state => {
+    const expedConfigs = expedConfigsSelector(state)
+    return {expedConfigs}
+  },
+  mapDispatchToProps,
+)(ExpedTableImpl)
 
 export { ExpedTable }

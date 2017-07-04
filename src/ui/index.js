@@ -13,7 +13,7 @@ class KanceptsMain extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeKey: 'cost-model',
+      activeKey: 'config',
     }
   }
 

@@ -1,17 +1,61 @@
 import React, { Component } from 'react'
 import {
-  Button, Panel,
-  Tabs,
-  Tab, Row, Col, Nav, NavItem,
+  Tabs, Tab,
   Checkbox, FormControl, Form,
  } from 'react-bootstrap'
 
+import { PTyp } from '../../ptyp'
 import { ItemIcon } from '../item-icon'
 
+// TODO: validation, disable "save" button if input is not valid.
+
 class IncomeModifierEdit extends Component {
+  static propTypes = {
+    id: PTyp.number.isRequired,
+    // TODO: details
+    modifier: PTyp.object.isRequired,
+    onModify: PTyp.func.isRequired,
+  }
+
   handleSelectType = newType => {
     const {onModify} = this.props
     onModify(m => ({...m, curType: newType}))
+  }
+
+  handleToggleGS = e => {
+    const gs = e.target.checked
+    const {onModify} = this.props
+    onModify(modifier => ({
+      ...modifier,
+      standard: {
+        ...modifier.standard,
+        gs,
+      },
+    }))
+  }
+
+  handleChangeDlcCount = e => {
+    const daihatsu = e.target.value
+    const {onModify} = this.props
+    onModify(modifier => ({
+      ...modifier,
+      standard: {
+        ...modifier.standard,
+        daihatsu,
+      },
+    }))
+  }
+
+  handleChangeCustomValue = e => {
+    const value = e.target.value
+    const {onModify} = this.props
+    onModify(modifier => ({
+      ...modifier,
+      custom: {
+        ...modifier.custom,
+        value,
+      },
+    }))
   }
 
   render() {
@@ -24,7 +68,9 @@ class IncomeModifierEdit extends Component {
         activeKey={modifier.curType}>
         <Tab eventKey="standard" title="Standard">
           <div style={{padding: 10}}>
-            <Checkbox checked={modifier.standard.gs}>
+            <Checkbox
+              onChange={this.handleToggleGS}
+              checked={modifier.standard.gs}>
               Great Success
             </Checkbox>
             <div style={{display: 'flex', alignItems: 'center'}}>
@@ -32,6 +78,7 @@ class IncomeModifierEdit extends Component {
                 <ItemIcon name="dlc" style={{height: '2.5em'}} />
               </div>
               <FormControl
+                onChange={this.handleChangeDlcCount}
                 value={modifier.standard.daihatsu}
                 componentClass="select"
                 style={{width: '60%', flex: 1}}>
@@ -51,6 +98,7 @@ class IncomeModifierEdit extends Component {
             </div>
             <Form inline style={{width: '60%', flex: 1}}>
               <FormControl
+                onChange={this.handleChangeCustomValue}
                 value={modifier.custom.value}
                 type="text" style={{width: '100%'}}
               />
