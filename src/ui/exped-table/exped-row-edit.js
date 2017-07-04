@@ -10,7 +10,10 @@ class ExpedRowEdit extends Component {
     const {
       modifier, cost, id,
       onModifyModifier, onModifyCost,
+      onSave,
     } = this.props
+    // make the value a boolean
+    const isInputValid = !!onSave
     if (modifier === null || cost === null)
       return null
 
@@ -54,11 +57,17 @@ class ExpedRowEdit extends Component {
             onModify={onModifyCost}
           />
         </Panel>
-        <Button bsSize="xsmall" style={{
-          width: '5%',
-          alignSelf: 'flex-end',
-          marginLeft: 8,
-        }}>
+        <Button
+          bsSize="xsmall"
+          bsStyle={isInputValid ? 'default' : 'danger'}
+          disabled={!isInputValid}
+          onClick={onSave}
+          style={{
+            width: '5%',
+            alignSelf: 'flex-end',
+            marginLeft: 8,
+          }}
+        >
           <FontAwesome name="save" />
         </Button>
       </div>

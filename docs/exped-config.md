@@ -56,7 +56,8 @@ As mentioned above, this structure determines how resource incomes should be mod
         - This is also useful in case of not guaranteed great success: if the chance of
           achieving great success is `50%`, you can use `1*50%+1.5*50%=1.25` as the factor,
           which represents the expectation in long run.
-        - This value should be no less than `1` for the obvious reason.
+        - This value should usually be no less than `1` for the obvious reason.
+        - We allow this value to be in range `0 < value < 5`
         - We consider this to be a great success config if `value` is no less than `1.5`.
         - Due to how extra bonus of improved DLCs are computed, simply applying a factor
           to the resource income will not give you the exact result, but the precision
@@ -123,6 +124,8 @@ This structure determines resupply cost.
 
     - Both `fuel` and `ammo` stand for the resource to be excluded from total income,
       so are required to be non-negative.
+
+    - The actual requirement is `0 <= fuel or ammo < 5000`
 
     - Do not put max fuel or ammo cost here. As every `ExpedConfig` is tied to a
       specific expedition, we already know the percentage cost of fuel and ammo,
