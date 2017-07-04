@@ -141,9 +141,11 @@ class ExpedRow extends Component {
 
   handleToggleEditor = prevEditing => () => {
     const editing = !prevEditing
+    const {expedInfoView} = this.props
+    const {config} = expedInfoView
     this.setState({
       editing,
-      ...(editing ? createEditorState(this.props.config) : {}),
+      ...(editing ? createEditorState(config) : {}),
     })
   }
 
@@ -175,15 +177,15 @@ class ExpedRow extends Component {
   }
 
   render() {
-    const {info, config, onModify} = this.props
+    const {expedInfoView, onModify} = this.props
+    const {info} = expedInfoView
     const {editing} = this.state
 
     const curConfigFromEditor = this.generateCurrentConfigFromEditor()
     return (
       <div>
         <ExpedRowView
-          info={info}
-          config={config}
+          expedInfoView={expedInfoView}
           editing={editing}
           onToggleEditor={this.handleToggleEditor(editing)}
         />

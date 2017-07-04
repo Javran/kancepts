@@ -15,22 +15,26 @@ const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
 const onResourceValue = f => resource =>
   _.fromPairs(resourceProperties.map(rp => [rp, f(resource[rp], rp, resource)]))
 
-const modifierToFactor = modifier => {
+// we compute a function that can be later applied on a number,
+// rather than compute a numeric factor.
+// because we can preserve more precision this way
+// (as 1.5*1.2=1.79999... but 300*1.5*1.2 works as expected)
+const modifierToFunc = modifier => {
   if (modifier.type === 'standard') {
     const {gs, daihatsu} = modifier
     const gsFactor = gs ? 1.5 : 1
     const dlcFactor = 1 + Math.min(0.2, daihatsu*0.05)
-    return gsFactor*dlcFactor
+    return v => Math.floor(v*gsFactor*dlcFactor)
   }
   if (modifier.type === 'custom') {
-    return modifier.value
+    return v => Math.floor(v * modifier.value)
   }
   console.error(`Unexpected modifier type: ${modifier.type}`)
 }
 
 const applyIncomeModifier = modifier => {
-  const factor = modifierToFactor(modifier)
-  return onResourceValue(v => Math.floor(v*factor))
+  const func = modifierToFunc(modifier)
+  return onResourceValue(func)
 }
 
 /*
@@ -73,7 +77,8 @@ const computeResupplyInfo = costConfig => {
   }
   if (costConfig.type === 'custom') {
     const {fuel, ammo} = costConfig
-    return () => ({fuel, ammo})
+    const cost = {fuel,ammo}
+    return () => ({cost, compo: null})
   }
   console.error(`Unexpected cost config type: ${costConfig.type}`)
 }

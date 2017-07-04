@@ -7,6 +7,7 @@ import {
   expedInfoList,
   applyIncomeModifier,
   computeResupplyInfo,
+  onResourceValue,
 } from './exped-info'
 
 const shipListSelector = state => state.shipList
@@ -140,7 +141,7 @@ const expedInfoViewListSelector = createSelector(
   tableUISelector,
   costModelSelector,
   (expedConfigs, tableControl, costModel) => {
-    const incomeViewMethod = tableControl.income
+    const incomeViewMethod = tableControl.view.income
     const expedInfoViewList = expedInfoList.map(info => {
       const {id,cost} = info
       const costModelPartial = costModel(cost)
@@ -150,11 +151,27 @@ const expedInfoViewListSelector = createSelector(
         applyIncomeModifier(config.modifier)(basicResource)
       const resupplyInfo =
         computeResupplyInfo(config.cost)(info,costModelPartial)
-      console.log(resupplyInfo)
+      const applyResupply = (val, rp) => {
+        if (rp === 'fuel' || rp === 'ammo') {
+          if (resupplyInfo.cost === null)
+            return null
+          return val - resupplyInfo.cost[rp]
+        } else {
+          return val
+        }
+      }
+      const netResource = onResourceValue(applyResupply)(grossResource)
+      const showResource =
+        incomeViewMethod === 'basic' ? basicResource :
+        incomeViewMethod === 'gross' ? grossResource :
+        incomeViewMethod === 'net' ? netResource :
+        console.error(`unknown income view method: ${incomeViewMethod}`)
       return {
         id,
         info,
         config,
+        showResource,
+        resupplyInfo,
       }
     })
     return expedInfoViewList

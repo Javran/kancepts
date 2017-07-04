@@ -92,7 +92,12 @@ const viewCost = cost => {
 
 class ExpedRowView extends Component {
   render() {
-    const {info, config, editing, onToggleEditor} = this.props
+    const {
+      expedInfoView,
+      editing,
+      onToggleEditor,
+    } = this.props
+    const {info, config, showResource} = expedInfoView
     const {
       id, name, time,
       resource, itemProb, itemGS,
@@ -120,7 +125,7 @@ class ExpedRowView extends Component {
         <div style={{display: 'flex', flex: 1, width: '45%'}}>
           {
             resourceProperties.map(rp => {
-              const nz = resource[rp] !== 0
+              const nz = showResource[rp] !== 0
               const style = nz ?
                 {fontWeight: 'bold', color: resourceColor[rp]} :
                 {}
@@ -129,7 +134,7 @@ class ExpedRowView extends Component {
                   width: '14%',
                   ...style,
                 }}>
-                  {resource[rp]}
+                  {showResource[rp]}
                 </div>
               )
             })

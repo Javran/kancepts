@@ -80,13 +80,12 @@ class ExpedTableImpl extends Component {
         <ListGroup>
           {
             expedInfoViewList.map(expedInfoView => {
-              const {id, info, config} = expedInfoView
+              const {id} = expedInfoView
               return (
                 <ListGroupItem style={{padding: 5}} key={id}>
                   <ExpedRow
                     onModify={this.handleModifyConfig(id)}
-                    config={config}
-                    info={info}
+                    expedInfoView={expedInfoView}
                   />
                 </ListGroupItem>
               )
