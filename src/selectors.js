@@ -2,8 +2,12 @@ import _ from 'lodash'
 import { createSelector } from 'reselect'
 
 import { $ships, $shipTypes } from './master-data.js'
-
 import { filters } from './ship-filters'
+import {
+  expedInfoList,
+  applyIncomeModifier,
+  computeResupplyInfo,
+} from './exped-info'
 
 const shipListSelector = state => state.shipList
 const expedConfigsSelector = state => state.expedConfigs
@@ -86,7 +90,7 @@ const scan = (xs, acc, zero) => {
    - ShipType: ship filter id
    - Count: an integer >= 0
    - ActualCost:
-     - {actualFuel, actualAmmo} (might include other fields like 'nameList')
+     - {fuelCost, ammoCost} (might include other fields like 'nameList')
      - or null if the number of qualified ships is not sufficient
 
    TODO:
@@ -130,6 +134,32 @@ const tableUISelector = createSelector(
   uiSelector,
   ui => ui.table)
 
+// expedition info for viewing on exped table UI
+const expedInfoViewListSelector = createSelector(
+  expedConfigsSelector,
+  tableUISelector,
+  costModelSelector,
+  (expedConfigs, tableControl, costModel) => {
+    const incomeViewMethod = tableControl.income
+    const expedInfoViewList = expedInfoList.map(info => {
+      const {id,cost} = info
+      const costModelPartial = costModel(cost)
+      const config = expedConfigs[id]
+      const basicResource = info.resource
+      const grossResource =
+        applyIncomeModifier(config.modifier)(basicResource)
+      const resupplyInfo =
+        computeResupplyInfo(config.cost)(info,costModelPartial)
+      console.log(resupplyInfo)
+      return {
+        id,
+        info,
+        config,
+      }
+    })
+    return expedInfoViewList
+  })
+
 export {
   shipDetailListSelector,
   shipCostListByFilterSelector,
@@ -137,4 +167,5 @@ export {
   expedConfigsSelector,
   uiSelector,
   tableUISelector,
+  expedInfoViewListSelector,
 }

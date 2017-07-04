@@ -81,7 +81,7 @@ This structure determines resupply cost.
     ```
     {
         type: 'cost-model',
-        wildcard: 'DD' / 'DE' / 'SS',
+        wildcard: 'dd' / 'de' / 'ss',
         count: 1~6,
     }
     ```
@@ -94,9 +94,9 @@ This structure determines resupply cost.
     if the default fleet composition does not have sufficient number of ships,
     ships matching wildcard type will be used to fill in the blank.
 
-    For example the default fleet composition is `1CL3DD` for expedition 5, but
-    you can specify to have at least 5 ships with wildcard `DD`. By doing so,
-    the fleet composition becomes `1CL4DD` instead of the default one.
+    For example the default fleet composition is `1cl 3dd` for expedition 5, but
+    you can specify to have at least 5 ships with wildcard `dd`. By doing so,
+    the fleet composition becomes `1cl 4dd` instead of the default one.
 
 
     Notes:

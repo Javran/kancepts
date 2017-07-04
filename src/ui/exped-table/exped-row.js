@@ -51,7 +51,7 @@ const createCostEditorState = cost => {
     return {
       curType: 'custom',
       costModel: {
-        wildcard: 'DD',
+        wildcard: 'dd',
         count: 6,
       },
       custom: {
@@ -102,7 +102,7 @@ const editorStateToConfig = editorState => {
       return null
     if (costES.curType === 'cost-model') {
       const {wildcard, count} = costES.costModel
-      if (['DD', 'SS', 'DE'].includes(wildcard) &&
+      if (['dd', 'ss-like', 'de'].includes(wildcard) &&
           _.isInteger(count) && count >= 0 && count <= 6) {
         return {type: 'cost-model', wildcard, count}
       } else {

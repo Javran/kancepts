@@ -103,12 +103,12 @@ class ResupplyCostEdit extends Component {
                 componentClass="select"
                 style={{width: '60%', flex: 1}}>
                 {
-                  ['DD','SS','DE'].map(x => (
+                  ['dd','ss-like','de'].map(x => (
                     <option value={x} key={x}>
                       {
-                        x === 'DD' ? 'Destroyer (DD)' :
-                        x === 'SS' ? 'Submarine (SS)' :
-                        x === 'DE' ? 'Escort (DE)' :
+                        x === 'dd' ? 'Destroyer (DD)' :
+                        x === 'ss-like' ? 'Submarine (SS/SSV)' :
+                        x === 'de' ? 'Escort (DE)' :
                         x
                       }
                     </option>

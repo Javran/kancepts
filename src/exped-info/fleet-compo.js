@@ -65,6 +65,25 @@ const atLeast = n => fleetCompo => {
 
 const full = atLeast(6)
 
+// to apply a wildcard type on a fleet composition
+// means to replace 'any' with that concrete wildcard type.
+const applyWildcard = stypeWildcard => fleetCompo => {
+  if (typeof fleetCompo.any === 'undefined')
+    return fleetCompo
+  const countAny = fleetCompo.any
+  const newFleetCompo = {...fleetCompo}
+  delete newFleetCompo.any
+
+  const count =
+    typeof fleetCompo[stypeWildcard] === 'undefined' ?
+      0 :
+      fleetCompo[stypeWildcard]
+  return {
+    ...newFleetCompo,
+    [stypeWildcard]: count + countAny,
+  }
+}
+
 const defineFleetCompo = (id, fleetCompoOrAtLeastNum) => {
   if (_.isInteger(fleetCompoOrAtLeastNum)) {
     const atLeastNum = fleetCompoOrAtLeastNum
@@ -169,4 +188,5 @@ export {
   minimalFleetCompos,
   atLeast,
   full,
+  applyWildcard,
 }

@@ -4,12 +4,79 @@ import { enumFromTo } from '../utils'
 import { $missions } from '../master-data'
 import expedInfoListRaw from '../assets/exped-info.json'
 
-import { minimalFleetCompos } from './fleet-compo'
+import { minimalFleetCompos, atLeast, applyWildcard } from './fleet-compo'
 
 // an Array from 1 to 40, to be used as expedition ids
 const allExpedIdList = enumFromTo(1,40)
 
 const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
+
+// f(<value>,<resource prooerty>,<resource structure>)
+const onResourceValue = f => resource =>
+  _.fromPairs(resourceProperties.map(rp => [rp, f(resource[rp], rp, resource)]))
+
+const modifierToFactor = modifier => {
+  if (modifier.type === 'standard') {
+    const {gs, daihatsu} = modifier
+    const gsFactor = gs ? 1.5 : 1
+    const dlcFactor = 1 + Math.min(0.2, daihatsu*0.05)
+    return gsFactor*dlcFactor
+  }
+  if (modifier.type === 'custom') {
+    return modifier.value
+  }
+  console.error(`Unexpected modifier type: ${modifier.type}`)
+}
+
+const applyIncomeModifier = modifier => {
+  const factor = modifierToFactor(modifier)
+  return onResourceValue(v => Math.floor(v*factor))
+}
+
+/*
+   computeResupplyCost(<cost config>)(<exped info>,<costModelPartial>) =>
+
+   {
+     cost: null or {fuel, ammo}
+     compo: null (for custom) or a fleet composition without 'any' ship type
+   }
+
+   costModelPartial is costModel applied with cost percentages
+
+ */
+const computeResupplyInfo = costConfig => {
+  if (costConfig.type === 'cost-model') {
+    const {wildcard, count} = costConfig
+    return (expedInfo, costModelPartial) => {
+      const {minCompo} = expedInfo
+      // composition that satisfies user-specified length
+      const abstractCompo = atLeast(count)(minCompo)
+      const compo = applyWildcard(wildcard)(abstractCompo)
+      const cost = _.toPairs(compo).reduce(
+        (curCost, [stype,cnt]) => {
+          if (curCost === null)
+            return null
+          const actualCost = costModelPartial(stype,cnt)
+          if (actualCost === null)
+            return null
+          return {
+            fuel: curCost.fuel + actualCost.fuelCost,
+            ammo: curCost.ammo + actualCost.ammoCost,
+          }
+        },
+        {fuel: 0, ammo: 0})
+      return {
+        cost,
+        compo,
+      }
+    }
+  }
+  if (costConfig.type === 'custom') {
+    const {fuel, ammo} = costConfig
+    return () => ({fuel, ammo})
+  }
+  console.error(`Unexpected cost config type: ${costConfig.type}`)
+}
 
 const itemIdToName = x =>
     x === 0 ? null
@@ -34,12 +101,14 @@ const expedInfoList = expedInfoListRaw.map(raw => {
   const itemGS = fromRawItem($mission.api_win_item2)
   const fuelPercent = Math.round($mission.api_use_fuel * 100)
   const ammoPercent = Math.round($mission.api_use_bull * 100)
+  const minCompo = minimalFleetCompos[id]
   return {
     id, name, time,
     resource: {fuel, ammo, steel, bauxite},
     // itemProb: item obtainable randomly from expedition
     // itemGS: guaranteed item if great success is achieved
     itemProb, itemGS,
+    minCompo,
     cost: {fuelPercent, ammoPercent},
   }
 })
@@ -48,4 +117,7 @@ export {
   allExpedIdList,
   expedInfoList,
   resourceProperties,
+  onResourceValue,
+  applyIncomeModifier,
+  computeResupplyInfo,
 }

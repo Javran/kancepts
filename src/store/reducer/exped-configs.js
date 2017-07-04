@@ -10,7 +10,7 @@ const defExpedConfig = {
   },
   cost: {
     type: 'cost-model',
-    wildcard: 'DD',
+    wildcard: 'dd',
     count: 0,
   },
 }
