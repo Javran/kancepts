@@ -4,26 +4,10 @@ import {
   Row, Col,
   Nav, NavItem,
 } from 'react-bootstrap'
-import { connect } from 'react-redux'
 
 import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
 import { CostModel } from './cost-model'
-
-import {
-  shipDetailListSelector,
-  costModelSelector,
-} from '../selectors'
-
-const ShipListInst = connect(state => {
-  const shipDetailList = shipDetailListSelector(state)
-  return {shipDetailList}
-})(ShipList)
-
-const CostModelInst = connect(state => {
-  const costModel = costModelSelector(state)
-  return {costModel}
-})(CostModel)
 
 class KanceptsMain extends Component {
   constructor(props) {
@@ -69,10 +53,10 @@ class KanceptsMain extends Component {
                   <ExpedTable />
                 </Tab.Pane>
                 <Tab.Pane eventKey="cost-model">
-                  <CostModelInst />
+                  <CostModel />
                 </Tab.Pane>
                 <Tab.Pane eventKey="ship-list">
-                  <ShipListInst />
+                  <ShipList />
                 </Tab.Pane>
               </Tab.Content>
             </Col>

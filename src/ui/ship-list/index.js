@@ -1,9 +1,15 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import {
   ButtonGroup, Button,
   Table,
 } from 'react-bootstrap'
+
+import {
+  shipDetailListSelector,
+} from '../../selectors'
 
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
@@ -23,7 +29,7 @@ const WrappedTd = ({content}) => (
   </td>)
 WrappedTd.propTypes = PTyp.node.isRequired
 
-class ShipList extends Component {
+class ShipListImpl extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -143,5 +149,10 @@ class ShipList extends Component {
     )
   }
 }
+
+const ShipList = connect(state => {
+  const shipDetailList = shipDetailListSelector(state)
+  return {shipDetailList}
+})(ShipListImpl)
 
 export { ShipList }

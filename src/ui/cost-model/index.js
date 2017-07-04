@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
+import {
+  costModelSelector,
+} from '../../selectors'
 
 import { CostPicker } from '../cost-picker'
 import { CostTable } from './cost-table'
 
-class CostModel extends Component {
+class CostModelImpl extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -36,5 +41,10 @@ class CostModel extends Component {
     )
   }
 }
+
+const CostModel = connect(state => {
+  const costModel = costModelSelector(state)
+  return {costModel}
+})(CostModelImpl)
 
 export { CostModel }
