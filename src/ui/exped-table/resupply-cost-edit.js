@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import {
-  Button, Panel,
   Tabs, Form,
-  Tab, Row, Col, Nav, NavItem,
+  Tab,
   FormControl,
  } from 'react-bootstrap'
 
@@ -149,7 +148,6 @@ class ResupplyCostEdit extends Component {
                 />
               </Form>
             </div>
-
           </div>
         </Tab>
       </Tabs>
