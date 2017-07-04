@@ -35,7 +35,7 @@ class IncomeModifierEdit extends Component {
   }
 
   handleChangeDlcCount = e => {
-    const daihatsu = e.target.value
+    const daihatsu = parseInt(e.target.value,10)
     const {onModify} = this.props
     onModify(modifier => ({
       ...modifier,
@@ -47,13 +47,13 @@ class IncomeModifierEdit extends Component {
   }
 
   handleChangeCustomValue = e => {
-    const value = e.target.value
+    const valueStr = e.target.value
     const {onModify} = this.props
     onModify(modifier => ({
       ...modifier,
       custom: {
         ...modifier.custom,
-        value,
+        valueStr,
       },
     }))
   }
@@ -99,7 +99,7 @@ class IncomeModifierEdit extends Component {
             <Form inline style={{width: '60%', flex: 1}}>
               <FormControl
                 onChange={this.handleChangeCustomValue}
-                value={modifier.custom.value}
+                value={modifier.custom.valueStr}
                 type="text" style={{width: '100%'}}
               />
             </Form>

@@ -13,7 +13,7 @@ const createModifierEditorState = modifier => {
         daihatsu: modifier.daihatsu,
       },
       custom: {
-        value: 1,
+        valueStr: '1',
       },
     }
   }
@@ -26,7 +26,7 @@ const createModifierEditorState = modifier => {
         daihatsu: 0,
       },
       custom: {
-        value: modifier.value,
+        valueStr: String(modifier.value),
       },
     }
   }
@@ -41,8 +41,8 @@ const createCostEditorState = cost => {
         count: cost.count,
       },
       custom: {
-        fuel: 0,
-        ammo: 0,
+        fuelStr: '0',
+        ammoStr: '0',
       },
     }
   }
@@ -55,8 +55,8 @@ const createCostEditorState = cost => {
         count: 6,
       },
       custom: {
-        fuel: cost.fuel,
-        ammo: cost.ammo,
+        fuelStr: String(cost.fuel),
+        ammoStr: String(cost.ammo),
       },
     }
   }
