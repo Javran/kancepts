@@ -8,12 +8,31 @@ import {
 import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
 import { CostModel } from './cost-model'
+import { observeAll } from '../observer'
 
 class KanceptsMain extends Component {
   constructor(props) {
     super(props)
+    this.unsubscribe = null
+
     this.state = {
       activeKey: 'config',
+    }
+  }
+
+  componentDidMount() {
+    if (this.unsubscribe !== null) {
+      console.error(`unsubscribe function should be null`)
+    }
+    this.unsubscribe = observeAll()
+  }
+
+  componentWillUnmount() {
+    if (typeof this.unsubscribe !== 'function') {
+      console.error(`invalid unsubscribe function`)
+    } else {
+      this.unsubscribe()
+      this.unsubscribe = null
     }
   }
 
