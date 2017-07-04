@@ -1,5 +1,7 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+
 import {
   Table,
   Button,
@@ -7,6 +9,7 @@ import {
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
+import { expedConfigsSelector } from '../../selectors'
 import expedInfoListRaw from '../../assets/exped-info.json'
 
 import { ItemIcon } from '../item-icon'
@@ -131,24 +134,24 @@ const pprCost = cost => {
     return `${-cost.fuel} ${-cost.ammo}`
 }
 
-class ExpedTable extends Component {
+class ExpedTableImpl extends Component {
   static defineHeader = (key, content, style) => ({key, content, style})
 
   static headers = [
-    ExpedTable.defineHeader(
+    ExpedTableImpl.defineHeader(
       'id', '#', {width: '2em'}),
-    ExpedTable.defineHeader(
+    ExpedTableImpl.defineHeader(
       'name', 'Name', {}),
-    ExpedTable.defineHeader(
+    ExpedTableImpl.defineHeader(
       'time', <FontAwesome name="clock-o" />, {width: '3.2em'}),
     ...resourceProperties.map(rp =>
-      ExpedTable.defineHeader(
+      ExpedTableImpl.defineHeader(
         rp, <ItemIcon name={rp} style={{height: '1em'}} /> , {width: '3.4em'})),
-    ExpedTable.defineHeader('item-1', 'Item 1', {width: '4em'}),
-    ExpedTable.defineHeader('item-2', 'Item 2', {width: '4em'}),
-    ExpedTable.defineHeader('mod', 'Modifier', {width: '8em'}),
-    ExpedTable.defineHeader('cost', 'Cost', {width: '8em'}),
-    ExpedTable.defineHeader('control', '...', {width: '4em'}),
+    ExpedTableImpl.defineHeader('item-1', 'Item 1', {width: '4em'}),
+    ExpedTableImpl.defineHeader('item-2', 'Item 2', {width: '4em'}),
+    ExpedTableImpl.defineHeader('mod', 'Modifier', {width: '8em'}),
+    ExpedTableImpl.defineHeader('cost', 'Cost', {width: '8em'}),
+    ExpedTableImpl.defineHeader('control', '...', {width: '4em'}),
   ]
 
   constructor(props) {
@@ -173,11 +176,12 @@ class ExpedTable extends Component {
     })
 
   render() {
+    const { expedConfigs } = this.props
     return (
       <ListGroup>
         {
           expedInfoList.map(expedInfo => {
-            const expedConfig = randomExpedConfigTable[expedInfo.id]
+            const expedConfig = expedConfigs[expedInfo.id]
             return (
               <ListGroupItem style={{padding: 5}} key={expedInfo.id}>
                 <ExpedRow config={expedConfig} info={expedInfo} />
@@ -189,5 +193,10 @@ class ExpedTable extends Component {
     )
   }
 }
+
+const ExpedTable = connect(state => {
+  const expedConfigs = expedConfigsSelector(state)
+  return {expedConfigs}
+})(ExpedTableImpl)
 
 export { ExpedTable }

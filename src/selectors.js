@@ -6,6 +6,7 @@ import { $ships, $shipTypes } from './master-data.js'
 import { filters } from './ship-filters'
 
 const shipListSelector = state => state.shipList
+const expedConfigsSelector = state => state.expedConfigs
 
 // TODO: list sorting perhaps after we have redux setups.
 const shipResupplyCost = ship => {
@@ -129,4 +130,5 @@ export {
   shipDetailListSelector,
   shipCostListByFilterSelector,
   costModelSelector,
+  expedConfigsSelector,
 }
