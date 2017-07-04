@@ -90,7 +90,6 @@ const scan = (xs, acc, zero) => {
 
    TODO:
 
-   - impl using selector
    - consider memoize if necessary
 
  */

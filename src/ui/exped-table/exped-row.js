@@ -4,8 +4,6 @@ import { Collapse } from 'react-bootstrap'
 import { ExpedRowView } from './exped-row-view'
 import { ExpedRowEdit } from './exped-row-edit'
 
-// TODO: now need to setup observer and loading mechanism
-
 const createModifierEditorState = modifier => {
   if (modifier.type === 'standard') {
     return {

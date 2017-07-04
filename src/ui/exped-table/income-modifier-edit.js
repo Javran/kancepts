@@ -7,8 +7,6 @@ import {
 import { PTyp } from '../../ptyp'
 import { ItemIcon } from '../item-icon'
 
-// TODO: validation, disable "save" button if input is not valid.
-
 class IncomeModifierEdit extends Component {
   static propTypes = {
     id: PTyp.number.isRequired,
