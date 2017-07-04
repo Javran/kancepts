@@ -33,7 +33,7 @@ class ShipListImpl extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      filter: 'all',
+      filter: 'any',
       fuelPercent: 100,
       ammoPercent: 100,
     }

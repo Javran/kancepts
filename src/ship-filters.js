@@ -2,7 +2,7 @@ const filters = []
 const defineFilter = (id, title, func) =>
   filters.push({id,title,func})
 
-defineFilter('all', 'All', () =>
+defineFilter('any', 'Any', () =>
   true)
 defineFilter('de', 'DE', s =>
   s.stype === 1)
