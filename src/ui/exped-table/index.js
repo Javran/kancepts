@@ -13,6 +13,7 @@ import {
 } from '../../selectors'
 import {
   resourceProperties,
+  allExpedIdList,
 } from '../../exped-info'
 
 import { ItemIcon } from '../item-icon'
@@ -48,10 +49,9 @@ class ExpedTableImpl extends Component {
 
   constructor(props) {
     super(props)
-    const expanded = {}
-    for (let i=1; i<=40; ++i) {
-      expanded[i] = false
-    }
+    const expanded = _.fromPairs(
+      allExpedIdList.map(expedId => [expedId, false]))
+
     this.state = {
       expanded,
     }
