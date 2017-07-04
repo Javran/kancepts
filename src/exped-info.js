@@ -26,7 +26,7 @@ const expedInfoList = expedInfoListRaw.map(raw => {
   const time = $mission.api_time
   const [fuel,ammo,steel,bauxite] = raw.resource
   const fromRawItem = ([itmId, itmCnt]) =>
-    ({name: itemIdToName(itmId), count: itmCnt})
+    ({name: itemIdToName(itmId), maxCount: itmCnt})
 
   const itemProb = fromRawItem($mission.api_win_item1)
   const itemGS = fromRawItem($mission.api_win_item2)

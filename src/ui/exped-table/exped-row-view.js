@@ -23,12 +23,12 @@ const resourceColor = {
 }
 
 // eslint-disable-next-line react/prop-types
-const mkItem = ({name, count}, isGS) => {
-  if (name === null || count === 0)
+const mkItem = ({name, maxCount}, isGS) => {
+  if (name === null || maxCount === 0)
     return (<span>-</span>)
   const countText = isGS ?
-    (count > 1 ? `1~${count}` : '1') :
-    `0~${count}`
+    (maxCount > 1 ? `1~${maxCount}` : '1') :
+    `0~${maxCount}`
   return (
     <span>
       <ItemIcon style={{width: '1.1em'}} name={name} />
