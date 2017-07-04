@@ -29,6 +29,11 @@ defineFilter('cve', 'CVE', s =>
 
 Object.freeze(filters)
 
+const isValidFilterId = idInp =>
+  typeof idInp === 'string' &&
+  filters.findIndex(({id}) => id === idInp) !== -1
+
 export {
   filters,
+  isValidFilterId,
 }

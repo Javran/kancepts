@@ -1,8 +1,10 @@
 import _ from 'lodash'
-import { enumFromTo } from './utils'
+import { enumFromTo } from '../utils'
 
-import { $missions } from './master-data'
-import expedInfoListRaw from './assets/exped-info.json'
+import { $missions } from '../master-data'
+import expedInfoListRaw from '../assets/exped-info.json'
+
+import { minimalFleetCompos } from './fleet-compo'
 
 // an Array from 1 to 40, to be used as expedition ids
 const allExpedIdList = enumFromTo(1,40)
