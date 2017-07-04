@@ -142,6 +142,7 @@ const expedInfoViewListSelector = createSelector(
   costModelSelector,
   (expedConfigs, tableControl, costModel) => {
     const incomeViewMethod = tableControl.view.income
+    const divideMethod = tableControl.view.divide
     const expedInfoViewList = expedInfoList.map(info => {
       const {id,cost} = info
       const costModelPartial = costModel(cost)
@@ -161,11 +162,20 @@ const expedInfoViewListSelector = createSelector(
         }
       }
       const netResource = onResourceValue(applyResupply)(grossResource)
-      const showResource =
+      const showResourceTotal =
         incomeViewMethod === 'basic' ? basicResource :
         incomeViewMethod === 'gross' ? grossResource :
         incomeViewMethod === 'net' ? netResource :
         console.error(`unknown income view method: ${incomeViewMethod}`)
+
+      const resourceDivide = val =>
+        val === null ? null : (val*60/info.time)
+      const showResource =
+        divideMethod === 'total' ?
+          showResourceTotal :
+        divideMethod === 'hourly' ?
+          onResourceValue(resourceDivide)(showResourceTotal) :
+        console.error(`unknown divide method: ${divideMethod}`)
       return {
         id,
         info,

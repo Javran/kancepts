@@ -89,7 +89,6 @@ const viewCost = cost => {
   }
 }
 
-
 class ExpedRowView extends Component {
   render() {
     const {
@@ -100,7 +99,7 @@ class ExpedRowView extends Component {
     const {info, config, showResource} = expedInfoView
     const {
       id, name, time,
-      resource, itemProb, itemGS,
+      itemProb, itemGS,
     } = info
     const {
       modifier, cost,
@@ -125,7 +124,12 @@ class ExpedRowView extends Component {
         <div style={{display: 'flex', flex: 1, width: '45%'}}>
           {
             resourceProperties.map(rp => {
-              const nz = showResource[rp] !== 0
+              const resourceVal = showResource[rp]
+              const resourceText =
+                resourceVal === null ? 'N/A' :
+                _.isInteger(resourceVal) ? String(resourceVal) :
+                String(resourceVal.toFixed(2))
+              const nz = resourceVal !== 0
               const style = nz ?
                 {fontWeight: 'bold', color: resourceColor[rp]} :
                 {}
@@ -134,7 +138,7 @@ class ExpedRowView extends Component {
                   width: '14%',
                   ...style,
                 }}>
-                  {showResource[rp]}
+                  {resourceText}
                 </div>
               )
             })
