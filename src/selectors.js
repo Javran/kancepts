@@ -7,6 +7,7 @@ import { filters } from './ship-filters'
 
 const shipListSelector = state => state.shipList
 const expedConfigsSelector = state => state.expedConfigs
+const uiSelector = state => state.ui
 
 // TODO: list sorting perhaps after we have redux setups.
 const shipResupplyCost = ship => {
@@ -125,9 +126,15 @@ const costModelSelector = createSelector(
     return costModel
   })
 
+const tableUISelector = createSelector(
+  uiSelector,
+  ui => ui.table)
+
 export {
   shipDetailListSelector,
   shipCostListByFilterSelector,
   costModelSelector,
   expedConfigsSelector,
+  uiSelector,
+  tableUISelector,
 }

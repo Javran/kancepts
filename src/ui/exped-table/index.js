@@ -8,7 +8,9 @@ import {
 import FontAwesome from 'react-fontawesome'
 
 import { mapDispatchToProps } from '../../store/reducer/exped-configs'
-import { expedConfigsSelector } from '../../selectors'
+import {
+  expedConfigsSelector,
+} from '../../selectors'
 import {
   resourceProperties,
   expedInfoList,
@@ -17,6 +19,8 @@ import {
 import { ItemIcon } from '../item-icon'
 import { ExpedRow } from './exped-row'
 import { PTyp } from './../../ptyp'
+
+import { TableControl } from './table-control'
 
 const defineHeader = (key, content, style) => ({key, content, style})
 
@@ -72,22 +76,25 @@ class ExpedTableImpl extends Component {
   render() {
     const {expedConfigs} = this.props
     return (
-      <ListGroup>
-        {
-          expedInfoList.map(expedInfo => {
-            const expedConfig = expedConfigs[expedInfo.id]
-            return (
-              <ListGroupItem style={{padding: 5}} key={expedInfo.id}>
-                <ExpedRow
-                  onModify={this.handleModifyConfig(expedInfo.id)}
-                  config={expedConfig}
-                  info={expedInfo}
-                />
-              </ListGroupItem>
-            )
-          })
-        }
-      </ListGroup>
+      <div>
+        <TableControl />
+        <ListGroup>
+          {
+            expedInfoList.map(expedInfo => {
+              const expedConfig = expedConfigs[expedInfo.id]
+              return (
+                <ListGroupItem style={{padding: 5}} key={expedInfo.id}>
+                  <ExpedRow
+                    onModify={this.handleModifyConfig(expedInfo.id)}
+                    config={expedConfig}
+                    info={expedInfo}
+                  />
+                </ListGroupItem>
+              )
+            })
+          }
+        </ListGroup>
+      </div>
     )
   }
 }
