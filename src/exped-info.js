@@ -31,7 +31,7 @@ const expedInfoList = expedInfoListRaw.map(raw => {
   const itemProb = fromRawItem($mission.api_win_item1)
   const itemGS = fromRawItem($mission.api_win_item2)
   const fuelPercent = Math.round($mission.api_use_fuel * 100)
-  const ammoPercent = Math.round($mission.api_use_null * 100)
+  const ammoPercent = Math.round($mission.api_use_bull * 100)
   return {
     id, name, time,
     resource: {fuel, ammo, steel, bauxite},
