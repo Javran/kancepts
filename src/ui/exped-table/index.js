@@ -3,157 +3,44 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import {
-  Table,
-  Button,
   ListGroup, ListGroupItem,
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
 import { mapDispatchToProps } from '../../store/reducer/exped-configs'
-
 import { expedConfigsSelector } from '../../selectors'
-import expedInfoListRaw from '../../assets/exped-info.json'
+import {
+  resourceProperties,
+  expedInfoList,
+} from '../../exped-info'
 
 import { ItemIcon } from '../item-icon'
 import { ExpedRow } from './exped-row'
+import { PTyp } from './../../ptyp'
 
-const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
-
-const itemIdToName = x =>
-    x === 0 ? null
-  : x === 1 ? 'bucket'
-  : x === 2 ? 'instant-build'
-  : x === 3 ? 'dev-mat'
-  : x === 10 ? 'coin-small'
-  : x === 11 ? 'coin-medium'
-  : x === 12 ? 'coin-large'
-  : console.error(`unknown item id: ${x}`)
-
-const expedInfoList = expedInfoListRaw.map(raw => {
-  const id = raw.api_id
-  const name = raw.api_name
-  const time = raw.api_time
-  const [fuel,ammo,steel,bauxite] = raw.resource
-  const fromRawItem = ([itmId, itmCnt]) =>
-    ({name: itemIdToName(itmId), count: itmCnt})
-
-  const itemProb = fromRawItem(raw.api_win_item1)
-  const itemGS = fromRawItem(raw.api_win_item2)
-  return {
-    id, name, time,
-    resource: {fuel, ammo, steel, bauxite},
-    // itemProb: item obtainable randomly from expedition
-    // itemGS: guaranteed item if great success is achieved
-    itemProb, itemGS,
-  }
-})
-
-// eslint-disable-next-line react/prop-types
-const mkItem = ({name, count}, isGS) => {
-  if (name === null || count === 0)
-    return (<span>-</span>)
-  const countText = isGS ?
-    (count > 1 ? `1~${count}` : '1') :
-    `0~${count}`
-  return (
-    <span>
-      <ItemIcon style={{width: '1.1em'}} name={name} />
-      <span>{`x${countText}`}</span>
-    </span>
-  )
-}
-
-const resourceColor = {
-  fuel: '#276F1D',
-  ammo: '#615233',
-  steel: '#727272',
-  bauxite: '#B98154',
-}
-
-const genBool = () => _.sample([false,true])
-
-const genIncomeModifier = () => {
-  const type = _.sample(['standard','custom'])
-  if (type === 'standard') {
-    return {
-      type,
-      gs: genBool(),
-      daihatsu: _.random(0,4),
-    }
-  }
-
-  if (type === 'custom') {
-    return {
-      type,
-      value: _.random(1,1.3),
-    }
-  }
-}
-
-const genCostConfig = () => {
-  const type = _.sample(['cost-model','custom'])
-  if (type === 'cost-model') {
-    const wildcard = _.sample([false, 'DD','DE','SS'])
-    return {
-      type,
-      wildcard,
-      count: _.random(1,6),
-    }
-  }
-
-  if (type === 'custom') {
-    return {
-      type,
-      fuel: _.random(0,500),
-      ammo: _.random(0,500),
-    }
-  }
-}
-
-const genExpedConfig = () => {
-  const modifier = genIncomeModifier()
-  const cost = genCostConfig()
-  return {modifier, cost}
-}
-
-const randomExpedConfigTable = {}
-for (let i = 1; i <= 40; ++i) {
-  randomExpedConfigTable[i] = genExpedConfig()
-}
-
-const pprModifier = modifier => {
-  if (modifier.type === 'standard')
-    return `${modifier.gs ? 'gs' : 'norm'}, DLC x ${modifier.daihatsu}`
-  if (modifier.type === 'custom')
-    return `${modifier.value.toFixed(2)}`
-}
-
-const pprCost = cost => {
-  if (cost.type === 'cost-model') {
-    return cost.wildcard === false ? 'N/A' : `>=${cost.count}, *=${cost.wildcard}`
-  }
-  if (cost.type === 'custom')
-    return `${-cost.fuel} ${-cost.ammo}`
-}
+const defineHeader = (key, content, style) => ({key, content, style})
 
 class ExpedTableImpl extends Component {
-  static defineHeader = (key, content, style) => ({key, content, style})
+  static propTypes = {
+    expedConfigs: PTyp.objectOf(PTyp.object).isRequired,
+    modifyExpedConfig: PTyp.func.isRequired,
+  }
 
   static headers = [
-    ExpedTableImpl.defineHeader(
+    defineHeader(
       'id', '#', {width: '2em'}),
-    ExpedTableImpl.defineHeader(
+    defineHeader(
       'name', 'Name', {}),
-    ExpedTableImpl.defineHeader(
+    defineHeader(
       'time', <FontAwesome name="clock-o" />, {width: '3.2em'}),
     ...resourceProperties.map(rp =>
-      ExpedTableImpl.defineHeader(
+      defineHeader(
         rp, <ItemIcon name={rp} style={{height: '1em'}} /> , {width: '3.4em'})),
-    ExpedTableImpl.defineHeader('item-1', 'Item 1', {width: '4em'}),
-    ExpedTableImpl.defineHeader('item-2', 'Item 2', {width: '4em'}),
-    ExpedTableImpl.defineHeader('mod', 'Modifier', {width: '8em'}),
-    ExpedTableImpl.defineHeader('cost', 'Cost', {width: '8em'}),
-    ExpedTableImpl.defineHeader('control', '...', {width: '4em'}),
+    defineHeader('item-1', 'Item 1', {width: '4em'}),
+    defineHeader('item-2', 'Item 2', {width: '4em'}),
+    defineHeader('mod', 'Modifier', {width: '8em'}),
+    defineHeader('cost', 'Cost', {width: '8em'}),
+    defineHeader('control', '...', {width: '4em'}),
   ]
 
   constructor(props) {
@@ -183,7 +70,7 @@ class ExpedTableImpl extends Component {
   }
 
   render() {
-    const { expedConfigs } = this.props
+    const {expedConfigs} = this.props
     return (
       <ListGroup>
         {
