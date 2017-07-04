@@ -1,5 +1,7 @@
+import _ from 'lodash'
 import { enumFromTo } from './utils'
 
+import { $missions } from './master-data'
 import expedInfoListRaw from './assets/exped-info.json'
 
 // an Array from 1 to 40, to be used as expedition ids
@@ -19,20 +21,24 @@ const itemIdToName = x =>
 
 const expedInfoList = expedInfoListRaw.map(raw => {
   const id = raw.api_id
-  const name = raw.api_name
-  const time = raw.api_time
+  const $mission = $missions[id]
+  const name = $mission.api_name
+  const time = $mission.api_time
   const [fuel,ammo,steel,bauxite] = raw.resource
   const fromRawItem = ([itmId, itmCnt]) =>
     ({name: itemIdToName(itmId), count: itmCnt})
 
-  const itemProb = fromRawItem(raw.api_win_item1)
-  const itemGS = fromRawItem(raw.api_win_item2)
+  const itemProb = fromRawItem($mission.api_win_item1)
+  const itemGS = fromRawItem($mission.api_win_item2)
+  const fuelPercent = Math.round($mission.api_use_fuel * 100)
+  const ammoPercent = Math.round($mission.api_use_null * 100)
   return {
     id, name, time,
     resource: {fuel, ammo, steel, bauxite},
     // itemProb: item obtainable randomly from expedition
     // itemGS: guaranteed item if great success is achieved
     itemProb, itemGS,
+    cost: {fuelPercent, ammoPercent},
   }
 })
 
