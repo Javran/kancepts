@@ -85,7 +85,7 @@ class TableControlImpl extends Component {
   render() {
     const rowStyle = {display: 'flex', alignItems: 'center', marginBottom: 10}
     const headerStyle = {marginRight: 5, width: '4%', minWidth: '45px'}
-    const sorterBtnStyle = {minWidth: 80}
+    const sorterBtnStyle = {minWidth: 90}
     const {control} = this.props
     return (
       <div>
