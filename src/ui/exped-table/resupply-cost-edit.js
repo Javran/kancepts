@@ -33,9 +33,7 @@ class ResupplyCostEdit extends Component {
   }
 
   handleChangeWildcard = e => {
-    const wildcardStr = e.target.value
-    const wildcard =
-      wildcardStr === 'false' ? false : wildcardStr
+    const wildcard = e.target.value
     const {onModify} = this.props
     onModify(cost => ({
       ...cost,
@@ -86,11 +84,10 @@ class ResupplyCostEdit extends Component {
               </div>
               <FormControl
                 onChange={this.handleChangeShipCount}
-                disabled={cost.costModel.wildcard === false}
                 value={cost.costModel.count}
                 componentClass="select" style={{width: '60%', flex: 1}}>
                 {
-                  [6,5,4,3,2,1].map(x => (
+                  [6,5,4,3,2,1,0].map(x => (
                     <option value={x} key={x}>{x}</option>
                   ))
                 }
@@ -106,10 +103,9 @@ class ResupplyCostEdit extends Component {
                 componentClass="select"
                 style={{width: '60%', flex: 1}}>
                 {
-                  [false,'DD','SS','DE'].map(x => (
+                  ['DD','SS','DE'].map(x => (
                     <option value={x} key={x}>
                       {
-                        x === false ? 'None' :
                         x === 'DD' ? 'Destroyer (DD)' :
                         x === 'SS' ? 'Submarine (SS)' :
                         x === 'DE' ? 'Escort (DE)' :

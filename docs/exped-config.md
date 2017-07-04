@@ -81,7 +81,7 @@ This structure determines resupply cost.
     ```
     {
         type: 'cost-model',
-        wildcard: false / 'DD' / 'DE' / 'SS',
+        wildcard: 'DD' / 'DE' / 'SS',
         count: 1~6,
     }
     ```
@@ -100,9 +100,6 @@ This structure determines resupply cost.
 
 
     Notes:
-
-    - When `wildcard` is `false`, it means we are not requiring more ships,
-      in this case `count` is ignored.
 
     - Due to rarity of escort ships (`DE`), they are not included in
       default fleet compositions.

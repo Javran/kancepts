@@ -63,7 +63,7 @@ const viewCost = cost => {
   if (cost.type === 'cost-model') {
     return (
       <div>
-        {cost.wildcard === false ? 'N/A' : `>=${cost.count}, *=${cost.wildcard}`}
+        {`>=${cost.count}, *=${cost.wildcard}`}
       </div>
     )
   }

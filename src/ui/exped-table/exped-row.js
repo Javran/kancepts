@@ -38,7 +38,7 @@ const createCostEditorState = cost => {
       curType: 'cost-model',
       costModel: {
         wildcard: cost.wildcard,
-        count: typeof cost.count === 'undefined' ? 6 : cost.count,
+        count: cost.count,
       },
       custom: {
         fuelStr: '0',
@@ -51,7 +51,7 @@ const createCostEditorState = cost => {
     return {
       curType: 'custom',
       costModel: {
-        wildcard: false,
+        wildcard: 'DD',
         count: 6,
       },
       custom: {
@@ -102,14 +102,9 @@ const editorStateToConfig = editorState => {
       return null
     if (costES.curType === 'cost-model') {
       const {wildcard, count} = costES.costModel
-      if ([false, 'DD', 'SS', 'DE'].includes(wildcard) &&
-          (wildcard === false ||
-           _.isInteger(count) && count >= 1 && count <= 6)) {
-        if (wildcard === false) {
-          return {type: 'cost-model', wildcard}
-        } else {
-          return {type: 'cost-model', wildcard, count}
-        }
+      if (['DD', 'SS', 'DE'].includes(wildcard) &&
+          _.isInteger(count) && count >= 0 && count <= 6) {
+        return {type: 'cost-model', wildcard, count}
       } else {
         return null
       }
