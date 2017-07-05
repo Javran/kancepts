@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import {
   Panel,
   Button,
+  FormGroup, Radio,
 } from 'react-bootstrap'
 
 import {
@@ -48,6 +49,15 @@ class ControlImpl extends Component {
       expedFlags: _.fromPairs(
         allExpedIdList.map(id =>
           [id, ids.includes(id)])),
+    }))
+  }
+
+  handleChangeFleetCount = e => {
+    const fleetCount = parseInt(e.target.value,10)
+    const {modifyPlanner} = this.props
+    modifyPlanner(planner => ({
+      ...planner,
+      fleetCount,
     }))
   }
 
@@ -185,7 +195,24 @@ class ControlImpl extends Component {
             }}
             header="Fleets"
           >
-            Available fleets
+            <FormGroup
+              style={{paddingLeft: 8, width: '100%'}}
+              checked={planner.fleetCount}
+            >
+              {
+                [3,2,1].map(fleetCount => (
+                  <Radio
+                    style={{width: '100%'}}
+                    key={fleetCount}
+                    checked={fleetCount===planner.fleetCount}
+                    onChange={this.handleChangeFleetCount}
+                    name="fleet-count"
+                    value={fleetCount}>
+                    {`${fleetCount} Fleet(s)`}
+                  </Radio>
+                ))
+              }
+            </FormGroup>
           </Panel>
         </div>
       </div>
