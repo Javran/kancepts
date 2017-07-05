@@ -8,30 +8,12 @@ import { ItemIcon } from '../item-icon'
 import { plannerResultsSelector } from '../../selectors'
 import { PTyp } from '../../ptyp'
 
-const genRandomResults = () => _.fill(new Array(_.random(10,20)),undefined).map(() => {
-  const expedIds = [1,2,3]
-  const score = _.random(1000,5000)
-  const resource = _.fromPairs(
-    resourceProperties.map(rp =>
-      [rp, _.random(1000,2000)/10]))
-  return {expedIds, score, resource}
-})
-
 class ResultTableImpl extends Component {
   static propTypes = {
     results: PTyp.array.isRequired,
   }
   render() {
-    /*
-       TODO every structure looks like:
-       {
-         expedIds: <list of expedition ids>,
-         resource: <resource object>,
-         score: <number>,
-       }
-     */
-    // const {results} = this.props
-    const results = genRandomResults()
+    const {results} = this.props
     return (
       <div
         style={{

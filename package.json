@@ -15,7 +15,8 @@
     "react-redux": "^5.0.5",
     "redux": "^3.7.1",
     "redux-observers": "^2.0.2",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "shallowequal": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "^3.19.0",

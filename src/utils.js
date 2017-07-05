@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import shallowequal from 'shallowequal'
 
 // enumFromTo(x,y) = [x,x+1,x+2...y]
 // only guarantee to work on increasing sequences
@@ -195,6 +196,8 @@ const pickSomeFrom = (() => {
   return pickSomeFromImpl
 })()
 
+const shallowEqual = shallowequal
+
 export {
   enumFromTo,
   ignore,
@@ -220,4 +223,5 @@ export {
   memoizeFixedArity,
 
   pickSomeFrom,
+  shallowEqual,
 }
