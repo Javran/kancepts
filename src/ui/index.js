@@ -5,6 +5,7 @@ import {
   Nav, NavItem,
 } from 'react-bootstrap'
 
+import { Planner } from './planner'
 import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
 import { CostModel } from './cost-model'
@@ -16,7 +17,7 @@ class KanceptsMain extends Component {
     this.unsubscribe = null
 
     this.state = {
-      activeKey: 'config',
+      activeKey: 'planner',
     }
   }
 
@@ -66,7 +67,7 @@ class KanceptsMain extends Component {
             <Col sm={10}>
               <Tab.Content animation>
                 <Tab.Pane eventKey="planner">
-                  planner placeholder
+                  <Planner />
                 </Tab.Pane>
                 <Tab.Pane eventKey="config">
                   <ExpedTable />

@@ -118,6 +118,14 @@ const expedInfoList = expedInfoListRaw.map(raw => {
   }
 })
 
+const formatTime = minutes => {
+  const mm = minutes % 60
+  const hh = Math.round((minutes - mm) / 60)
+  const mmText = _.padStart(mm, 2, '0')
+  const hhText = _.padStart(hh, 2, '0')
+  return `${hhText}:${mmText}`
+}
+
 export {
   allExpedIdList,
   expedInfoList,
@@ -125,4 +133,5 @@ export {
   onResourceValue,
   applyIncomeModifier,
   computeResupplyInfo,
+  formatTime,
 }

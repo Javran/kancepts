@@ -5,14 +5,7 @@ import FontAwesome from 'react-fontawesome'
 
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
-
-const formatTime = minutes => {
-  const mm = minutes % 60
-  const hh = Math.round((minutes - mm) / 60)
-  const mmText = _.padStart(mm, 2, '0')
-  const hhText = _.padStart(hh, 2, '0')
-  return `${hhText}:${mmText}`
-}
+import { formatTime } from '../../exped-info'
 
 const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
 
