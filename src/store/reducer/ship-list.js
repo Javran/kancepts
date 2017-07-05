@@ -31,8 +31,6 @@ const defaultShipList = normalizeShipList(rawDefaultShipList)
 
 // NOTE: shipList, as a reducer, should provide a default value when it's missing
 // it's preloadedState that loads user settings and has it passed to this reducer.
-const reducer = (state = defaultShipList, _action) => {
-  return state
-}
+const reducer = (state = defaultShipList, _action) => state
 
 export { reducer }

@@ -6,5 +6,9 @@
 node --version
 
 find . -type f -name '*.js' \
-  -not \( -path "./.git/*" -o -path "./node_modules/*" -o -path "./.eslintrc.js" \) \
+  -not \( -path "./.git/*" -o \
+          -path "./node_modules/*" -o \
+          -path "./.eslintrc.js" -o \
+          -path "./build/*" \
+       \) \
   -exec ./node_modules/eslint/bin/eslint.js {} +

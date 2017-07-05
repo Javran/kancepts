@@ -51,7 +51,15 @@ module.exports = {
     'array-callback-return': 'off',
     'no-nested-ternary': 'off',
     'no-confusing-arrow': 'off',
-    'no-unused-vars': ['error', {'vars': 'all', 'varsIgnorePattern': '^_', 'args': 'all', 'argsIgnorePattern': '^_'}],
+    'no-unused-vars':
+      [ 'error',
+        {
+          'vars': 'all',
+          'varsIgnorePattern': '^_.+',
+          'args': 'all',
+          'argsIgnorePattern': '^_.+'
+        }
+      ],
     'no-else-return': 'off',
     'react/forbid-prop-types': 'off',
     'react/prefer-stateless-function': 'off',

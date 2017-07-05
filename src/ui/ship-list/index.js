@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
@@ -30,6 +29,10 @@ const WrappedTd = ({content}) => (
 WrappedTd.propTypes = PTyp.node.isRequired
 
 class ShipListImpl extends Component {
+  static propTypes = {
+    shipDetailList: PTyp.array.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.state = {

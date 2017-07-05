@@ -5,7 +5,24 @@ import FontAwesome from 'react-fontawesome'
 import { IncomeModifierEdit } from './income-modifier-edit'
 import { ResupplyCostEdit } from './resupply-cost-edit'
 
+import { PTyp } from '../../ptyp'
+
 class ExpedRowEdit extends Component {
+  static propTypes = {
+    modifier: PTyp.object,
+    cost: PTyp.object,
+    id: PTyp.number.isRequired,
+    onModifyModifier: PTyp.func.isRequired,
+    onModifyCost: PTyp.func.isRequired,
+    onSave: PTyp.func,
+  }
+
+  static defaultProps = {
+    modifier: null,
+    cost: null,
+    onSave: null,
+  }
+
   render() {
     const {
       modifier, cost, id,

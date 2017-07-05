@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import { Table } from 'react-bootstrap'
-import _ from 'lodash'
 
 import { enumFromTo } from '../../utils'
 import { filters } from '../../ship-filters'
 
+import { PTyp } from '../../ptyp'
+
 class CostTable extends Component {
+  static propTypes = {
+    costModel: PTyp.func.isRequired,
+    fuelPercent: PTyp.number.isRequired,
+    ammoPercent: PTyp.number.isRequired,
+  }
+
   render() {
     const {
       costModel,

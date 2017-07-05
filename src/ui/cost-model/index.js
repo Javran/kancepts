@@ -8,7 +8,13 @@ import {
 import { CostPicker } from '../cost-picker'
 import { CostTable } from './cost-table'
 
+import { PTyp } from '../../ptyp'
+
 class CostModelImpl extends Component {
+  static propTypes = {
+    costModel: PTyp.func.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.state = {

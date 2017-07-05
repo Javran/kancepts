@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Collapse } from 'react-bootstrap'
 import { ExpedRowView } from './exped-row-view'
 import { ExpedRowEdit } from './exped-row-edit'
+import { PTyp } from '../../ptyp'
 
 const createModifierEditorState = modifier => {
   if (modifier.type === 'standard') {
@@ -129,6 +130,11 @@ const editorStateToConfig = editorState => {
 }
 
 class ExpedRow extends Component {
+  static propTypes = {
+    expedInfoView: PTyp.object.isRequired,
+    onModify: PTyp.func.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -177,7 +183,7 @@ class ExpedRow extends Component {
   }
 
   render() {
-    const {expedInfoView, onModify} = this.props
+    const {expedInfoView} = this.props
     const {info} = expedInfoView
     const {editing} = this.state
 

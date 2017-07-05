@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
 import { ItemIcon } from '../item-icon'
+import { PTyp } from '../../ptyp'
 
 const formatTime = minutes => {
   const mm = minutes % 60
@@ -90,6 +91,12 @@ const viewCost = cost => {
 }
 
 class ExpedRowView extends Component {
+  static propTypes = {
+    expedInfoView: PTyp.object.isRequired,
+    editing: PTyp.bool.isRequired,
+    onToggleEditor: PTyp.func.isRequired,
+  }
+
   render() {
     const {
       expedInfoView,
