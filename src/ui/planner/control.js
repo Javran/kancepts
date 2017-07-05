@@ -3,17 +3,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
   Panel,
-  Button,
-  FormGroup, Radio,
-  Form, FormControl,
 } from 'react-bootstrap'
-
-import Slider from 'rc-slider'
 
 import {
   allExpedIdList,
-  formatTime,
-  expedInfoList,
 } from '../../exped-info'
 
 import {
@@ -25,10 +18,13 @@ import {
 } from '../../store/reducer/ui/planner'
 
 import { PTyp } from '../../ptyp'
-import { enumFromTo } from '../../utils'
-import { presets } from '../../exped-info/presets'
 
 import { ExpedPanel } from './exped-panel'
+import { PresetPanel } from './preset-panel'
+import { ResourcePriorityPanel } from './resource-priority-panel'
+import { AfkTimePanel } from './afk-time-panel'
+import { FleetCountPanel } from './fleet-count-panel'
+
 
 class ControlImpl extends Component {
   static propTypes = {
@@ -94,102 +90,44 @@ class ControlImpl extends Component {
       <div className="planner-control-panels">
         <div style={ctrlRowStyle}>
           <ExpedPanel
-            style={panelStyle}
+            style={{
+              ...panelStyle,
+              width: '80%',
+            }}
             expedFlags={expedFlags}
             onToggleExped={this.handleToggleExped}
           />
-          <Panel
+          <PresetPanel
             style={{
               ...panelStyle,
               width: '20%',
             }}
-            header="Presets"
-          >
-            <div style={{padding: '4px 2px'}}>
-              {
-                presets.map((preset,ind) => (
-                  <Button
-                    block
-                    onClick={this.handleApplyPreset(preset.ids)}
-                    key={
-                      // eslint-disable-next-line react/no-array-index-key
-                      ind
-                    }
-                  >
-                    {preset.name}
-                  </Button>
-                ))
-              }
-            </div>
-          </Panel>
+            onApplyPreset={this.handleApplyPreset}
+          />
         </div>
         <div style={ctrlRowStyle}>
-          <Panel
+          <ResourcePriorityPanel
             style={{
               ...panelStyle,
               flex: 3,
             }}
-            header="Priority"
-          >
-            <Slider
-              min={-5}
-              max={20}
-              step={1}
-              marks={
-                _.fromPairs(enumFromTo(-5,20,v => v+5)
-                  .map(x => [x,x]))}
+          />
+          <AfkTimePanel
+            style={{
+              ...panelStyle,
+              flex: 1,
+            }}
+            afkTime={planner.afkTime}
+            onChangeAfkTime={this.handleChangeAfkTime}
             />
-          </Panel>
-          <Panel
+          <FleetCountPanel
             style={{
               ...panelStyle,
               flex: 1,
             }}
-            header="AFK Time"
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}>
-              <Form inline style={{width: '60%', flex: 1}}>
-                <FormControl
-                  onChange={this.handleChangeAfkTime}
-                  value={planner.afkTime}
-                  type="number" style={{width: '100%'}}
-                />
-              </Form>
-              <div style={{marginLeft: '.5em'}}>
-                Mins
-              </div>
-            </div>
-          </Panel>
-          <Panel
-            style={{
-              ...panelStyle,
-              flex: 1,
-            }}
-            header="Fleets"
-          >
-            <FormGroup
-              style={{paddingLeft: 8, width: '100%'}}
-              checked={planner.fleetCount}
-            >
-              {
-                [3,2,1].map(fleetCount => (
-                  <Radio
-                    style={{width: '100%'}}
-                    key={fleetCount}
-                    checked={fleetCount===planner.fleetCount}
-                    onChange={this.handleChangeFleetCount}
-                    name="fleet-count"
-                    value={fleetCount}>
-                    {`${fleetCount} Fleet(s)`}
-                  </Radio>
-                ))
-              }
-            </FormGroup>
-          </Panel>
+            fleetCount={planner.fleetCount}
+            onChangeFleetCount={this.handleChangeFleetCount}
+          />
         </div>
       </div>
     )

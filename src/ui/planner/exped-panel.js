@@ -27,10 +27,7 @@ class ExpedPanel extends Component {
     const {style, expedFlags, onToggleExped} = this.props
     return (
       <Panel
-        style={{
-          ...style,
-          width: '80%',
-        }}
+        style={style}
         header="Expeditions"
       >
         <div style={{
