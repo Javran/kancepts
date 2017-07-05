@@ -8,6 +8,7 @@ import {
   applyIncomeModifier,
   computeResupplyInfo,
   onResourceValue,
+  resourceProperties,
 } from './exped-info'
 
 const shipListSelector = state => state.shipList
@@ -135,12 +136,55 @@ const tableUISelector = createSelector(
   uiSelector,
   ui => ui.table)
 
+const expedViewSortFunctionSelector = createSelector(
+  tableUISelector,
+  tableControl => {
+    const sortSpec = tableControl.sort
+    const idGetter = expedView => expedView.id
+    const timeGetter = expedView => expedView.info.time
+    const resourceGetter = rp =>
+      expedView => {
+        const v = expedView.showResource[rp]
+        return v === null ? 0 : v
+      }
+    const getterToComparator = (getter, flip=false) =>
+      (x,y) => {
+        const xVal = getter(x)
+        const yVal = getter(y)
+        return flip ? yVal-xVal : xVal-yVal
+      }
+
+    const idComparator = getterToComparator(idGetter)
+    const comparator =
+      sortSpec.method === 'id' ?
+        idComparator :
+      sortSpec.method === 'time' ?
+        getterToComparator(timeGetter) :
+      resourceProperties.includes(sortSpec.method) ?
+        getterToComparator(resourceGetter(sortSpec.method),true) :
+      console.error(`unknown sort method: ${sortSpec.method}`)
+    // use idComparator as tiebreaker
+    const resolvedComparator = (x,y) => {
+      const result = comparator(x,y)
+      return result === 0 ? idComparator(x,y) : result
+    }
+
+    return xs => {
+      let ys = [...xs]
+      ys = ys.sort(resolvedComparator)
+      if (sortSpec.reversed)
+        ys = ys.reverse()
+      return ys
+    }
+  })
+
 // expedition info for viewing on exped table UI
 const expedInfoViewListSelector = createSelector(
   expedConfigsSelector,
   tableUISelector,
   costModelSelector,
-  (expedConfigs, tableControl, costModel) => {
+  expedViewSortFunctionSelector,
+  (expedConfigs, tableControl, costModel, sortFunc) => {
     const incomeViewMethod = tableControl.view.income
     const divideMethod = tableControl.view.divide
     const expedInfoViewList = expedInfoList.map(info => {
@@ -184,7 +228,7 @@ const expedInfoViewListSelector = createSelector(
         resupplyInfo,
       }
     })
-    return expedInfoViewList
+    return sortFunc(expedInfoViewList)
   })
 
 export {
