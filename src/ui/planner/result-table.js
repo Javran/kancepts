@@ -14,6 +14,7 @@ class ResultTableImpl extends Component {
   }
   render() {
     const {results} = this.props
+    const pprNum = x => _.isInteger(x) ? String(x) : x.toFixed(2)
     return (
       <div
         style={{
@@ -57,11 +58,11 @@ class ResultTableImpl extends Component {
                     {
                       resourceProperties.map(rp => (
                         <td key={rp}>
-                          {resource[rp]}
+                          {pprNum(resource[rp])}
                         </td>
                       ))
                     }
-                    <td key="score">{score}</td>
+                    <td key="score">{pprNum(score)}</td>
                   </tr>
                 )
               })

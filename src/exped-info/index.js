@@ -3,6 +3,8 @@ import _ from 'lodash'
 import {
   allExpedIdList,
   resourceProperties,
+  emptyResource,
+  liftBinaryToResource,
 } from './common'
 
 import { $missions } from '../master-data'
@@ -125,10 +127,15 @@ const formatTime = minutes => {
   return `${hhText}:${mmText}`
 }
 
+const plusResource = liftBinaryToResource((x,y) => x+y)
+
 export {
   allExpedIdList,
   expedInfoList,
   resourceProperties,
+  emptyResource,
+  plusResource,
+  liftBinaryToResource,
   onResourceValue,
   applyIncomeModifier,
   computeResupplyInfo,
