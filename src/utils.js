@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 // enumFromTo(x,y) = [x,x+1,x+2...y]
 // only guarantee to work on increasing sequences
 const enumFromTo = (frm,to,succ=(x => x+1)) => {
@@ -161,6 +163,38 @@ const memoizeFixedArity = arity => func => {
   }
 }
 
+const pickSomeFrom = (() => {
+  // nondeterministically pick one value from an array
+  // and only keep those after the picked one.
+  const pickOneFrom = xs => {
+    if (xs.length === 0) {
+      return []
+    } else {
+      return xs.map((x,ind) => ({
+        picked: x,
+        remained: xs.filter((_ignored,rInd) => ind < rInd),
+      }))
+    }
+  }
+
+  const pickSomeFromImpl = n => xs => {
+    if (n === 0) {
+      return [{pickedList: [], remained: xs}]
+    }
+
+    // all possible ways to pick one from 'xs'
+    const alts = pickOneFrom(xs)
+    return _.flatMap(alts, ({picked,remained}) => {
+      const results = pickSomeFromImpl(n-1)(remained)
+      return results.map(result => ({
+        ...result,
+        pickedList: [picked, ...result.pickedList],
+      }))
+    })
+  }
+  return pickSomeFromImpl
+})()
+
 export {
   enumFromTo,
   ignore,
@@ -184,4 +218,6 @@ export {
   deepMapToObject,
 
   memoizeFixedArity,
+
+  pickSomeFrom,
 }
