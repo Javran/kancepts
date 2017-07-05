@@ -136,9 +136,13 @@ const tableUISelector = createSelector(
   uiSelector,
   ui => ui.table)
 
-const plannerUISelector = createSelector(
+const plannerSelector = createSelector(
   uiSelector,
   ui => ui.planner)
+
+const plannerConfigSelector = createSelector(
+  plannerSelector,
+  planner => planner.config)
 
 const expedViewSortFunctionSelector = createSelector(
   tableUISelector,
@@ -242,6 +246,6 @@ export {
   expedConfigsSelector,
   uiSelector,
   tableUISelector,
-  plannerUISelector,
+  plannerConfigSelector,
   expedInfoViewListSelector,
 }

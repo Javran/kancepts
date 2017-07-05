@@ -1,21 +1,18 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {
-  Panel,
-} from 'react-bootstrap'
 
 import {
   allExpedIdList,
 } from '../../exped-info'
 
 import {
-  plannerUISelector,
+  plannerConfigSelector,
 } from '../../selectors'
 
 import {
   mapDispatchToProps,
-} from '../../store/reducer/ui/planner'
+} from '../../store/reducer/ui/planner/config'
 
 import { PTyp } from '../../ptyp'
 
@@ -146,7 +143,7 @@ class ControlImpl extends Component {
 
 const Control = connect(
   state => {
-    const planner = plannerUISelector(state)
+    const planner = plannerConfigSelector(state)
     return {planner}
   },
   mapDispatchToProps,

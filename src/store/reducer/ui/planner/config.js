@@ -2,7 +2,7 @@ import _ from 'lodash'
 import {
   allExpedIdList,
   resourceProperties,
-} from '../../../exped-info'
+} from '../../../../exped-info'
 
 const initState = {
   expedFlags: _.fromPairs(
