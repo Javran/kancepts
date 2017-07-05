@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Panel,
   Button,
@@ -11,7 +12,45 @@ import {
   expedInfoList,
 } from '../../exped-info'
 
-class Control extends Component {
+import {
+  plannerUISelector,
+} from '../../selectors'
+
+import {
+  mapDispatchToProps,
+} from '../../store/reducer/ui/planner'
+
+import { PTyp } from '../../ptyp'
+
+import { presets } from '../../exped-info/presets'
+
+class ControlImpl extends Component {
+  static propTypes = {
+    planner: PTyp.object.isRequired,
+    modifyPlanner: PTyp.func.isRequired,
+  }
+
+  handleToggleExped = id => () => {
+    const {modifyPlanner} = this.props
+    modifyPlanner(planner => ({
+      ...planner,
+      expedFlags: {
+        ...planner.expedFlags,
+        [id]: !planner.expedFlags[id],
+      },
+    }))
+  }
+
+  handleApplyPreset = ids => () => {
+    const {modifyPlanner} = this.props
+    modifyPlanner(planner => ({
+      ...planner,
+      expedFlags: _.fromPairs(
+        allExpedIdList.map(id =>
+          [id, ids.includes(id)])),
+    }))
+  }
+
   render() {
     const ctrlRowStyle = {
       display: 'flex',
@@ -23,6 +62,9 @@ class Control extends Component {
       marginBottom: 0,
       marginLeft: 8,
     }
+
+    const {planner} = this.props
+    const {expedFlags} = planner
 
     return (
       <div className="planner-control-panels">
@@ -50,11 +92,15 @@ class Control extends Component {
                     >
                       {
                         expedIds.map(expedId => {
-                          const info = expedInfoList.find(i => i.id === expedId)
+                          const info =
+                            expedInfoList.find(i => i.id === expedId)
+                          const flag = expedFlags[expedId]
                           return (
                             <Button
                               key={expedId}
+                              bsStyle={flag ? 'success' : 'default'}
                               bsSize="small"
+                              onClick={this.handleToggleExped(expedId)}
                               block>
                               <div style={{
                                 width: '100%',
@@ -94,7 +140,23 @@ class Control extends Component {
             }}
             header="Presets"
           >
-            Presets
+            <div>
+              {
+                presets.map((preset,ind) => (
+                  <Button
+                    block
+                    onClick={this.handleApplyPreset(preset.ids)}
+                    bsSize="small"
+                    key={
+                      // eslint-disable-next-line react/no-array-index-key
+                      ind
+                    }
+                  >
+                    {preset.name}
+                  </Button>
+                ))
+              }
+            </div>
           </Panel>
         </div>
         <div style={ctrlRowStyle}>
@@ -130,6 +192,14 @@ class Control extends Component {
     )
   }
 }
+
+const Control = connect(
+  state => {
+    const planner = plannerUISelector(state)
+    return {planner}
+  },
+  mapDispatchToProps,
+)(ControlImpl)
 
 export {
   Control,

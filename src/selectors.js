@@ -136,6 +136,10 @@ const tableUISelector = createSelector(
   uiSelector,
   ui => ui.table)
 
+const plannerUISelector = createSelector(
+  uiSelector,
+  ui => ui.planner)
+
 const expedViewSortFunctionSelector = createSelector(
   tableUISelector,
   tableControl => {
@@ -238,5 +242,6 @@ export {
   expedConfigsSelector,
   uiSelector,
   tableUISelector,
+  plannerUISelector,
   expedInfoViewListSelector,
 }

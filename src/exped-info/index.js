@@ -1,15 +1,14 @@
 import _ from 'lodash'
-import { enumFromTo } from '../utils'
+
+import {
+  allExpedIdList,
+  resourceProperties,
+} from './common'
 
 import { $missions } from '../master-data'
 import expedInfoListRaw from '../assets/exped-info.json'
 
 import { minimalFleetCompos, atLeast, applyWildcard } from './fleet-compo'
-
-// an Array from 1 to 40, to be used as expedition ids
-const allExpedIdList = enumFromTo(1,40)
-
-const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
 
 // f(<value>,<resource prooerty>,<resource structure>)
 const onResourceValue = f => resource =>
