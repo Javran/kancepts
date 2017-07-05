@@ -8,6 +8,8 @@ import {
   Form, FormControl,
 } from 'react-bootstrap'
 
+import Slider from 'rc-slider'
+
 import {
   allExpedIdList,
   formatTime,
@@ -23,8 +25,10 @@ import {
 } from '../../store/reducer/ui/planner'
 
 import { PTyp } from '../../ptyp'
-
+import { enumFromTo } from '../../utils'
 import { presets } from '../../exped-info/presets'
+
+import { ExpedPanel } from './exped-panel'
 
 class ControlImpl extends Component {
   static propTypes = {
@@ -89,70 +93,11 @@ class ControlImpl extends Component {
     return (
       <div className="planner-control-panels">
         <div style={ctrlRowStyle}>
-          <Panel
-            style={{
-              ...panelStyle,
-              width: '80%',
-            }}
-            header="Expeditions"
-          >
-            <div style={{
-              display: 'flex',
-              padding: '4px 2px',
-              justifyContent: 'space-between',
-            }}>
-              {
-
-                _.chunk(allExpedIdList,8).map((expedIds,ind) => {
-                  const world = ind+1
-                  return (
-                    <div
-                      key={world}
-                      style={{width: '19%', marginRight: 2, marginLeft: 2}}
-                    >
-                      {
-                        expedIds.map(expedId => {
-                          const info =
-                            expedInfoList.find(i => i.id === expedId)
-                          const flag = expedFlags[expedId]
-                          return (
-                            <Button
-                              key={expedId}
-                              bsStyle={flag ? 'success' : 'default'}
-                              bsSize="small"
-                              onClick={this.handleToggleExped(expedId)}
-                              block>
-                              <div style={{
-                                width: '100%',
-                                display: 'flex', alignItems: 'baseline'}}>
-                                <div
-                                  style={{
-                                    flex: 1,
-                                    textAlign: 'left',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap',
-                                    overflow: 'hidden',
-                                    paddingRight: '0.2em',
-                                  }}
-                                >
-                                  {`${expedId} ${info.name}`}
-                                </div>
-                                <div style={{
-                                  alignSelf: 'flex-right',
-                                  textAlign: 'right'}}>
-                                  {formatTime(info.time)}
-                                </div>
-                              </div>
-                            </Button>
-                          )
-                        })
-                      }
-                    </div>
-                  )
-                })
-              }
-            </div>
-          </Panel>
+          <ExpedPanel
+            style={panelStyle}
+            expedFlags={expedFlags}
+            onToggleExped={this.handleToggleExped}
+          />
           <Panel
             style={{
               ...panelStyle,
@@ -186,7 +131,14 @@ class ControlImpl extends Component {
             }}
             header="Priority"
           >
-            Resource Priority
+            <Slider
+              min={-5}
+              max={20}
+              step={1}
+              marks={
+                _.fromPairs(enumFromTo(-5,20,v => v+5)
+                  .map(x => [x,x]))}
+            />
           </Panel>
           <Panel
             style={{

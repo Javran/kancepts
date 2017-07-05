@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { join } from 'path-extra'
 import { Provider } from 'react-redux'
 
+import 'rc-slider/assets/index.css'
 import 'font-awesome/css/font-awesome.css'
 import './assets/index.css'
 
