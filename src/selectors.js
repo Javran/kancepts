@@ -9,6 +9,7 @@ import {
   computeResupplyInfo,
   onResourceValue,
   resourceProperties,
+  allExpedIdList,
 } from './exped-info'
 
 const shipListSelector = state => state.shipList
@@ -190,34 +191,61 @@ const expedViewSortFunctionSelector = createSelector(
     }
   })
 
+const makeExpedIncomeSelector = expedId => createSelector(
+  expedConfigsSelector,
+  costModelSelector,
+  (expedConfigs, costModel) => {
+    const id = expedId
+    const info = expedInfoList.find(ei => ei.id === id)
+    const {cost} = info
+    const costModelPartial = costModel(cost)
+    const basic = info.resource
+    const config = expedConfigs[expedId]
+    const gross =
+      applyIncomeModifier(config.modifier)(basic)
+    const resupplyInfo =
+      computeResupplyInfo(config.cost)(info,costModelPartial)
+    const applyResupply = (val, rp) => {
+      if (rp === 'fuel' || rp === 'ammo') {
+        if (resupplyInfo.cost === null)
+          return null
+        return val - resupplyInfo.cost[rp]
+      } else {
+        return val
+      }
+    }
+    const net = onResourceValue(applyResupply)(gross)
+    return {
+      basic,
+      gross,
+      net,
+    }
+  })
+
+const expedIncomesSelector = createSelector(
+  allExpedIdList.map(makeExpedIncomeSelector),
+  (...incomes) => _.fromPairs(_.zip(allExpedIdList,incomes)))
+
 // expedition info for viewing on exped table UI
 const expedInfoViewListSelector = createSelector(
   expedConfigsSelector,
   tableUISelector,
   costModelSelector,
+  expedIncomesSelector,
   expedViewSortFunctionSelector,
-  (expedConfigs, tableControl, costModel, sortFunc) => {
+  (expedConfigs, tableControl, costModel, expedIncomes, sortFunc) => {
     const incomeViewMethod = tableControl.view.income
     const divideMethod = tableControl.view.divide
     const expedInfoViewList = expedInfoList.map(info => {
       const {id,cost} = info
       const costModelPartial = costModel(cost)
       const config = expedConfigs[id]
-      const basicResource = info.resource
-      const grossResource =
-        applyIncomeModifier(config.modifier)(basicResource)
+      const expedIncome = expedIncomes[id]
+      const basicResource = expedIncome.basic
+      const grossResource = expedIncome.gross
       const resupplyInfo =
         computeResupplyInfo(config.cost)(info,costModelPartial)
-      const applyResupply = (val, rp) => {
-        if (rp === 'fuel' || rp === 'ammo') {
-          if (resupplyInfo.cost === null)
-            return null
-          return val - resupplyInfo.cost[rp]
-        } else {
-          return val
-        }
-      }
-      const netResource = onResourceValue(applyResupply)(grossResource)
+      const netResource = expedIncome.net
       const showResourceTotal =
         incomeViewMethod === 'basic' ? basicResource :
         incomeViewMethod === 'gross' ? grossResource :
@@ -252,5 +280,7 @@ export {
   tableUISelector,
   plannerConfigSelector,
   plannerResultsSelector,
+  makeExpedIncomeSelector,
+  expedIncomesSelector,
   expedInfoViewListSelector,
 }
