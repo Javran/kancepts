@@ -166,7 +166,6 @@ class ControlImpl extends Component {
                   <Button
                     block
                     onClick={this.handleApplyPreset(preset.ids)}
-                    bsSize="small"
                     key={
                       // eslint-disable-next-line react/no-array-index-key
                       ind
@@ -196,7 +195,11 @@ class ControlImpl extends Component {
             }}
             header="AFK Time"
           >
-            <div style={{display: 'flex', alignItems: 'center'}}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}>
               <Form inline style={{width: '60%', flex: 1}}>
                 <FormControl
                   onChange={this.handleChangeAfkTime}
@@ -204,7 +207,7 @@ class ControlImpl extends Component {
                   type="number" style={{width: '100%'}}
                 />
               </Form>
-              <div style={{width: '40%'}}>
+              <div style={{marginLeft: '.5em'}}>
                 Mins
               </div>
             </div>
