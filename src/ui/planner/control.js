@@ -1,11 +1,15 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import {
   Panel,
   Button,
 } from 'react-bootstrap'
-import { enumFromTo } from '../../utils'
 
-import { formatTime, expedInfoList } from '../../exped-info'
+import {
+  allExpedIdList,
+  formatTime,
+  expedInfoList,
+} from '../../exped-info'
 
 class Control extends Component {
   render() {
@@ -36,16 +40,16 @@ class Control extends Component {
               justifyContent: 'space-between',
             }}>
               {
-                enumFromTo(1,5).map(world => {
-                  const expedFirst =world*8-7
-                  const expedLast = world*8
+
+                _.chunk(allExpedIdList,8).map((expedIds,ind) => {
+                  const world = ind+1
                   return (
                     <div
                       key={world}
                       style={{width: '19%', marginRight: 2, marginLeft: 2}}
                     >
                       {
-                        enumFromTo(expedFirst,expedLast).map(expedId => {
+                        expedIds.map(expedId => {
                           const info = expedInfoList.find(i => i.id === expedId)
                           return (
                             <Button
