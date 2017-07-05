@@ -5,6 +5,7 @@ import {
   Panel,
   Button,
   FormGroup, Radio,
+  Form, FormControl,
 } from 'react-bootstrap'
 
 import {
@@ -58,6 +59,15 @@ class ControlImpl extends Component {
     modifyPlanner(planner => ({
       ...planner,
       fleetCount,
+    }))
+  }
+
+  handleChangeAfkTime = e => {
+    const afkTime = parseInt(e.target.value,10)
+    const {modifyPlanner} = this.props
+    modifyPlanner(planner => ({
+      ...planner,
+      afkTime,
     }))
   }
 
@@ -150,7 +160,7 @@ class ControlImpl extends Component {
             }}
             header="Presets"
           >
-            <div>
+            <div style={{padding: '4px 2px'}}>
               {
                 presets.map((preset,ind) => (
                   <Button
@@ -186,7 +196,18 @@ class ControlImpl extends Component {
             }}
             header="AFK Time"
           >
-            AFK Time
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <Form inline style={{width: '60%', flex: 1}}>
+                <FormControl
+                  onChange={this.handleChangeAfkTime}
+                  value={planner.afkTime}
+                  type="number" style={{width: '100%'}}
+                />
+              </Form>
+              <div style={{width: '40%'}}>
+                Mins
+              </div>
+            </div>
           </Panel>
           <Panel
             style={{
