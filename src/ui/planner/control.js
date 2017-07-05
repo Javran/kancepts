@@ -71,6 +71,14 @@ class ControlImpl extends Component {
     }))
   }
 
+  handleModifyPriority = modifier => {
+    const {modifyPlanner} = this.props
+    modifyPlanner(planner => ({
+      ...planner,
+      priority: modifier(planner.priority),
+    }))
+  }
+
   render() {
     const ctrlRowStyle = {
       display: 'flex',
@@ -107,6 +115,8 @@ class ControlImpl extends Component {
         </div>
         <div style={ctrlRowStyle}>
           <ResourcePriorityPanel
+            priority={planner.priority}
+            onModifyPriority={this.handleModifyPriority}
             style={{
               ...panelStyle,
               flex: 3,

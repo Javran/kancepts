@@ -1,35 +1,68 @@
-import _ from 'lodash'
 import React, { Component } from 'react'
 import { Panel } from 'react-bootstrap'
-import Slider from 'rc-slider'
 
 import { PTyp } from '../../ptyp'
-import { enumFromTo } from '../../utils'
+import { ResourceSlider } from './resource-slider'
 
 class ResourcePriorityPanel extends Component {
   static propTypes = {
     style: PTyp.object,
+    priority: PTyp.objectOf(PTyp.number).isRequired,
+    onModifyPriority: PTyp.func.isRequired,
   }
 
   static defaultProps = {
     style: {},
   }
 
+  handleChangePriority = field => newValue => {
+    const {onModifyPriority} = this.props
+    onModifyPriority(p => ({
+      ...p,
+      [field]: newValue,
+    }))
+  }
+
   render() {
-    const {style} = this.props
+    const {style,priority} = this.props
+    const rowStyle = {
+      display: 'flex',
+      marginTop: '.8em',
+      marginBottom: '2.2em',
+    }
     return (
       <Panel
         style={style}
         header="Resource Priority"
       >
-        <Slider
-          min={-5}
-          max={20}
-          step={1}
-          marks={
-            _.fromPairs(enumFromTo(-5,20,v => v+5)
-              .map(x => [x,x]))}
-        />
+        <div style={rowStyle}>
+          <ResourceSlider
+            name="fuel"
+            priority={priority.fuel}
+            onChangeValue={this.handleChangePriority('fuel')}
+            style={{width: '50%'}}
+          />
+          <ResourceSlider
+            name="steel"
+            priority={priority.steel}
+            onChangeValue={this.handleChangePriority('steel')}
+            style={{width: '50%'}}
+          />
+        </div>
+        <div style={rowStyle}>
+          <ResourceSlider
+            name="ammo"
+            priority={priority.ammo}
+            onChangeValue={this.handleChangePriority('ammo')}
+            style={{width: '50%'}}
+          />
+          <ResourceSlider
+            name="bauxite"
+            priority={priority.bauxite}
+            onChangeValue={this.handleChangePriority('bauxite')}
+            style={{width: '50%'}}
+          />
+        </div>
       </Panel>
     )
   }
