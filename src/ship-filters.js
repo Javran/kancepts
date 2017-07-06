@@ -10,9 +10,9 @@ defineFilter('dd', 'DD', s =>
   s.stype === 2)
 defineFilter('cl', 'CL', s =>
   s.stype === 3)
-defineFilter('cv-like', 'CV/CVL/AV/CVB', s =>
+defineFilter('cv-like', 'CV(*)', s =>
   [11,7,16,18].includes(s.stype))
-defineFilter('ss-like', 'SS/SSV', s =>
+defineFilter('ss-like', 'SS(*)', s =>
   [13,14].includes(s.stype))
 defineFilter('ca', 'CA', s =>
   s.stype === 5)
