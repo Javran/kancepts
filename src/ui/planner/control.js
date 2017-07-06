@@ -18,7 +18,7 @@ import { PTyp } from '../../ptyp'
 
 import { ExpedPanel } from './exped-panel'
 import { PresetPanel } from './preset-panel'
-import { ResourcePriorityPanel } from './resource-priority-panel'
+import { ResourceWeightPanel } from './resource-weight-panel'
 import { AfkTimePanel } from './afk-time-panel'
 import { FleetCountPanel } from './fleet-count-panel'
 
@@ -68,11 +68,11 @@ class ControlImpl extends Component {
     }))
   }
 
-  handleModifyPriority = modifier => {
+  handleModifyWeight = modifier => {
     const {modifyPlanner} = this.props
     modifyPlanner(planner => ({
       ...planner,
-      priority: modifier(planner.priority),
+      weight: modifier(planner.weight),
     }))
   }
 
@@ -111,9 +111,9 @@ class ControlImpl extends Component {
           />
         </div>
         <div style={ctrlRowStyle}>
-          <ResourcePriorityPanel
-            priority={planner.priority}
-            onModifyPriority={this.handleModifyPriority}
+          <ResourceWeightPanel
+            weight={planner.weight}
+            onModifyWeight={this.handleModifyWeight}
             style={{
               ...panelStyle,
               flex: 3,

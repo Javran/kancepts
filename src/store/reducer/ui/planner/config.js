@@ -7,7 +7,7 @@ import {
 const initState = {
   expedFlags: _.fromPairs(
     allExpedIdList.map(expedId => [expedId, true])),
-  priority: _.fromPairs(
+  weight: _.fromPairs(
     resourceProperties.map(rp => [rp, 20])),
   fleetCount: 3,
   afkTime: 0,

@@ -13,7 +13,7 @@ class ResourceSlider extends PureComponent {
   static propTypes = {
     name: PTyp.string.isRequired,
     style: PTyp.object,
-    priority: PTyp.number.isRequired,
+    weight: PTyp.number.isRequired,
     onChangeValue: PTyp.func.isRequired,
   }
 
@@ -22,7 +22,7 @@ class ResourceSlider extends PureComponent {
   }
 
   render() {
-    const {name, style, priority, onChangeValue} = this.props
+    const {name, style, weight, onChangeValue} = this.props
     return (
       <div style={{
         ...style,
@@ -41,11 +41,11 @@ class ResourceSlider extends PureComponent {
             marginRight: '.5em',
           }}
         >
-          {priority}
+          {weight}
         </div>
         <Slider
           min={-5} max={20}
-          value={priority}
+          value={weight}
           marks={marks}
           onChange={onChangeValue}
         />

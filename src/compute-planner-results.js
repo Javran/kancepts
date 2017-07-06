@@ -25,7 +25,7 @@ const computePlannerResultsImpl = (state, postResults) =>
     const plannerConfig = plannerConfigSelector(state)
     const {
       expedFlags,
-      priority,
+      weight,
       fleetCount,
       afkTime,
     } = plannerConfig
@@ -78,7 +78,7 @@ const computePlannerResultsImpl = (state, postResults) =>
 
     const mulResource = liftBinaryToResource((x,y) => x*y)
     const computeScore = resource => {
-      const weighted = mulResource(resource,priority)
+      const weighted = mulResource(resource,weight)
       return _.sum(resourceProperties.map(rp => weighted[rp]))
     }
 

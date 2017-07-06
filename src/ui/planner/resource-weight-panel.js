@@ -4,27 +4,27 @@ import { Panel } from 'react-bootstrap'
 import { PTyp } from '../../ptyp'
 import { ResourceSlider } from './resource-slider'
 
-class ResourcePriorityPanel extends Component {
+class ResourceWeightPanel extends Component {
   static propTypes = {
     style: PTyp.object,
-    priority: PTyp.objectOf(PTyp.number).isRequired,
-    onModifyPriority: PTyp.func.isRequired,
+    weight: PTyp.objectOf(PTyp.number).isRequired,
+    onModifyWeight: PTyp.func.isRequired,
   }
 
   static defaultProps = {
     style: {},
   }
 
-  handleChangePriority = field => newValue => {
-    const {onModifyPriority} = this.props
-    onModifyPriority(p => ({
+  handleChangeWeight = field => newValue => {
+    const {onModifyWeight} = this.props
+    onModifyWeight(p => ({
       ...p,
       [field]: newValue,
     }))
   }
 
   render() {
-    const {style,priority} = this.props
+    const {style,weight} = this.props
     const rowStyle = {
       display: 'flex',
       marginTop: '.8em',
@@ -33,33 +33,33 @@ class ResourcePriorityPanel extends Component {
     return (
       <Panel
         style={style}
-        header="Resource Priority"
+        header="Resource Weight"
       >
         <div style={rowStyle}>
           <ResourceSlider
             name="fuel"
-            priority={priority.fuel}
-            onChangeValue={this.handleChangePriority('fuel')}
+            weight={weight.fuel}
+            onChangeValue={this.handleChangeWeight('fuel')}
             style={{width: '50%'}}
           />
           <ResourceSlider
             name="steel"
-            priority={priority.steel}
-            onChangeValue={this.handleChangePriority('steel')}
+            weight={weight.steel}
+            onChangeValue={this.handleChangeWeight('steel')}
             style={{width: '50%'}}
           />
         </div>
         <div style={rowStyle}>
           <ResourceSlider
             name="ammo"
-            priority={priority.ammo}
-            onChangeValue={this.handleChangePriority('ammo')}
+            weight={weight.ammo}
+            onChangeValue={this.handleChangeWeight('ammo')}
             style={{width: '50%'}}
           />
           <ResourceSlider
             name="bauxite"
-            priority={priority.bauxite}
-            onChangeValue={this.handleChangePriority('bauxite')}
+            weight={weight.bauxite}
+            onChangeValue={this.handleChangeWeight('bauxite')}
             style={{width: '50%'}}
           />
         </div>
@@ -68,4 +68,4 @@ class ResourcePriorityPanel extends Component {
   }
 }
 
-export { ResourcePriorityPanel }
+export { ResourceWeightPanel }
