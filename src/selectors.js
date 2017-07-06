@@ -240,17 +240,12 @@ const expedInfoViewListSelector = createSelector(
       const costModelPartial = costModel(cost)
       const config = expedConfigs[id]
       const expedIncome = expedIncomes[id]
-      const basicResource = expedIncome.basic
-      const grossResource = expedIncome.gross
       const resupplyInfo =
         computeResupplyInfo(config.cost)(info,costModelPartial)
-      const netResource = expedIncome.net
       const showResourceTotal =
-        incomeViewMethod === 'basic' ? basicResource :
-        incomeViewMethod === 'gross' ? grossResource :
-        incomeViewMethod === 'net' ? netResource :
-        console.error(`unknown income view method: ${incomeViewMethod}`)
-
+        ['basic','gross','net'].includes(incomeViewMethod) ?
+          expedIncome[incomeViewMethod] :
+          console.error(`unknown income view method: ${incomeViewMethod}`)
       const resourceDivide = val =>
         val === null ? null : (val*60/info.time)
       const showResource =
