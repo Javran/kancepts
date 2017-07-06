@@ -12,6 +12,43 @@ import { register } from './registerServiceWorker'
 
 import { store } from './store'
 
+/*
+
+   TODO
+
+   - planner
+
+     - cleanup dispatch callback impls
+     - tooltip on expeditions
+
+   - table & config
+
+     - impl numeric view: the idea is to force general cost view
+     - tooltips
+
+   - cost model
+
+     - table cell ui impl
+
+   - ship list
+
+     - find a way to allow list modification
+
+   - fuel & ammo cost bar on cost model & ship list
+
+     - use slider
+
+   - (TODO) DLC Lab
+
+     - allow user to experiment about incomes related to DLC and GS
+
+   - settings
+
+     - i18n
+     - data import / export
+
+ */
+
 ReactDOM.render(
   (
     <div className="root">
