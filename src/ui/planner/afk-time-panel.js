@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import {
   Panel,
@@ -7,19 +8,35 @@ import {
 import { PTyp } from '../../ptyp'
 
 /*
-   TODO: input mechanism: having two text fields: "hrs" and "mins"
+   input mechanism: having two text fields: "hourStr" and "minuteStr"
 
    - state is kept internally in this Component
 
    - a change in property afkTime updates both fields
 
    - a text field edit changes the corresponding field immediately,
-     but update only happens after a delay (1s perhaps?)
+     but update only happens after a delay (500ms)
 
    - if the field contains error, afkTime property is used to restore states
      instead of updating actual afkTime.
 
  */
+
+const stateFromAfkTime = afkTime => {
+  if (_.isInteger(afkTime) && afkTime >= 0) {
+    const hh = Math.floor(afkTime / 60)
+    const mm = afkTime - hh*60
+    return {
+      minuteStr: String(mm),
+      hourStr: String(hh),
+    }
+  } else {
+    return {
+      minuteStr: '',
+      hourStr: '',
+    }
+  }
+}
 
 class AfkTimePanel extends Component {
   static propTypes = {
@@ -32,8 +49,51 @@ class AfkTimePanel extends Component {
     style: {},
   }
 
+  constructor(props) {
+    super(props)
+    this.state = stateFromAfkTime(props.afkTime)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.afkTime !== nextProps.afkTime) {
+      this.setState(stateFromAfkTime(nextProps.afkTime))
+    }
+  }
+
+  debouncedUpdateAfkTime = _.debounce(
+    () => {
+      const {minuteStr, hourStr} = this.state
+      const hh = Number(hourStr)
+      const mm = Number(minuteStr)
+
+      if (_.isInteger(hh) && _.isInteger(mm)) {
+        const {onChangeAfkTime} = this.props
+        onChangeAfkTime(hh*60+mm)
+      } else {
+        this.setState(stateFromAfkTime(this.props.afkTime))
+      }
+    },
+    500)
+
+  handleChangeHourStr = e => {
+    const hour = Math.max(0,parseInt(e.target.value,10))
+    this.setState(
+      {hourStr: String(hour)},
+      this.debouncedUpdateAfkTime
+    )
+  }
+
+  handleChangeMinuteStr = e => {
+    const minute = Math.max(0,parseInt(e.target.value,10))
+    this.setState(
+      {minuteStr: String(minute)},
+      this.debouncedUpdateAfkTime
+    )
+  }
+
   render() {
-    const {style, afkTime, onChangeAfkTime} = this.props
+    const {style} = this.props
+    const {minuteStr, hourStr} = this.state
     return (
       <Panel
         style={style}
@@ -43,15 +103,32 @@ class AfkTimePanel extends Component {
           style={{
             display: 'flex',
             alignItems: 'center',
+            marginBottom: 5,
           }}>
-          <Form inline style={{width: '60%', flex: 1}}>
+          <Form inline style={{flex: 1}}>
             <FormControl
-              onChange={onChangeAfkTime}
-              value={afkTime}
+              onChange={this.handleChangeHourStr}
+              value={hourStr}
               type="number" style={{width: '100%'}}
             />
           </Form>
-          <div style={{marginLeft: '.5em'}}>
+          <div style={{marginLeft: '.5em', width: '30%'}}>
+            Hours
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}>
+          <Form inline style={{flex: 1}}>
+            <FormControl
+              onChange={this.handleChangeMinuteStr}
+              value={minuteStr}
+              type="number" style={{width: '100%'}}
+            />
+          </Form>
+          <div style={{marginLeft: '.5em', width: '30%'}}>
             Mins
           </div>
         </div>

@@ -59,8 +59,7 @@ class ControlImpl extends Component {
     }))
   }
 
-  handleChangeAfkTime = e => {
-    const afkTime = parseInt(e.target.value,10)
+  handleChangeAfkTime = afkTime => {
     const {modifyPlanner} = this.props
     modifyPlanner(planner => ({
       ...planner,
