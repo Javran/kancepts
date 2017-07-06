@@ -1,27 +1,13 @@
 import { observer, observe } from 'redux-observers'
 import {
-  expedConfigsSelector,
   plannerConfigSelector,
 } from './selectors'
 
 import { store } from './store'
-import { allExpedIdList } from './exped-info'
 import { shallowEqual } from './utils'
 import { mapDispatchToProps } from './store/reducer/ui/planner/results'
 import { computePlannerResults } from './compute-planner-results'
-
-const expedConfigsObserver = observer(
-  expedConfigsSelector,
-  (_dispatch, current, previous) => {
-    if (current === null || typeof current !== 'object' ||
-        previous === null || typeof previous !== 'object')
-      return
-    // on any config change
-    if (allExpedIdList.some(expedId =>
-      current[expedId] !== previous[expedId])) {
-      localStorage.expedConfigs = JSON.stringify(current)
-    }
-  })
+import { persistStateObserver } from './store/persist'
 
 const plannerConfigObserver = observer(
   plannerConfigSelector,
@@ -43,7 +29,7 @@ const plannerConfigObserver = observer(
 
 const observeAll = () =>
   observe(store, [
-    expedConfigsObserver,
+    persistStateObserver,
     plannerConfigObserver,
   ])
 

@@ -1,8 +1,9 @@
 import { createStore } from 'redux'
 
 import { reducer } from './reducer'
+import { loadPreparedState } from './persist'
 
-const preloadedState = {}
+const preloadedState = loadPreparedState()
 
 try {
   const raw = localStorage.expedConfigs
