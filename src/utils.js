@@ -45,6 +45,15 @@ const modifyArray = (index, f) => {
   }
 }
 
+const modifyObject = (propName, f) => {
+  if (typeof f !== 'function')
+    console.error('modifier is not a function')
+  return obj => ({
+    ...obj,
+    [propName]: f(obj[propName]),
+  })
+}
+
 const mkErrorRecorder = () => {
   const errMsgLog = []
   return {
@@ -92,11 +101,9 @@ const mergeResults = (...funcs) => (...args) =>
   funcs.map(f => f.call(null,...args)).reduce((acc,x) => ({
     ...acc, ...x}), {})
 
-// TODO: guess we need some testing
-
 // `deepWrite(map)([k1,k2,k3...])(value)`
 // - assigns `value` to `map.get(k1).get(k2).get(k3)...`.
-// - new Map objects are created if some key is missing along the path.
+// - new Map objects are created if some keys are missing along the path.
 // - INVARIANT: keys.length >= 1
 const deepWrite = map => keys => value => {
   if (keys.length === 0) {
@@ -208,6 +215,7 @@ export {
   error,
 
   modifyArray,
+  modifyObject,
   mkErrorRecorder,
 
   saturate,

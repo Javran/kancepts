@@ -16,7 +16,6 @@ const shipListSelector = state => state.shipList
 const expedConfigsSelector = state => state.expedConfigs
 const uiSelector = state => state.ui
 
-// TODO: list sorting perhaps after we have redux setups.
 const shipResupplyCost = ship => {
   // "after marriage modifier":
   // - if there's no consumption before marriage, no consumption applied after marriage either.

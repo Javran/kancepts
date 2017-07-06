@@ -9,14 +9,14 @@
    - `localStorage.kancepts.version` is a number for data version
 
    - `persistPaths` in this module keeps a list of paths of the store needed to be
-     saved, (TODO) we will use a selector to extract these paths using `_.get` and
+     saved, we use a selector to extract these paths using `_.get` and
      paths with non-`undefined` values are merged into a single Object using `_.set`,
      which is then saved as `localStorage.kancepts.state`.
 
    - `localStorage.kancepts.state` is used as preloadedState when initializing the store.
 
-   - (TODO) debounce saving action as we don't really need to save that often
-     (500ms should be fine?)
+   - debounce saving action as we don't really need to save that often.
+     (500ms should be fine I guess)
 
  */
 import _ from 'lodash'
