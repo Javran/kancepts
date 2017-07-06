@@ -27,6 +27,8 @@ import { shallowEqual } from '../utils'
 const persistPaths = [
   'expedConfigs',
   'ui.planner.config',
+  'ui.table.view',
+  'ui.table.sort',
 ]
 
 // get non-undefined path values and merge them into another Object
