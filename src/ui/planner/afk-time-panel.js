@@ -6,6 +6,21 @@ import {
 
 import { PTyp } from '../../ptyp'
 
+/*
+   TODO: input mechanism: having two text fields: "hrs" and "mins"
+
+   - state is kept internally in this Component
+
+   - a change in property afkTime updates both fields
+
+   - a text field edit changes the corresponding field immediately,
+     but update only happens after a delay (1s perhaps?)
+
+   - if the field contains error, afkTime property is used to restore states
+     instead of updating actual afkTime.
+
+ */
+
 class AfkTimePanel extends Component {
   static propTypes = {
     style: PTyp.object,
