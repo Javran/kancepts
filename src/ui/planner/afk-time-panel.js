@@ -91,6 +91,9 @@ class AfkTimePanel extends Component {
     )
   }
 
+  handleNoSubmit = e =>
+    e.preventDefault()
+
   render() {
     const {style} = this.props
     const {minuteStr, hourStr} = this.state
@@ -105,7 +108,9 @@ class AfkTimePanel extends Component {
             alignItems: 'center',
             marginBottom: 5,
           }}>
-          <Form inline style={{flex: 1}}>
+          <Form
+            onSubmit={this.handleNoSubmit}
+            inline style={{flex: 1}}>
             <FormControl
               onChange={this.handleChangeHourStr}
               value={hourStr}
@@ -121,7 +126,9 @@ class AfkTimePanel extends Component {
             display: 'flex',
             alignItems: 'center',
           }}>
-          <Form inline style={{flex: 1}}>
+          <Form
+            onSubmit={this.handleNoSubmit}
+            inline style={{flex: 1}}>
             <FormControl
               onChange={this.handleChangeMinuteStr}
               value={minuteStr}
