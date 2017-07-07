@@ -1,8 +1,11 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
+import Slider from 'rc-slider'
 import {
   ButtonToolbar,
   DropdownButton, MenuItem,
 } from 'react-bootstrap'
+import { ItemIcon } from './item-icon'
 
 // table copied from:
 // https://github.com/KC3Kai/KC3Kai/blob/7d551f3d84a386027286947552e3ef112c65a06b/src/pages/strategy/tabs/expedtable/expedtable.js#L108-L118
@@ -12,6 +15,9 @@ import { PTyp } from '../ptyp'
 import { enumFromTo } from '../utils'
 
 const percents = enumFromTo(0,100,x => x+10)
+
+const percentMarks = _.fromPairs(percents.map(x =>
+  [x, `${x}%`]))
 
 class CostPicker extends Component {
   static propTypes = {
@@ -33,14 +39,25 @@ class CostPicker extends Component {
     prefix: '',
   }
 
+  handleChange = rp => value => {
+    const {onChangeCost} = this.props
+    if (rp === 'fuel') {
+      onChangeCost({fuelPercent: value})
+    }
+    if (rp === 'ammo') {
+      onChangeCost({ammoPercent: value})
+    }
+  }
+
   render() {
     const {
       style, prefix,
+      fuelPercent, ammoPercent,
       onChangeCost,
     } = this.props
     return (
       <div style={style}>
-        <ButtonToolbar>
+        <div style={{display: 'flex', alignItems: 'center'}}>
           <DropdownButton
             onSelect={onChangeCost}
             style={{
@@ -48,6 +65,7 @@ class CostPicker extends Component {
               maxWidth: 200,
             }}
             title="Presets"
+            block
             id={`${prefix}cost-picker-preset`}>
             {
               expedCostGrouping.map(({fuel,ammo,expeds}) => {
@@ -64,43 +82,24 @@ class CostPicker extends Component {
               })
             }
           </DropdownButton>
-          <DropdownButton
-            style={{
-              width: '20vw',
-              maxWidth: 250,
-            }}
-            onSelect={onChangeCost}
-            title={`Fuel: ${this.props.fuelPercent}%`}
-            id={`${prefix}cost-picker-fuel`}>
+          <div style={{flex: 1, display: 'flex', marginLeft: 15}}>
             {
-              percents.map(fuelPercent => (
-                <MenuItem
-                  key={fuelPercent}
-                  eventKey={{fuelPercent}}>
-                  {`${fuelPercent}%`}
-                </MenuItem>
+              [
+                {rp: 'fuel', value: fuelPercent},
+                {rp: 'ammo', value: ammoPercent},
+              ].map(({rp,value}) => (
+                <div style={{display: 'flex', flex: 1}} key={rp}>
+                  <ItemIcon name={rp} style={{width: '1.2em'}} />
+                  <Slider
+                    style={{marginLeft: 20, marginRight: 20}}
+                    value={value}
+                    onChange={this.handleChange(rp)}
+                    min={0} max={100} step={null} marks={percentMarks} />
+                </div>
               ))
             }
-          </DropdownButton>
-          <DropdownButton
-            style={{
-              width: '20vw',
-              maxWidth: 250,
-            }}
-            onSelect={onChangeCost}
-            title={`Ammo: ${this.props.ammoPercent}%`}
-            id={`${prefix}cost-picker-ammo`}>
-            {
-              percents.map(ammoPercent => (
-                <MenuItem
-                  key={ammoPercent}
-                  eventKey={{ammoPercent}}>
-                  {`${ammoPercent}%`}
-                </MenuItem>
-              ))
-            }
-          </DropdownButton>
-        </ButtonToolbar>
+          </div>
+        </div>
       </div>
     )
   }

@@ -29,10 +29,6 @@ import { store } from './store'
 
      - find a way to allow list modification
 
-   - fuel & ammo cost bar on cost model & ship list
-
-     - use slider
-
    - (TODO) DLC Lab
 
      - allow user to experiment about incomes related to DLC and GS
