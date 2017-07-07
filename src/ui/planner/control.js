@@ -1,10 +1,5 @@
-import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import {
-  allExpedIdList,
-} from '../../exped-info'
 
 import {
   plannerConfigSelector,
@@ -36,13 +31,11 @@ class ControlImpl extends Component {
         modifyObject(
           id, x => !x)))
 
-  handleApplyPreset = ids => () =>
+  handleApplyPreset = expedFlags => () =>
     this.props.modifyPlanner(
       modifyObject(
         'expedFlags',
-        () => _.fromPairs(
-          allExpedIdList.map(id =>
-            [id, ids.includes(id)]))))
+        () => expedFlags))
 
   handleModifyFleetCount = modifier =>
     this.props.modifyPlanner(

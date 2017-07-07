@@ -29,7 +29,7 @@ class PresetPanel extends Component {
             presets.map((preset,ind) => (
               <Button
                 block
-                onClick={onApplyPreset(preset.ids)}
+                onClick={onApplyPreset(preset.expedFlags)}
                 key={
                   // eslint-disable-next-line react/no-array-index-key
                   ind
