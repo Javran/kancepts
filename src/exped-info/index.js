@@ -12,6 +12,13 @@ import expedInfoListRaw from '../assets/exped-info.json'
 
 import { minimalFleetCompos, atLeast, applyWildcard } from './fleet-compo'
 
+const resourceColor = {
+  fuel: '#276F1D',
+  ammo: '#615233',
+  steel: '#727272',
+  bauxite: '#B98154',
+}
+
 // f(<value>,<resource prooerty>,<resource structure>)
 const onResourceValue = f => resource =>
   _.fromPairs(resourceProperties.map(rp => [rp, f(resource[rp], rp, resource)]))
@@ -130,6 +137,7 @@ const formatTime = minutes => {
 const plusResource = liftBinaryToResource((x,y) => x+y)
 
 export {
+  resourceColor,
   allExpedIdList,
   expedInfoList,
   resourceProperties,

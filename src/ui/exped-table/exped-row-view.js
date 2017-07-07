@@ -5,16 +5,9 @@ import FontAwesome from 'react-fontawesome'
 
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
-import { formatTime } from '../../exped-info'
+import { formatTime, resourceColor } from '../../exped-info'
 
 const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
-
-const resourceColor = {
-  fuel: '#276F1D',
-  ammo: '#615233',
-  steel: '#727272',
-  bauxite: '#B98154',
-}
 
 // eslint-disable-next-line react/prop-types
 const mkItem = ({name, maxCount}, isGS) => {

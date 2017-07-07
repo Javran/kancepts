@@ -5,6 +5,7 @@ import { enumFromTo } from '../../utils'
 import { filters } from '../../ship-filters'
 
 import { PTyp } from '../../ptyp'
+import { Cell } from './cell'
 
 class CostTable extends Component {
   static propTypes = {
@@ -30,7 +31,7 @@ class CostTable extends Component {
             </th>
             {
               enumFromTo(1,6).map(x => (
-                <th key={x} style={{width: '14%'}}>{x} ship(s)</th>
+                <th key={x} style={{width: '15%'}}>{x} ship(s)</th>
               ))
             }
           </tr>
@@ -45,11 +46,10 @@ class CostTable extends Component {
                   {
                     enumFromTo(1,6).map(x => {
                       const cost = costModel({fuelPercent,ammoPercent})(id,x)
-                      const content = cost !== null ?
-                        `F: ${cost.fuelCost}, A: ${cost.ammoCost} (${cost.nameList.join(', ')})` :
-                        'N/A'
                       return (
-                        <th key={x}>{content}</th>
+                        <th key={x}>
+                          <Cell cost={cost} />
+                        </th>
                       )
                     })
                   }

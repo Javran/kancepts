@@ -18,17 +18,12 @@ import { store } from './store'
 
    - planner
 
-     - cleanup dispatch callback impls
      - tooltip on expeditions
 
    - table & config
 
      - impl numeric view: the idea is to force general cost view
      - tooltips
-
-   - cost model
-
-     - table cell ui impl
 
    - ship list
 
