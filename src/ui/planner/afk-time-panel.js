@@ -42,7 +42,7 @@ class AfkTimePanel extends Component {
   static propTypes = {
     style: PTyp.object,
     afkTime: PTyp.number.isRequired,
-    onChangeAfkTime: PTyp.func.isRequired,
+    onModify: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -67,8 +67,8 @@ class AfkTimePanel extends Component {
       const mm = Number(minuteStr)
 
       if (_.isInteger(hh) && _.isInteger(mm)) {
-        const {onChangeAfkTime} = this.props
-        onChangeAfkTime(hh*60+mm)
+        const {onModify} = this.props
+        onModify(() => hh*60+mm)
       } else {
         this.setState(stateFromAfkTime(this.props.afkTime))
       }

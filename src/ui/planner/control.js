@@ -14,6 +14,7 @@ import {
   mapDispatchToProps,
 } from '../../store/reducer/ui/planner/config'
 
+import { modifyObject } from '../../utils'
 import { PTyp } from '../../ptyp'
 
 import { ExpedPanel } from './exped-panel'
@@ -50,30 +51,17 @@ class ControlImpl extends Component {
     }))
   }
 
-  handleChangeFleetCount = e => {
-    const fleetCount = parseInt(e.target.value,10)
-    const {modifyPlanner} = this.props
-    modifyPlanner(planner => ({
-      ...planner,
-      fleetCount,
-    }))
-  }
+  handleModifyFleetCount = modifier =>
+    this.props.modifyPlanner(
+      modifyObject('fleetCount', modifier))
 
-  handleChangeAfkTime = afkTime => {
-    const {modifyPlanner} = this.props
-    modifyPlanner(planner => ({
-      ...planner,
-      afkTime,
-    }))
-  }
+  handleModifyAfkTime = modifier =>
+    this.props.modifyPlanner(
+      modifyObject('afkTime', modifier))
 
-  handleModifyWeight = modifier => {
-    const {modifyPlanner} = this.props
-    modifyPlanner(planner => ({
-      ...planner,
-      weight: modifier(planner.weight),
-    }))
-  }
+  handleModifyWeight = modifier =>
+    this.props.modifyPlanner(
+      modifyObject('weight', modifier))
 
   render() {
     const ctrlRowStyle = {
@@ -124,7 +112,7 @@ class ControlImpl extends Component {
               flex: 1,
             }}
             afkTime={planner.afkTime}
-            onChangeAfkTime={this.handleChangeAfkTime}
+            onModify={this.handleModifyAfkTime}
             />
           <FleetCountPanel
             style={{
@@ -132,7 +120,7 @@ class ControlImpl extends Component {
               flex: 1,
             }}
             fleetCount={planner.fleetCount}
-            onChangeFleetCount={this.handleChangeFleetCount}
+            onModify={this.handleModifyFleetCount}
           />
         </div>
       </div>

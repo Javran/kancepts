@@ -11,15 +11,23 @@ class FleetCountPanel extends Component {
   static propTypes = {
     style: PTyp.object,
     fleetCount: PTyp.number.isRequired,
-    onChangeFleetCount: PTyp.func.isRequired,
+    onModify: PTyp.func.isRequired,
   }
 
   static defaultProps = {
     style: {},
   }
 
+  handleChange = e => {
+    const fleetCount = parseInt(e.target.value,10)
+    const {onModify} = this.props
+    onModify(() => fleetCount)
+  }
+
   render() {
-    const {style,fleetCount,onChangeFleetCount} = this.props
+    const {
+      style,fleetCount,
+    } = this.props
     return (
       <Panel
         style={style}
@@ -34,7 +42,7 @@ class FleetCountPanel extends Component {
                 style={{width: '100%'}}
                 key={curFleetCount}
                 checked={curFleetCount===fleetCount}
-                onChange={onChangeFleetCount}
+                onChange={this.handleChange}
                 name="fleet-count"
                 value={curFleetCount}>
                 {`${curFleetCount} Fleet(s)`}
