@@ -23,33 +23,26 @@ import { ResourceWeightPanel } from './resource-weight-panel'
 import { AfkTimePanel } from './afk-time-panel'
 import { FleetCountPanel } from './fleet-count-panel'
 
-
 class ControlImpl extends Component {
   static propTypes = {
     planner: PTyp.object.isRequired,
     modifyPlanner: PTyp.func.isRequired,
   }
 
-  handleToggleExped = id => () => {
-    const {modifyPlanner} = this.props
-    modifyPlanner(planner => ({
-      ...planner,
-      expedFlags: {
-        ...planner.expedFlags,
-        [id]: !planner.expedFlags[id],
-      },
-    }))
-  }
+  handleToggleExped = id => () =>
+    this.props.modifyPlanner(
+      modifyObject(
+        'expedFlags',
+        modifyObject(
+          id, x => !x)))
 
-  handleApplyPreset = ids => () => {
-    const {modifyPlanner} = this.props
-    modifyPlanner(planner => ({
-      ...planner,
-      expedFlags: _.fromPairs(
-        allExpedIdList.map(id =>
-          [id, ids.includes(id)])),
-    }))
-  }
+  handleApplyPreset = ids => () =>
+    this.props.modifyPlanner(
+      modifyObject(
+        'expedFlags',
+        () => _.fromPairs(
+          allExpedIdList.map(id =>
+            [id, ids.includes(id)]))))
 
   handleModifyFleetCount = modifier =>
     this.props.modifyPlanner(
