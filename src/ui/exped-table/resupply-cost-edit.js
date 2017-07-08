@@ -68,6 +68,9 @@ class ResupplyCostEdit extends Component {
     }))
   }
 
+  handleNoSubmit = e =>
+    e.preventDefault()
+
   render() {
     const {cost, id} = this.props
     return (
@@ -124,7 +127,9 @@ class ResupplyCostEdit extends Component {
               <div style={{width: '40%'}}>
                 Fuel:
               </div>
-              <Form inline style={{width: '60%', flex: 1}}>
+              <Form
+                onSubmit={this.handleNoSubmit}
+                inline style={{width: '60%', flex: 1}}>
                 <FormControl
                   onChange={this.handleChangeFuel}
                   value={cost.custom.fuelStr}
@@ -136,7 +141,9 @@ class ResupplyCostEdit extends Component {
               <div style={{width: '40%'}}>
                 Ammo:
               </div>
-              <Form inline style={{width: '60%', flex: 1}}>
+              <Form
+                onSubmit={this.handleNoSubmit}
+                inline style={{width: '60%', flex: 1}}>
                 <FormControl
                   onChange={this.handleChangeAmmo}
                   value={cost.custom.ammoStr}

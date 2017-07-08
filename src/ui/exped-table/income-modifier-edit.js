@@ -56,6 +56,9 @@ class IncomeModifierEdit extends Component {
     }))
   }
 
+  handleNoSubmit = e =>
+    e.preventDefault()
+
   render() {
     const {modifier, id} = this.props
     return (
@@ -94,7 +97,9 @@ class IncomeModifierEdit extends Component {
             <div style={{width: '40%'}}>
               Modifier:
             </div>
-            <Form inline style={{width: '60%', flex: 1}}>
+            <Form
+              onSubmit={this.handleNoSubmit}
+              inline style={{width: '60%', flex: 1}}>
               <FormControl
                 onChange={this.handleChangeCustomValue}
                 value={modifier.custom.valueStr}
