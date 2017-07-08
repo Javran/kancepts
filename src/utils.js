@@ -205,6 +205,9 @@ const pickSomeFrom = (() => {
 
 const shallowEqual = shallowequal
 
+const handleNoSubmit = e =>
+  e.preventDefault()
+
 export {
   enumFromTo,
   ignore,
@@ -232,4 +235,6 @@ export {
 
   pickSomeFrom,
   shallowEqual,
+
+  handleNoSubmit,
 }

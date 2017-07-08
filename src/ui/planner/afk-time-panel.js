@@ -5,6 +5,7 @@ import {
   Form, FormControl,
 } from 'react-bootstrap'
 
+import { handleNoSubmit } from '../../utils'
 import { PTyp } from '../../ptyp'
 
 /*
@@ -91,9 +92,6 @@ class AfkTimePanel extends Component {
     )
   }
 
-  handleNoSubmit = e =>
-    e.preventDefault()
-
   render() {
     const {style} = this.props
     const {minuteStr, hourStr} = this.state
@@ -109,7 +107,7 @@ class AfkTimePanel extends Component {
             marginBottom: 5,
           }}>
           <Form
-            onSubmit={this.handleNoSubmit}
+            onSubmit={handleNoSubmit}
             inline style={{flex: 1}}>
             <FormControl
               onChange={this.handleChangeHourStr}
@@ -127,7 +125,7 @@ class AfkTimePanel extends Component {
             alignItems: 'center',
           }}>
           <Form
-            onSubmit={this.handleNoSubmit}
+            onSubmit={handleNoSubmit}
             inline style={{flex: 1}}>
             <FormControl
               onChange={this.handleChangeMinuteStr}

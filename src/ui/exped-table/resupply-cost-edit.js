@@ -5,6 +5,7 @@ import {
   FormControl,
  } from 'react-bootstrap'
 
+import { handleNoSubmit } from '../../utils'
 import { PTyp } from '../../ptyp'
 
 class ResupplyCostEdit extends Component {
@@ -68,9 +69,6 @@ class ResupplyCostEdit extends Component {
     }))
   }
 
-  handleNoSubmit = e =>
-    e.preventDefault()
-
   render() {
     const {cost, id} = this.props
     return (
@@ -128,7 +126,7 @@ class ResupplyCostEdit extends Component {
                 Fuel:
               </div>
               <Form
-                onSubmit={this.handleNoSubmit}
+                onSubmit={handleNoSubmit}
                 inline style={{width: '60%', flex: 1}}>
                 <FormControl
                   onChange={this.handleChangeFuel}
@@ -142,7 +140,7 @@ class ResupplyCostEdit extends Component {
                 Ammo:
               </div>
               <Form
-                onSubmit={this.handleNoSubmit}
+                onSubmit={handleNoSubmit}
                 inline style={{width: '60%', flex: 1}}>
                 <FormControl
                   onChange={this.handleChangeAmmo}

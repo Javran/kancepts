@@ -6,6 +6,7 @@ import {
 
 import { PTyp } from '../../ptyp'
 import { ItemIcon } from '../item-icon'
+import { handleNoSubmit } from '../../utils'
 
 class IncomeModifierEdit extends Component {
   static propTypes = {
@@ -56,9 +57,6 @@ class IncomeModifierEdit extends Component {
     }))
   }
 
-  handleNoSubmit = e =>
-    e.preventDefault()
-
   render() {
     const {modifier, id} = this.props
     return (
@@ -98,7 +96,7 @@ class IncomeModifierEdit extends Component {
               Modifier:
             </div>
             <Form
-              onSubmit={this.handleNoSubmit}
+              onSubmit={handleNoSubmit}
               inline style={{width: '60%', flex: 1}}>
               <FormControl
                 onChange={this.handleChangeCustomValue}
