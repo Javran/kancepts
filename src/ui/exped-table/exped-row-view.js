@@ -5,9 +5,11 @@ import FontAwesome from 'react-fontawesome'
 
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
-import { formatTime, resourceColor } from '../../exped-info'
-
-const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
+import {
+  formatTime,
+  resourceColor,
+  resourceProperties,
+} from '../../exped-info'
 
 // 0 < value < 5
 const pprIncomePercent = v => {
