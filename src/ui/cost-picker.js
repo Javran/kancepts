@@ -2,7 +2,6 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import Slider from 'rc-slider'
 import {
-  ButtonToolbar,
   DropdownButton, MenuItem,
 } from 'react-bootstrap'
 import { ItemIcon } from './item-icon'

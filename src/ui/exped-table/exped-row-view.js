@@ -9,6 +9,19 @@ import { formatTime, resourceColor } from '../../exped-info'
 
 const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
 
+// 0 < value < 5
+const pprIncomePercent = v => {
+  if (v <= 0 || v >= 5)
+    return console.error(`invariant violation: ${v} is not in range (0,5)`)
+  if (v < 1) {
+    const diff = (1-v)*100
+    return `-${diff.toFixed(2)}%`
+  } else {
+    const diff = (v-1)*100
+    return `+${diff.toFixed(2)}%`
+  }
+}
+
 // eslint-disable-next-line react/prop-types
 const mkItem = ({name, maxCount}, isGS) => {
   if (name === null || maxCount === 0)
@@ -43,7 +56,7 @@ const viewModifier = modifier => {
     )
   }
   if (modifier.type === 'custom')
-    return (<div>{`${modifier.value.toFixed(2)}`}</div>)
+    return (<div>{`${pprIncomePercent(modifier.value)}`}</div>)
 }
 
 const viewCost = cost => {
