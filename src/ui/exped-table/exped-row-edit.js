@@ -39,7 +39,6 @@ class ExpedRowEdit extends Component {
       marginBottom: 0,
       marginLeft: 8,
     }
-
     return (
       <div style={{
         display: 'flex',

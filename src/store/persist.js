@@ -83,7 +83,6 @@ const loadPreparedState = () => {
       throw new Error(
         `version mismatched: expecting 1 `+
         `while getting ${kanceptsData.version}`)
-
     return normalizePersistState(kanceptsData.state)
   } catch (e) {
     console.error('error while loading preparedState from localStorage', e)
