@@ -5,6 +5,7 @@ import FontAwesome from 'react-fontawesome'
 
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
+import { filters } from '../../ship-filters'
 import {
   formatTime,
   resourceColor,
@@ -63,9 +64,13 @@ const viewModifier = modifier => {
 
 const viewCost = cost => {
   if (cost.type === 'cost-model') {
+    const filterInfo = filters.find(d => d.id === cost.wildcard)
+    const name = typeof filterInfo === 'undefined' ?
+      cost.wildcard :
+      filterInfo.title
     return (
       <div>
-        {`>=${cost.count}, *=${cost.wildcard}`}
+        {`≥${cost.count}, *=${name}`}
       </div>
     )
   }
