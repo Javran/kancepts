@@ -11,19 +11,7 @@ import {
   resourceColor,
   resourceProperties,
 } from '../../exped-info'
-
-// 0 < value < 5
-const pprIncomePercent = v => {
-  if (v <= 0 || v >= 5)
-    return console.error(`invariant violation: ${v} is not in range (0,5)`)
-  if (v < 1) {
-    const diff = (1-v)*100
-    return `-${diff.toFixed(2)}%`
-  } else {
-    const diff = (v-1)*100
-    return `+${diff.toFixed(2)}%`
-  }
-}
+import { ModifierView } from './modifier-view'
 
 // eslint-disable-next-line react/prop-types
 const mkItem = ({name, maxCount}, isGS) => {
@@ -40,27 +28,6 @@ const mkItem = ({name, maxCount}, isGS) => {
   )
 }
 
-const viewModifier = modifier => {
-  if (modifier.type === 'standard') {
-    return (
-      <div style={{display: 'flex', alignItems: 'center'}}>
-        <div style={{
-          fontWeight: 'bold',
-          width: '1.1em',
-          marginRight: 4,
-        }}>
-          {modifier.gs ? '大' : '普'}
-        </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-          <ItemIcon name="dlc" style={{height: '2em'}} />
-          <span>x{modifier.daihatsu}</span>
-        </div>
-      </div>
-    )
-  }
-  if (modifier.type === 'custom')
-    return (<div>{`${pprIncomePercent(modifier.value)}`}</div>)
-}
 
 const viewCost = cost => {
   if (cost.type === 'cost-model') {
@@ -168,7 +135,10 @@ class ExpedRowView extends Component {
           display: 'flex',
           alignItems: 'center',
         }}>
-          <div style={{width: '50%'}}>{viewModifier(modifier)}</div>
+          <ModifierView
+            style={{width: '50%'}}
+            modifier={modifier}
+          />
           <div style={{width: '50%'}}>{viewCost(cost)}</div>
         </div>
         <Button
