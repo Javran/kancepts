@@ -218,6 +218,7 @@ const makeExpedIncomeSelector = expedId => createSelector(
       basic,
       gross,
       net,
+      resupplyInfo,
     }
   })
 
@@ -229,19 +230,16 @@ const expedIncomesSelector = createSelector(
 const expedInfoViewListSelector = createSelector(
   expedConfigsSelector,
   tableUISelector,
-  costModelSelector,
   expedIncomesSelector,
   expedViewSortFunctionSelector,
-  (expedConfigs, tableControl, costModel, expedIncomes, sortFunc) => {
+  (expedConfigs, tableControl, expedIncomes, sortFunc) => {
     const incomeViewMethod = tableControl.view.income
     const divideMethod = tableControl.view.divide
     const expedInfoViewList = expedInfoList.map(info => {
-      const {id,cost} = info
-      const costModelPartial = costModel(cost)
+      const {id} = info
       const config = expedConfigs[id]
       const expedIncome = expedIncomes[id]
-      const resupplyInfo =
-        computeResupplyInfo(config.cost)(info,costModelPartial)
+      const {resupplyInfo} = expedIncome
       const showResourceTotal =
         ['basic','gross','net'].includes(incomeViewMethod) ?
           expedIncome[incomeViewMethod] :
