@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Tab,
   Row, Col,
@@ -10,15 +11,19 @@ import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
 import { CostModel } from './cost-model'
 import { observeAll } from '../observer'
+import { currentTabSelector } from '../selectors'
+import { mapDispatchToProps } from '../store/reducer/ui/current-tab'
+import { PTyp } from '../ptyp'
 
-class KanceptsMain extends Component {
+class KanceptsMainImpl extends Component {
+  static propTypes = {
+    currentTab: PTyp.string.isRequired,
+    switchTab: PTyp.func.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.unsubscribe = null
-
-    this.state = {
-      activeKey: 'planner',
-    }
   }
 
   componentDidMount() {
@@ -38,7 +43,7 @@ class KanceptsMain extends Component {
   }
 
   handleSelectTab = activeKey =>
-    this.setState({activeKey})
+    this.props.switchTab(activeKey)
 
   render() {
     return (
@@ -46,7 +51,7 @@ class KanceptsMain extends Component {
         <Tab.Container
           id="tab-picker"
           onSelect={this.handleSelectTab}
-          activeKey={this.state.activeKey}>
+          activeKey={this.props.currentTab}>
           <Row className="clearfix">
             <Col sm={2}>
               <Nav bsStyle="pills" stacked>
@@ -86,5 +91,13 @@ class KanceptsMain extends Component {
     )
   }
 }
+
+const KanceptsMain = connect(
+  state => {
+    const currentTab = currentTabSelector(state)
+    return {currentTab}
+  },
+  mapDispatchToProps,
+)(KanceptsMainImpl)
 
 export { KanceptsMain }

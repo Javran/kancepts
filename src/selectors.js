@@ -16,6 +16,10 @@ const shipListSelector = state => state.shipList
 const expedConfigsSelector = state => state.expedConfigs
 const uiSelector = state => state.ui
 
+const currentTabSelector = createSelector(
+  uiSelector,
+  ui => ui.currentTab)
+
 const shipResupplyCost = ship => {
   // "after marriage modifier":
   // - if there's no consumption before marriage, no consumption applied after marriage either.
@@ -269,6 +273,7 @@ export {
   costModelSelector,
   expedConfigsSelector,
   uiSelector,
+  currentTabSelector,
   tableUISelector,
   plannerConfigSelector,
   plannerResultsSelector,
