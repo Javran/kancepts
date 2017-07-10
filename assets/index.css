@@ -3,12 +3,14 @@ body {
 }
 
 .panel.exped-row-edit-panel > .panel-heading,
-.planner-control-panels > div > .panel > .panel-heading {
+.planner-control-panels > div > .panel > .panel-heading,
+.dlc-lab-control-panel.panel > .panel-heading {
     padding: 5px 10px;
 }
 
 .panel.exped-row-edit-panel > .panel-body,
-.planner-control-panels > div > .panel > .panel-body {
+.planner-control-panels > div > .panel > .panel-body,
+.dlc-lab-control-panel.panel > .panel-body {
     padding: 5px;
 }
 
