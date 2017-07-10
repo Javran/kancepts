@@ -10,6 +10,7 @@ import { Planner } from './planner'
 import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
 import { CostModel } from './cost-model'
+import { DlcLab } from './dlc-lab'
 import { observeAll } from '../observer'
 import { currentTabSelector } from '../selectors'
 import { mapDispatchToProps } from '../store/reducer/ui/current-tab'
@@ -67,6 +68,9 @@ class KanceptsMainImpl extends Component {
                 <NavItem eventKey="ship-list">
                   Ship List
                 </NavItem>
+                <NavItem eventKey="dlc-lab">
+                  DLC Lab
+                </NavItem>
               </Nav>
             </Col>
             <Col sm={10}>
@@ -82,6 +86,9 @@ class KanceptsMainImpl extends Component {
                 </Tab.Pane>
                 <Tab.Pane eventKey="ship-list">
                   <ShipList />
+                </Tab.Pane>
+                <Tab.Pane eventKey="dlc-lab">
+                  <DlcLab />
                 </Tab.Pane>
               </Tab.Content>
             </Col>
