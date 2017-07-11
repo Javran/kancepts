@@ -52,7 +52,7 @@ class NewEquipmentPanelImpl extends Component {
 
   handleCountChange = e => {
     const count = parseInt(e.target.value,10)
-    if (_.isInteger(count) && count > 0) {
+    if (_.isInteger(count)) {
       this.setState({count})
     }
   }
@@ -74,7 +74,7 @@ class NewEquipmentPanelImpl extends Component {
               level,
               curCountOrUndef => {
                 const curCount = curCountOrUndef || 0
-                return curCount + count
+                return Math.max(0, curCount + count)
               }
             )(equipment)
           })
@@ -134,7 +134,7 @@ class NewEquipmentPanelImpl extends Component {
           <Button
             onClick={this.handleAddToEquipments}
             style={{minWidth: '3em', flex: 1}}>
-            <FontAwesome name="plus" />
+            <FontAwesome name={count >= 0 ? 'plus' : 'minus'} />
           </Button>
         </div>
       </Panel>
