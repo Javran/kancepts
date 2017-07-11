@@ -23,13 +23,16 @@ class EquipmentTableImpl extends Component {
     const {equipments, style} = this.props
     return (
       <Table
-        style={style}
+        style={{
+          ...style,
+          tableLayout: 'fixed',
+        }}
         bordered condensed>
         <thead>
           <tr>
             <th>Name</th>
-            <th>Level</th>
-            <th>Count</th>
+            <th style={{width: '34%'}}>Level</th>
+            <th style={{width: '34%'}}>Count</th>
           </tr>
         </thead>
         <tbody>
@@ -51,7 +54,19 @@ class EquipmentTableImpl extends Component {
                       <tr key={key}>
                         {
                           ind === 0 &&
-                          (<td rowSpan={rowSpan}>{name}</td>)
+                          (
+                            <td
+                              rowSpan={rowSpan}
+                              style={{
+                                textAlign: 'center',
+                                verticalAlign: 'middle',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                              }}>
+                              {name}
+                            </td>
+                          )
                         }
                         <td>{level}</td>
                         <td>{count}</td>
