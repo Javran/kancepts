@@ -14,6 +14,7 @@ const initState = {
   kinuK2: false,
   gsPercent: 0,
   equipments: {},
+  rawIncome: 200,
 }
 
 const reducer = (state = initState, action) => {
