@@ -12,8 +12,13 @@ import {
 } from 'react-bootstrap'
 import Slider from 'rc-slider'
 
-import { enumFromTo } from '../../utils'
+import { EquipmentTable } from './equipment-table'
 import { NewEquipmentPanel } from './new-equipment-panel'
+
+const emptyMark = {
+  label: '',
+  style: {display: 'none'},
+}
 
 class DlcLab extends Component {
   constructor(props) {
@@ -41,11 +46,9 @@ class DlcLab extends Component {
             </div>
             <Slider
               style={{flex: 1, marginLeft: '1.2em', marginRight: '1em'}}
-              marks={{0: '0%', 50: '50%', 100: '100%'}} />
+              marks={{0: emptyMark, 50: emptyMark, 100: emptyMark}} />
           </div>
-          <div style={{marginTop: '1.2em', marginBottom: 5}}>
-            Equipment list placeholder
-          </div>
+          <EquipmentTable style={{marginTop: '1.2em', marginBottom: 5}} />
           <NewEquipmentPanel />
         </Panel>
         <Panel
