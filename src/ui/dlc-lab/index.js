@@ -16,6 +16,11 @@ import { enumFromTo } from '../../utils'
 import { NewEquipmentPanel } from './new-equipment-panel'
 
 class DlcLab extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
+  }
   render() {
     return (
       <div style={{display: 'flex'}}>
@@ -32,13 +37,13 @@ class DlcLab extends Component {
           </FormGroup>
           <div style={{display: 'flex'}}>
             <div>
-              Great Success Rate: 0%
+              Great Success: 0%
             </div>
             <Slider
               style={{flex: 1, marginLeft: '1.2em', marginRight: '1em'}}
               marks={{0: '0%', 50: '50%', 100: '100%'}} />
           </div>
-          <div>
+          <div style={{marginTop: '1.2em', marginBottom: 5}}>
             Equipment list placeholder
           </div>
           <NewEquipmentPanel />

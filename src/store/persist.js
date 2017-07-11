@@ -30,6 +30,7 @@ const persistPaths = [
   'ui.currentTab',
   'ui.table.view',
   'ui.table.sort',
+  'ui.dlcLab',
 ]
 
 // get non-undefined path values and merge them into another Object
