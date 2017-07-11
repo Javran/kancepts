@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
@@ -7,8 +8,49 @@ import {
 
 import { dlcLabUISelector } from '../../selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
+import { PTyp } from '../../ptyp'
+import { modifyObject } from '../../utils'
 
-class ResultsTable extends Component {
+class ResultsTableImpl extends Component {
+  static propTypes = {
+    rawIncome: PTyp.number.isRequired,
+    modifyDlcLabUI: PTyp.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      rawIncomeStr: String(props.rawIncome),
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.rawIncome !== nextProps.rawIncome) {
+      this.setState({rawIncomeStr: String(nextProps.rawIncome)})
+    }
+  }
+
+  debouncedRawIncomeUpdate = _.debounce(
+    () => {
+      const rawIncome = Number(this.state.rawIncomeStr)
+      if (_.isInteger(rawIncome) &&
+          rawIncome >= 0 && rawIncome <= 5000) {
+        const {modifyDlcLabUI} = this.props
+        modifyDlcLabUI(
+          modifyObject(
+            'rawIncome',
+            () => rawIncome))
+      } else {
+        this.setState({rawIncomeStr: String(this.props.rawIncome)})
+      }
+    },
+    500)
+
+  handleChangeRawIncomeStr = e =>
+    this.setState(
+      {rawIncomeStr: e.target.value},
+      this.debouncedRawIncomeUpdate)
+
   render() {
     const mkHeader = (content, style={}) => (
       <td style={{
@@ -36,6 +78,8 @@ class ResultsTable extends Component {
             }
             <td>
               <FormControl
+                onChange={this.handleChangeRawIncomeStr}
+                value={this.state.rawIncomeStr}
                 type="input"
               />
             </td>
@@ -49,6 +93,7 @@ class ResultsTable extends Component {
               'DLC Bonus',
               'Toku DLC Bonus',
               'Total Income',
+              'Actual Modifier',
             ].map((n,ind) => mkRow(n,undefined,ind))
           }
         </tbody>
@@ -56,5 +101,12 @@ class ResultsTable extends Component {
     )
   }
 }
+
+const ResultsTable = connect(
+  state => {
+    const {rawIncome} = dlcLabUISelector(state)
+    return {rawIncome}
+  },
+  mapDispatchToProps)(ResultsTableImpl)
 
 export { ResultsTable }
