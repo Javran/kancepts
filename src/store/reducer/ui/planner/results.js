@@ -1,5 +1,5 @@
 const reducer = (state = [], action) => {
-  if (action.type === 'Planner@modifyResults') {
+  if (action.type === 'Planner@modify') {
     const {modifier} = action
     return modifier(state)
   }
@@ -8,7 +8,7 @@ const reducer = (state = [], action) => {
 
 const mapDispatchToProps = dispatch => ({
   modifyResults: modifier => dispatch({
-    type: 'Planner@modifyResults',
+    type: 'Planner@modify',
     modifier,
   }),
 })

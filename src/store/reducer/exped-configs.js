@@ -21,7 +21,7 @@ const genDefExpedConfigs = () =>
       [expedId, defExpedConfig]))
 
 const reducer = (state = genDefExpedConfigs(), action) => {
-  if (action.type === 'ExpedConfigList@modifyExpedConfig') {
+  if (action.type === 'ExpedConfigList@modify') {
     const {expedId, modifier} = action
     return {
       ...state,
@@ -33,7 +33,7 @@ const reducer = (state = genDefExpedConfigs(), action) => {
 
 const mapDispatchToProps = dispatch => ({
   modifyExpedConfig: (expedId, modifier) => dispatch({
-    type: 'ExpedConfigList@modifyExpedConfig',
+    type: 'ExpedConfigList@modify',
     expedId, modifier,
   }),
 })

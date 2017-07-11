@@ -11,7 +11,7 @@ const initState = {
 }
 
 const reducer = (state = initState, action) => {
-  if (action.type === 'TableUI@modifyTableUI') {
+  if (action.type === 'TableUI@modify') {
     const {modifier} = action
     return modifier(state)
   }
@@ -21,7 +21,7 @@ const reducer = (state = initState, action) => {
 
 const mapDispatchToProps = dispatch => ({
   modifyTableUI: modifier => dispatch({
-    type: 'TableUI@modifyTableUI',
+    type: 'TableUI@modify',
     modifier,
   }),
 })
