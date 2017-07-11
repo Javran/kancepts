@@ -14,7 +14,7 @@ const initState = {
 }
 
 const reducer = (state = initState, action) => {
-  if (action.type === 'Planner@modify') {
+  if (action.type === 'PlannerConfig@modify') {
     const {modifier} = action
     return modifier(state)
   }
@@ -23,7 +23,7 @@ const reducer = (state = initState, action) => {
 
 const mapDispatchToProps = dispatch => ({
   modifyPlanner: modifier => dispatch({
-    type: 'Planner@modify',
+    type: 'PlannerConfig@modify',
     modifier,
   }),
 })
