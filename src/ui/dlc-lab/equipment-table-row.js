@@ -61,8 +61,51 @@ class EquipmentTableRowImpl extends Component {
         return () => modifyEquipment(
           modifyObject(
             level,
-            () => Math.max(0,count-1)))
+            () => count-1)
+        )
       }
+    }
+  }
+
+  handleLevelChange = which => {
+    const {id, level, count, modifyDlcLabUI} = this.props
+    const modifyEquipment = modifier =>
+      modifyDlcLabUI(
+        modifyObject(
+          'equipments',
+          modifyObject(
+            id,
+            modifier)))
+    if (count === 0)
+      // nothing to upgrade or downgrade
+      return null
+
+    if (which === 'up') {
+      if (level >= 10)
+        return null
+      return () => modifyEquipment(
+        _.flow([
+          modifyObject(
+            level,
+            () => count-1),
+          modifyObject(
+            level+1,
+            (curCount=0) => curCount+1),
+        ]))
+    }
+
+    if (which === 'down') {
+      if (level <= 0)
+        return null
+      return () => modifyEquipment(
+        _.flow([
+          modifyObject(
+            level,
+            () => count-1),
+          modifyObject(
+            level-1,
+            (curCount=0) => curCount+1),
+        ]))
     }
   }
 
@@ -100,6 +143,7 @@ class EquipmentTableRowImpl extends Component {
                 Downgrade **one** equipment
               </Markdown>
             }
+            leftAction={this.handleLevelChange('down')}
             rightBtnContent={
               <FontAwesome name="angle-double-up" />
             }
@@ -108,6 +152,7 @@ class EquipmentTableRowImpl extends Component {
                 Upgrade **one** equipment
               </Markdown>
             }
+            rightAction={this.handleLevelChange('up')}
             value={improvementToText(level)} />
         </td>
         <td>
