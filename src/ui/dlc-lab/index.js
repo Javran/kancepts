@@ -14,6 +14,7 @@ import Slider from 'rc-slider'
 
 import { EquipmentTable } from './equipment-table'
 import { NewEquipmentPanel } from './new-equipment-panel'
+import { ResultsTable } from './results-table'
 
 const emptyMark = {
   label: '',
@@ -56,7 +57,7 @@ class DlcLab extends Component {
           style={{flex: 1}}
           header="Results"
         >
-          exped result placeholder
+          <ResultsTable />
         </Panel>
       </div>
     )
