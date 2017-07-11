@@ -73,7 +73,7 @@ const EquipmentTable = connect(
   state => {
     const {equipments} = dlcLabSelector(state)
     return {equipments}
-  }
+  },
 )(EquipmentTableImpl)
 
 export { EquipmentTable }

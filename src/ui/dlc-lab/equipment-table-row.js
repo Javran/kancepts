@@ -1,18 +1,22 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import FontAwesome from 'react-fontawesome'
 import Markdown from 'react-remarkable'
 
-import { improvementToText } from '../../utils'
+import { modifyObject, improvementToText } from '../../utils'
 import { CellControl } from './cell-control'
 import { PTyp } from '../../ptyp'
+import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 
-class EquipmentTableRow extends Component {
+class EquipmentTableRowImpl extends Component {
   static propTypes = {
     name: PTyp.string.isRequired,
     id: PTyp.number.isRequired,
     level: PTyp.number.isRequired,
     count: PTyp.number.isRequired,
+
+    modifyDlcLabUI: PTyp.func.isRequired,
     // only make sense when the current row
     // is responsible for showing the name col
     rowSpan: PTyp.number,
@@ -20,6 +24,46 @@ class EquipmentTableRow extends Component {
 
   static defaultProps = {
     rowSpan: null,
+  }
+
+  handleCountChange = which => {
+    const {id, level, count, modifyDlcLabUI} = this.props
+    const modifyEquipment = modifier =>
+      modifyDlcLabUI(
+        modifyObject(
+          'equipments',
+          modifyObject(
+            id,
+            modifier)))
+    if (which === 'plus') {
+      // most of the time here we don't need to
+      // check for 'undefined' values
+      // because otherwise this very row cannot exist
+      // in the first place
+      return () => modifyEquipment(
+        modifyObject(
+          level,
+          () => count+1
+        )
+      )
+    }
+    if (which === 'minus') {
+      if (count === 0) {
+        // need to remove this row
+        return () => modifyEquipment(
+          equipment => {
+            const newEquipment = {...equipment}
+            delete newEquipment[level]
+            return newEquipment
+          })
+      } else {
+        // just minus by 1
+        return () => modifyEquipment(
+          modifyObject(
+            level,
+            () => Math.max(0,count-1)))
+      }
+    }
   }
 
   render() {
@@ -75,14 +119,20 @@ class EquipmentTableRow extends Component {
                   count > 0 ? 'minus' : 'trash'
                 } />
             }
+            leftAction={this.handleCountChange('minus')}
             rightBtnContent={
               <FontAwesome name="plus" />
             }
+            rightAction={this.handleCountChange('plus')}
             value={count} />
         </td>
       </tr>
     )
   }
 }
+
+const EquipmentTableRow = connect(
+  null,
+  mapDispatchToProps)(EquipmentTableRowImpl)
 
 export { EquipmentTableRow }

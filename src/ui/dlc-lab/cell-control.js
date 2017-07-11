@@ -19,12 +19,19 @@ class CellControl extends Component {
 
     leftBtnTooltip: PTyp.node,
     rightBtnTooltip: PTyp.node,
+
+    // action of clicking left and right button
+    // button and tooltip are disabled if this is not set
+    leftAction: PTyp.func,
+    rightAction: PTyp.func,
   }
 
   static defaultProps = {
     leftBtnTooltip: null,
     rightBtnTooltip: null,
     prefix: '',
+    leftAction: null,
+    rightAction: null,
   }
 
   constructor(props) {
@@ -54,7 +61,11 @@ class CellControl extends Component {
       rightBtnContent,
       leftBtnTooltip,
       rightBtnTooltip,
+      leftAction,
+      rightAction,
     } = this.props
+    const hasLeftAction = typeof leftAction === 'function'
+    const hasRightAction = typeof rightAction === 'function'
     const handleLeft = _.memoize(this.handleToggleVisibility('left'))
     const leftExtraProps = leftBtnTooltip ? {
       ref: r => { this.leftRef = r },
@@ -77,6 +88,8 @@ class CellControl extends Component {
       <div style={{display: 'flex', alignItems: 'center'}}>
         <Button
           {...leftExtraProps}
+          disabled={!hasLeftAction}
+          onClick={leftAction}
           bsSize="xsmall" style={{width: '2em'}}
         >
           {leftBtnContent}
@@ -86,6 +99,8 @@ class CellControl extends Component {
         </div>
         <Button
           {...rightExtraProps}
+          disabled={!hasRightAction}
+          onClick={rightAction}
           bsSize="xsmall" style={{width: '2em'}}
         >
           {rightBtnContent}
@@ -93,7 +108,7 @@ class CellControl extends Component {
         {
           leftBtnTooltip && (
             <Overlay
-              show={this.state.showLeft}
+              show={this.state.showLeft && hasLeftAction}
               style={{margin: 0, padding: 0}}
               placement="bottom"
               target={() => this.leftRef}>
@@ -106,7 +121,7 @@ class CellControl extends Component {
         {
           rightBtnTooltip && (
             <Overlay
-              show={this.state.showRight}
+              show={this.state.showRight && hasRightAction}
               placement="bottom"
               target={() => this.rightRef}>
               <Tooltip id={`${prefix}right`}>
