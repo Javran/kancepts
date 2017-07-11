@@ -17,6 +17,7 @@ import {
 import { PTyp } from '../../ptyp'
 import { enumFromTo, modifyObject } from '../../utils'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
+import { dlcList } from '../../master-data'
 
 const improvementToText = level =>
   level === 0 ? '★=0' :
@@ -95,12 +96,7 @@ class NewEquipmentPanelImpl extends Component {
       >
         <FormGroup>
           {
-            [
-              ['大発動艇', 68],
-              ['特大発動艇', 193],
-              ['大発動艇(八九式中戦車&陸戦隊)', 166],
-              ['特型内火艇', 167],
-            ].map(([name, id]) => (
+            dlcList.map(({name, id}) => (
               <Radio
                 key={id}
                 checked={masterId === id}

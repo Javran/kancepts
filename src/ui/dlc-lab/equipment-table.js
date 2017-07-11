@@ -7,6 +7,7 @@ import {
 import { PTyp } from '../../ptyp'
 import { dlcLabSelector } from '../../selectors'
 import { enumFromTo } from '../../utils'
+import { dlcList } from '../../master-data'
 
 class EquipmentTableImpl extends Component {
   static propTypes = {
@@ -34,14 +35,9 @@ class EquipmentTableImpl extends Component {
         <tbody>
           {
             _.flatMap(
-              [
-                ['大発動艇', 68],
-                ['特大発動艇', 193],
-                ['大発動艇(八九式中戦車&陸戦隊)', 166],
-                ['特型内火艇', 167],
-              ],
-              ([name,masterId]) => {
-                const equipment = equipments[masterId]
+              dlcList,
+              ({name,id}) => {
+                const equipment = equipments[id]
                 if (typeof equipment === 'undefined')
                   return []
                 const partialRows = _.flatMap(
@@ -50,7 +46,7 @@ class EquipmentTableImpl extends Component {
                     const count = equipment[level]
                     if (! _.isInteger(count))
                       return []
-                    const key = `${masterId}-${level}`
+                    const key = `${id}-${level}`
                     return [rowSpan => (
                       <tr key={key}>
                         {
