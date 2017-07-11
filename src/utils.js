@@ -208,6 +208,11 @@ const shallowEqual = shallowequal
 const handleNoSubmit = e =>
   e.preventDefault()
 
+const improvementToText = level =>
+  level === 0 ? '★=0' :
+  level === 10 ? '★+max' :
+  `★+${level}`
+
 export {
   enumFromTo,
   ignore,
@@ -237,4 +242,5 @@ export {
   shallowEqual,
 
   handleNoSubmit,
+  improvementToText,
 }

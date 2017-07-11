@@ -3,12 +3,6 @@ import {
   Panel,
   FormGroup,
   Checkbox,
-  Radio,
-  Button,
-  ButtonGroup,
-  DropdownButton,
-  FormControl,
-  MenuItem,
 } from 'react-bootstrap'
 import Slider from 'rc-slider'
 

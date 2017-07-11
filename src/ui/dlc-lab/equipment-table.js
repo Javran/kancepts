@@ -8,6 +8,7 @@ import { PTyp } from '../../ptyp'
 import { dlcLabSelector } from '../../selectors'
 import { enumFromTo } from '../../utils'
 import { dlcList } from '../../master-data'
+import { EquipmentTableRow } from './equipment-table-row'
 
 class EquipmentTableImpl extends Component {
   static propTypes = {
@@ -31,8 +32,8 @@ class EquipmentTableImpl extends Component {
         <thead>
           <tr>
             <th>Name</th>
-            <th style={{width: '34%'}}>Level</th>
-            <th style={{width: '34%'}}>Count</th>
+            <th style={{width: '32%'}}>Level</th>
+            <th style={{width: '32%'}}>Count</th>
           </tr>
         </thead>
         <tbody>
@@ -51,26 +52,11 @@ class EquipmentTableImpl extends Component {
                       return []
                     const key = `${id}-${level}`
                     return [rowSpan => (
-                      <tr key={key}>
-                        {
-                          ind === 0 &&
-                          (
-                            <td
-                              rowSpan={rowSpan}
-                              style={{
-                                textAlign: 'center',
-                                verticalAlign: 'middle',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                              }}>
-                              {name}
-                            </td>
-                          )
-                        }
-                        <td>{level}</td>
-                        <td>{count}</td>
-                      </tr>
+                      <EquipmentTableRow
+                        key={key}
+                        name={name} level={level} count={count}
+                        rowSpan={ind===0 ? rowSpan : null}
+                      />
                     )]
                   })
                 return partialRows.map(f =>

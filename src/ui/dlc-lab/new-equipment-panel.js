@@ -15,14 +15,9 @@ import {
 } from 'react-bootstrap'
 
 import { PTyp } from '../../ptyp'
-import { enumFromTo, modifyObject } from '../../utils'
+import { enumFromTo, modifyObject, improvementToText } from '../../utils'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 import { dlcList } from '../../master-data'
-
-const improvementToText = level =>
-  level === 0 ? '★=0' :
-  level === 10 ? '★+max' :
-  `★+${level}`
 
 const mkState = () => ({
   masterId: 68,
