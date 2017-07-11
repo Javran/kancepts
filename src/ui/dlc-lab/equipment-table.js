@@ -45,8 +45,8 @@ class EquipmentTableImpl extends Component {
                 if (typeof equipment === 'undefined')
                   return []
                 const partialRows = _.flatMap(
-                  enumFromTo(0,10),
-                  (level,ind) => {
+                  enumFromTo(0,10).reverse(),
+                  level => {
                     const count = equipment[level]
                     if (! _.isInteger(count))
                       return []
@@ -55,12 +55,12 @@ class EquipmentTableImpl extends Component {
                       <EquipmentTableRow
                         key={key}
                         name={name} id={id} level={level} count={count}
-                        rowSpan={ind===0 ? rowSpan : null}
+                        rowSpan={rowSpan}
                       />
                     )]
                   })
-                return partialRows.map(f =>
-                  f(partialRows.length))
+                return partialRows.map((f,ind) =>
+                  f(ind === 0 ? partialRows.length : null))
               })
           }
         </tbody>

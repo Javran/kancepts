@@ -49,19 +49,19 @@ class EquipmentTableRow extends Component {
           <CellControl
             prefix={`dlc-level-${id}-${level}-`}
             leftBtnContent={
-              <FontAwesome name="angle-double-up" />
+              <FontAwesome name="angle-double-down" />
             }
             leftBtnTooltip={
               <Markdown>
-                Upgrade **one** equipment
+                Downgrade **one** equipment
               </Markdown>
             }
             rightBtnContent={
-              <FontAwesome name="angle-double-down" />
+              <FontAwesome name="angle-double-up" />
             }
             rightBtnTooltip={
               <Markdown>
-                Downgrade **one** equipment
+                Upgrade **one** equipment
               </Markdown>
             }
             value={improvementToText(level)} />

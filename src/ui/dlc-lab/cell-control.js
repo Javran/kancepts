@@ -63,6 +63,16 @@ class CellControl extends Component {
       onMouseOver: handleLeft(true),
       onMouseOut: handleLeft(false),
     } : {}
+
+    const handleRight = _.memoize(this.handleToggleVisibility('right'))
+    const rightExtraProps = rightBtnTooltip ? {
+      ref: r => { this.rightRef = r },
+      onFocus: handleRight(true),
+      onBlur: handleRight(false),
+      onMouseOver: handleRight(true),
+      onMouseOut: handleRight(false),
+    } : {}
+
     return (
       <div style={{display: 'flex', alignItems: 'center'}}>
         <Button
@@ -75,7 +85,7 @@ class CellControl extends Component {
           {value}
         </div>
         <Button
-          ref={rightBtnTooltip ? (r => { this.rightRef = r }) : undefined}
+          {...rightExtraProps}
           bsSize="xsmall" style={{width: '2em'}}
         >
           {rightBtnContent}
