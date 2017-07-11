@@ -6,6 +6,8 @@ import {
   Button,
   ButtonGroup,
   Dropdown,
+  FormGroup,
+  Radio,
   DropdownButton,
   FormControl,
   MenuItem,
@@ -33,35 +35,25 @@ class NewEquipmentPanel extends Component {
           marginBottom: 5,
         }}
       >
+        <FormGroup>
+          {
+            [
+              '大発動艇',
+              '特大発動艇',
+              '大発動艇(八九式中戦車&陸戦隊)',
+              '特型内火艇',
+            ].map((x,ind) => (
+              <Radio name="equip-name" inline key={
+                // eslint-disable-next-line react/no-array-index-key
+                ind
+              }>
+                {x}
+              </Radio>
+            ))
+          }
+        </FormGroup>
         <div style={{display: 'flex', alignItems: 'center'}}>
-          <Dropdown
-            id="dlc-lab-new-item-level"
-            style={{
-              flex: '1',
-              marginRight: 5,
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-            }}
-            block vertical>
-            <Dropdown.Toggle block style={{display: 'flex'}}>
-              <span style={{
-                width: '10em',
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-              }}>
-                大発動艇(八九式中戦車&陸戦隊)
-              </span>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <MenuItem>大発動艇</MenuItem>
-              <MenuItem>特大発動艇</MenuItem>
-              <MenuItem>大発動艇(八九式中戦車&陸戦隊)</MenuItem>
-              <MenuItem>特型内火艇</MenuItem>
-            </Dropdown.Menu>
-          </Dropdown>
-          <div style={{width: '20%', marginRight: 5}}>
+          <div style={{marginRight: 5, width: '40%'}}>
             <ButtonGroup justified>
               <DropdownButton id="dlc-lab-new-item-level" title="star">
                 {
@@ -72,8 +64,8 @@ class NewEquipmentPanel extends Component {
               </DropdownButton>
             </ButtonGroup>
           </div>
-          <FormControl style={{width: '20%', marginRight: 5}} type="number" />
-          <Button style={{width: '3em'}}>
+          <FormControl style={{marginRight: 5, width: '40%'}} type="number" />
+          <Button style={{minWidth: '3em', flex: 1}}>
             <FontAwesome name="plus" />
           </Button>
         </div>
