@@ -12,7 +12,7 @@ import {
 import { EquipmentTable } from './equipment-table'
 import { NewEquipmentPanel } from './new-equipment-panel'
 import { ResultsTable } from './results-table'
-import { dlcLabSelector } from '../../selectors'
+import { dlcLabUISelector } from '../../selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 import { PTyp } from '../../ptyp'
 import { modifyObject } from '../../utils'
@@ -131,7 +131,7 @@ class DlcLabImpl extends Component {
 
 const DlcLab = connect(
   state => {
-    const {kinuK2, gsPercent} = dlcLabSelector(state)
+    const {kinuK2, gsPercent} = dlcLabUISelector(state)
     return {kinuK2, gsPercent}
   },
   mapDispatchToProps,

@@ -5,7 +5,7 @@ import {
   FormControl,
 } from 'react-bootstrap'
 
-import { dlcLabSelector } from '../../selectors'
+import { dlcLabUISelector } from '../../selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 
 class ResultsTable extends Component {

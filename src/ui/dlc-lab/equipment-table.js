@@ -5,7 +5,7 @@ import {
   Table,
 } from 'react-bootstrap'
 import { PTyp } from '../../ptyp'
-import { dlcLabSelector } from '../../selectors'
+import { dlcLabUISelector } from '../../selectors'
 import { enumFromTo } from '../../utils'
 import { dlcList } from '../../master-data'
 import { EquipmentTableRow } from './equipment-table-row'
@@ -71,7 +71,7 @@ class EquipmentTableImpl extends Component {
 
 const EquipmentTable = connect(
   state => {
-    const {equipments} = dlcLabSelector(state)
+    const {equipments} = dlcLabUISelector(state)
     return {equipments}
   },
 )(EquipmentTableImpl)

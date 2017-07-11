@@ -20,7 +20,7 @@ const currentTabSelector = createSelector(
   uiSelector,
   ui => ui.currentTab)
 
-const dlcLabSelector = createSelector(
+const dlcLabUISelector = createSelector(
   uiSelector,
   ui => ui.dlcLab)
 
@@ -278,7 +278,7 @@ export {
   expedConfigsSelector,
   uiSelector,
   currentTabSelector,
-  dlcLabSelector,
+  dlcLabUISelector,
   tableUISelector,
   plannerConfigSelector,
   plannerResultsSelector,
