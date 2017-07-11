@@ -1,27 +1,80 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Panel,
   FormGroup,
   Checkbox,
+  Button,
+  FormControl,
 } from 'react-bootstrap'
-import Slider from 'rc-slider'
 
 import { EquipmentTable } from './equipment-table'
 import { NewEquipmentPanel } from './new-equipment-panel'
 import { ResultsTable } from './results-table'
+import { dlcLabSelector } from '../../selectors'
+import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
+import { PTyp } from '../../ptyp'
+import { modifyObject } from '../../utils'
 
-const emptyMark = {
-  label: '',
-  style: {display: 'none'},
-}
+class DlcLabImpl extends Component {
+  static propTypes = {
+    kinuK2: PTyp.bool.isRequired,
+    gsPercent: PTyp.number.isRequired,
+    modifyDlcLabUI: PTyp.func.isRequired,
+  }
 
-class DlcLab extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      gsPercentStr: String(props.gsPercent),
     }
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.gsPercent !== nextProps.gsPercent) {
+      this.setState({gsPercentStr: String(nextProps.gsPercent)})
+    }
+  }
+
+  handleToggleKinuK2 = e => {
+    const {modifyDlcLabUI} = this.props
+    const kinuK2 = e.target.checked
+    modifyDlcLabUI(
+      modifyObject(
+        'kinuK2',
+        () => kinuK2))
+  }
+
+  handleGsPercentChange = gsPercent => () => {
+    const {modifyDlcLabUI} = this.props
+    modifyDlcLabUI(
+      modifyObject(
+        'gsPercent',
+        () => gsPercent))
+  }
+
+  debouncedGsPercentUpdate = _.debounce(
+    () => {
+      const gsPercent = Number(this.state.gsPercentStr)
+      if (_.isInteger(gsPercent) &&
+          gsPercent >= 0 &&
+          gsPercent <= 100) {
+        this.handleGsPercentChange(gsPercent)()
+      } else {
+        this.setState({gsPercentStr: String(this.props.gsPercent)})
+      }
+    },
+    500)
+
+  handleGsPercentTextChange = e =>
+    this.setState(
+      {gsPercentStr: e.target.value},
+      this.debouncedGsPercentUpdate)
+
   render() {
+    const {kinuK2} = this.props
+    const {gsPercentStr} = this.state
     return (
       <div style={{display: 'flex'}}>
         <Panel
@@ -32,18 +85,36 @@ class DlcLab extends Component {
           }}
           header="Expedition"
         >
-          <FormGroup>
-            <Checkbox inline>Include Kinu K2</Checkbox>
+          <FormGroup style={{marginBottom: 5}}>
+            <Checkbox
+              onChange={this.handleToggleKinuK2}
+              checked={kinuK2} inline>
+              Include Kinu K2
+            </Checkbox>
           </FormGroup>
-          <div style={{display: 'flex'}}>
-            <div>
-              Great Success: 0%
-            </div>
-            <Slider
-              style={{flex: 1, marginLeft: '1.2em', marginRight: '1em'}}
-              marks={{0: emptyMark, 50: emptyMark, 100: emptyMark}} />
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            <div style={{marginRight: 5, flex: 1}}>Great Success:</div>
+            <Button
+              onClick={this.handleGsPercentChange(0)}
+              bsSize="small" style={{minWidth: '6em'}}>
+              0%
+            </Button>
+            <FormControl
+              style={{
+                width: '40%',
+                marginLeft: 5,
+                marginRight: 5,
+              }}
+              onChange={this.handleGsPercentTextChange}
+              value={gsPercentStr}
+              type="text" />
+            <Button
+              onClick={this.handleGsPercentChange(100)}
+              bsSize="small" style={{minWidth: '6em'}}>
+              100%
+            </Button>
           </div>
-          <EquipmentTable style={{marginTop: '1.2em', marginBottom: 5}} />
+          <EquipmentTable style={{marginTop: 8, marginBottom: 5}} />
           <NewEquipmentPanel />
         </Panel>
         <Panel
@@ -57,5 +128,13 @@ class DlcLab extends Component {
     )
   }
 }
+
+const DlcLab = connect(
+  state => {
+    const {kinuK2, gsPercent} = dlcLabSelector(state)
+    return {kinuK2, gsPercent}
+  },
+  mapDispatchToProps,
+)(DlcLabImpl)
 
 export { DlcLab }
