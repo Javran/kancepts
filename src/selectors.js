@@ -20,6 +20,10 @@ const currentTabSelector = createSelector(
   uiSelector,
   ui => ui.currentTab)
 
+const dlcLabSelector = createSelector(
+  uiSelector,
+  ui => ui.dlcLab)
+
 const shipResupplyCost = ship => {
   // "after marriage modifier":
   // - if there's no consumption before marriage, no consumption applied after marriage either.
@@ -274,6 +278,7 @@ export {
   expedConfigsSelector,
   uiSelector,
   currentTabSelector,
+  dlcLabSelector,
   tableUISelector,
   plannerConfigSelector,
   plannerResultsSelector,
