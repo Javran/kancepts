@@ -1,7 +1,9 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
-import FontAwesome from 'react-fontawesome'
 import {
   Button,
+  Overlay,
+  Tooltip,
 } from 'react-bootstrap'
 
 import { PTyp } from '../../ptyp'
@@ -11,27 +13,98 @@ class CellControl extends Component {
     value: PTyp.node.isRequired,
     leftBtnContent: PTyp.node.isRequired,
     rightBtnContent: PTyp.node.isRequired,
+
+    // for making every tooltip id unique
+    prefix: PTyp.string,
+
+    leftBtnTooltip: PTyp.node,
+    rightBtnTooltip: PTyp.node,
   }
+
+  static defaultProps = {
+    leftBtnTooltip: null,
+    rightBtnTooltip: null,
+    prefix: '',
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      showLeft: false,
+      showRight: false,
+    }
+  }
+
+  handleToggleVisibility = which => value => {
+    if (which === 'left') {
+      return (/* event ignored */) =>
+        this.setState({showLeft: value})
+    }
+    if (which === 'right') {
+      return (/* event ignored */) =>
+        this.setState({showRight: value})
+    }
+  }
+
   render() {
     const {
+      prefix,
       value,
-      leftBtnContent, rightBtnContent,
+      leftBtnContent,
+      rightBtnContent,
+      leftBtnTooltip,
+      rightBtnTooltip,
     } = this.props
-    const btnProps = {
-      bsSize: 'small',
-      style: {width: '2em'},
-    }
+    const handleLeft = _.memoize(this.handleToggleVisibility('left'))
+    const leftExtraProps = leftBtnTooltip ? {
+      ref: r => { this.leftRef = r },
+      onFocus: handleLeft(true),
+      onBlur: handleLeft(false),
+      onMouseOver: handleLeft(true),
+      onMouseOut: handleLeft(false),
+    } : {}
     return (
       <div style={{display: 'flex', alignItems: 'center'}}>
-        <Button bsSize="xsmall" style={{width: '2em'}}>
+        <Button
+          {...leftExtraProps}
+          bsSize="xsmall" style={{width: '2em'}}
+        >
           {leftBtnContent}
         </Button>
         <div style={{flex: 1, textAlign: 'center'}}>
           {value}
         </div>
-        <Button bsSize="xsmall" style={{width: '2em'}}>
+        <Button
+          ref={rightBtnTooltip ? (r => { this.rightRef = r }) : undefined}
+          bsSize="xsmall" style={{width: '2em'}}
+        >
           {rightBtnContent}
         </Button>
+        {
+          leftBtnTooltip && (
+            <Overlay
+              show={this.state.showLeft}
+              style={{margin: 0, padding: 0}}
+              placement="bottom"
+              target={() => this.leftRef}>
+              <Tooltip id={`${prefix}left`}>
+                {leftBtnTooltip}
+              </Tooltip>
+            </Overlay>
+          )
+        }
+        {
+          rightBtnTooltip && (
+            <Overlay
+              show={this.state.showRight}
+              placement="bottom"
+              target={() => this.rightRef}>
+              <Tooltip id={`${prefix}right`}>
+                {rightBtnTooltip}
+              </Tooltip>
+            </Overlay>
+          )
+        }
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import FontAwesome from 'react-fontawesome'
+import Markdown from 'react-remarkable'
 
 import { improvementToText } from '../../utils'
 import { CellControl } from './cell-control'
@@ -8,12 +9,13 @@ import { PTyp } from '../../ptyp'
 
 class EquipmentTableRow extends Component {
   static propTypes = {
+    name: PTyp.string.isRequired,
+    id: PTyp.number.isRequired,
+    level: PTyp.number.isRequired,
+    count: PTyp.number.isRequired,
     // only make sense when the current row
     // is responsible for showing the name col
     rowSpan: PTyp.number,
-    name: PTyp.string.isRequired,
-    level: PTyp.number.isRequired,
-    count: PTyp.number.isRequired,
   }
 
   static defaultProps = {
@@ -23,7 +25,7 @@ class EquipmentTableRow extends Component {
   render() {
     const {
       rowSpan,
-      name, level, count,
+      name, id, level, count,
     } = this.props
     return (
       <tr>
@@ -45,20 +47,32 @@ class EquipmentTableRow extends Component {
         }
         <td>
           <CellControl
+            prefix={`dlc-level-${id}-${level}-`}
             leftBtnContent={
               <FontAwesome name="angle-double-up" />
             }
+            leftBtnTooltip={
+              <Markdown>
+                Upgrade **one** equipment
+              </Markdown>
+            }
             rightBtnContent={
               <FontAwesome name="angle-double-down" />
+            }
+            rightBtnTooltip={
+              <Markdown>
+                Downgrade **one** equipment
+              </Markdown>
             }
             value={improvementToText(level)} />
         </td>
         <td>
           <CellControl
+            prefix={`dlc-count-${id}-${count}-`}
             leftBtnContent={
               <FontAwesome
                 name={
-                  count > 0 ? "minus" : "trash"
+                  count > 0 ? 'minus' : 'trash'
                 } />
             }
             rightBtnContent={

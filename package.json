@@ -22,6 +22,7 @@
     "react-dom": "^15.6.1",
     "react-fontawesome": "^1.6.1",
     "react-redux": "^5.0.5",
+    "react-remarkable": "^1.1.1",
     "redux": "^3.7.1",
     "redux-observers": "^2.0.2",
     "reselect": "^3.0.1",

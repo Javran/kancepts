@@ -54,7 +54,7 @@ class EquipmentTableImpl extends Component {
                     return [rowSpan => (
                       <EquipmentTableRow
                         key={key}
-                        name={name} level={level} count={count}
+                        name={name} id={id} level={level} count={count}
                         rowSpan={ind===0 ? rowSpan : null}
                       />
                     )]

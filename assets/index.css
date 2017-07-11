@@ -2,6 +2,15 @@ body {
     font-family: sans-serif;
 }
 
+
+.tooltip-inner {
+    max-width: none;
+}
+
+.tooltip-inner p {
+    margin-bottom: 2px;
+}
+
 .panel.exped-row-edit-panel > .panel-heading,
 .planner-control-panels > div > .panel > .panel-heading,
 .dlc-lab-control-panel.panel > .panel-heading {
