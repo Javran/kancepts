@@ -1,12 +1,17 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Table } from 'react-bootstrap'
+import {
+  Table,
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap'
 
 import { resourceProperties } from '../../exped-info'
 import { ItemIcon } from '../item-icon'
 import { plannerResultsSelector } from '../../selectors'
 import { PTyp } from '../../ptyp'
+import { ExpedsDetail } from './expeds-detail'
 
 class ResultTableImpl extends Component {
   static propTypes = {
@@ -47,23 +52,31 @@ class ResultTableImpl extends Component {
           </thead>
           <tbody>
             {
-              results.map((result,ind) => {
+              results.map(result => {
                 const {expedIds, resource, score} = result
+                const key=`planner-result-row-${expedIds.join('-')}`
                 return (
-                  <tr key={
-                    // eslint-disable-next-line react/no-array-index-key
-                    ind
-                  }>
-                    <td key="eids">{expedIds.join(', ')}</td>
-                    {
-                      resourceProperties.map(rp => (
-                        <td key={rp}>
-                          {pprNum(resource[rp])}
-                        </td>
-                      ))
+                  <OverlayTrigger
+                    key={key}
+                    placement="bottom"
+                    overlay={
+                      <Tooltip id={`tooltip-${key}`}>
+                        <ExpedsDetail expedIds={expedIds} />
+                      </Tooltip>
                     }
-                    <td key="score">{pprNum(score)}</td>
-                  </tr>
+                  >
+                    <tr>
+                      <td key="eids">{expedIds.join(', ')}</td>
+                      {
+                        resourceProperties.map(rp => (
+                          <td key={rp}>
+                            {pprNum(resource[rp])}
+                          </td>
+                        ))
+                      }
+                      <td key="score">{pprNum(score)}</td>
+                    </tr>
+                  </OverlayTrigger>
                 )
               })
             }
