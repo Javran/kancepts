@@ -32,6 +32,7 @@ class Cell extends PureComponent {
     const tooltip = (
       <Tooltip id="tooltip">
         <div>
+          <div>Examples:</div>
           {
             cost.nameList.map((n,ind) => (
               <div key={
