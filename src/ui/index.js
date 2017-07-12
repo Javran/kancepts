@@ -16,6 +16,16 @@ import { currentTabSelector } from '../selectors'
 import { mapDispatchToProps } from '../store/reducer/ui/current-tab'
 import { PTyp } from '../ptyp'
 
+const tabs = []
+const defineTab = (id, desc, TabComponent) =>
+  tabs.push({id, desc, TabComponent})
+
+defineTab('planner', 'Planner', Planner)
+defineTab('table', 'Table', ExpedTable)
+defineTab('cost-model', 'Cost Model', CostModel)
+defineTab('ship-list', 'Ship List', ShipList)
+defineTab('dlc-lab', 'DLC Lab', DlcLab)
+
 class KanceptsMainImpl extends Component {
   static propTypes = {
     currentTab: PTyp.string.isRequired,
@@ -56,40 +66,24 @@ class KanceptsMainImpl extends Component {
           <Row className="clearfix">
             <Col sm={2}>
               <Nav bsStyle="pills" stacked>
-                <NavItem eventKey="planner">
-                  Planner
-                </NavItem>
-                <NavItem eventKey="table">
-                  Table
-                </NavItem>
-                <NavItem eventKey="cost-model">
-                  Cost Model
-                </NavItem>
-                <NavItem eventKey="ship-list">
-                  Ship List
-                </NavItem>
-                <NavItem eventKey="dlc-lab">
-                  DLC Lab
-                </NavItem>
+                {
+                  tabs.map(({id,desc}) => (
+                    <NavItem eventKey={id} key={id}>
+                      {desc}
+                    </NavItem>
+                  ))
+                }
               </Nav>
             </Col>
             <Col sm={10}>
-              <Tab.Content animation>
-                <Tab.Pane eventKey="planner">
-                  <Planner />
-                </Tab.Pane>
-                <Tab.Pane eventKey="table">
-                  <ExpedTable />
-                </Tab.Pane>
-                <Tab.Pane eventKey="cost-model">
-                  <CostModel />
-                </Tab.Pane>
-                <Tab.Pane eventKey="ship-list">
-                  <ShipList />
-                </Tab.Pane>
-                <Tab.Pane eventKey="dlc-lab">
-                  <DlcLab />
-                </Tab.Pane>
+              <Tab.Content>
+                {
+                  tabs.map(({id,TabComponent}) => (
+                    <Tab.Pane eventKey={id} key={id}>
+                      <TabComponent />
+                    </Tab.Pane>
+                  ))
+                }
               </Tab.Content>
             </Col>
           </Row>
