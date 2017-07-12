@@ -136,6 +136,7 @@ class ExpedRowView extends Component {
           alignItems: 'center',
         }}>
           <ModifierView
+            prefix={`exped-row-${id}-`}
             style={{width: '50%'}}
             modifier={modifier}
           />

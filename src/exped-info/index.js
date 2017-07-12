@@ -23,6 +23,19 @@ const resourceColor = {
 const onResourceValue = f => resource =>
   _.fromPairs(resourceProperties.map(rp => [rp, f(resource[rp], rp, resource)]))
 
+const modifierToFactor = modifier => {
+  if (modifier.type === 'standard') {
+    const {gs, daihatsu} = modifier
+    const gsFactor = gs ? 1.5 : 1
+    const dlcFactor = 1 + Math.min(0.2, daihatsu*0.05)
+    return gsFactor*dlcFactor
+  }
+  if (modifier.type === 'custom') {
+    return modifier.value
+  }
+  console.error(`Unexpected modifier type: ${modifier.type}`)
+}
+
 // we compute a function that can be later applied on a number,
 // rather than compute a numeric factor.
 // because we can preserve more precision this way
@@ -148,4 +161,5 @@ export {
   applyIncomeModifier,
   computeResupplyInfo,
   formatTime,
+  modifierToFactor,
 }

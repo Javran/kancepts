@@ -63,17 +63,15 @@ class NewEquipmentPanelImpl extends Component {
         'equipments',
         modifyObject(
           masterId,
-          equipmentOrUndef => {
-            const equipment = equipmentOrUndef || {}
-            return modifyObject(
+          (equipment = {}) =>
+            modifyObject(
               level,
-              curCountOrUndef => {
-                const curCount = curCountOrUndef || 0
-                return Math.max(0, curCount + count)
-              }
+              (curCount = 0) =>
+                Math.max(0, curCount + count)
             )(equipment)
-          })
-      ))
+        )
+      )
+    )
     this.setState(mkState())
   }
 

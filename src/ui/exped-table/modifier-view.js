@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import {
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap'
+
 import { PTyp } from '../../ptyp'
 import { ItemIcon } from '../item-icon'
+import { modifierToFactor } from '../../exped-info'
+import { tableUISelector } from '../../selectors'
 
 // 0 < value < 5
 const pprIncomePercent = v => {
@@ -15,46 +23,72 @@ const pprIncomePercent = v => {
   }
 }
 
-const viewModifier = modifier => {
-  if (modifier.type === 'standard') {
-    return (
-      <div style={{display: 'flex', alignItems: 'center'}}>
-        <div style={{
-          fontWeight: 'bold',
-          width: '1.1em',
-          marginRight: 4,
-        }}>
-          {modifier.gs ? '大' : '普'}
-        </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-          <ItemIcon name="dlc" style={{height: '2em'}} />
-          <span>x{modifier.daihatsu}</span>
-        </div>
+const renderStandard = (gs,daihatsu,prefix,factor) => (
+  <OverlayTrigger
+    placement="left"
+    overlay={
+      <Tooltip id={`${prefix}-income-modifier`}>
+        {pprIncomePercent(factor)}
+      </Tooltip>
+    }
+  >
+    <div style={{display: 'flex', alignItems: 'center'}}>
+      <div style={{
+        fontWeight: 'bold',
+        width: '1.1em',
+        marginRight: 4,
+      }}>
+        {gs ? '大' : '普'}
       </div>
-    )
-  }
-  if (modifier.type === 'custom')
-    return (<div>{`${pprIncomePercent(modifier.value)}`}</div>)
-}
+      <div style={{display: 'flex', alignItems: 'center'}}>
+        <ItemIcon name="dlc" style={{height: '2em'}} />
+        <span>x{daihatsu}</span>
+      </div>
+    </div>
+  </OverlayTrigger>
+)
 
-class ModifierView extends Component {
+const renderCustom = value => (
+  <div style={{height: '2em', lineHeight: '2em'}}>
+    {`${pprIncomePercent(value)}`}
+  </div>
+)
+
+class ModifierViewImpl extends Component {
   static propTypes = {
     style: PTyp.object,
+    prefix: PTyp.string,
+    numeric: PTyp.bool.isRequired,
     modifier: PTyp.object.isRequired,
   }
 
   static defaultProps = {
     style: {},
+    prefix: '',
   }
 
   render() {
-    const {modifier, style} = this.props
+    const {modifier, style, prefix, numeric} = this.props
+    const factor = modifierToFactor(modifier)
     return (
       <div style={style}>
-        {viewModifier(modifier)}
+        {
+          (numeric || modifier.type === 'custom') ?
+            renderCustom(factor) :
+          modifier.type === 'standard' ?
+            renderStandard(modifier.gs, modifier.daihatsu, prefix, factor) :
+          null
+        }
       </div>
     )
   }
 }
+
+const ModifierView = connect(
+  state => {
+    const {numeric} = tableUISelector(state).view
+    return {numeric}
+  }
+)(ModifierViewImpl)
 
 export { ModifierView }

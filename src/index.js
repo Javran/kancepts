@@ -29,10 +29,6 @@ import { store } from './store'
 
      - find a way to allow list modification
 
-   - (TODO) DLC Lab
-
-     - allow user to experiment about incomes related to DLC and GS
-
    - settings
 
      - i18n

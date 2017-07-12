@@ -23,7 +23,7 @@ const dlcResultsSelector = createSelector(
   ui => {
     const {kinuK2, gsPercent, equipments, rawIncome} = ui
     const rows = []
-    const createRow = (id, name, content='TODO', tooltip=null) =>
+    const createRow = (id, name, content, tooltip=null) =>
       rows.push({id,name,content,tooltip})
     const incomeMod = 1+0.5*gsPercent/100
     createRow(

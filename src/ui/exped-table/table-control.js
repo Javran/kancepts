@@ -127,7 +127,7 @@ class TableControlImpl extends Component {
               <Button
                 onClick={this.handleViewNumericToggle}
                 active={control.view.numeric}>
-                Numeric View
+                Numeric
               </Button>
             </ButtonGroup>
           </ButtonToolbar>
