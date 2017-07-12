@@ -20,18 +20,20 @@ import { store } from './store'
 
      - tooltip on expeditions
 
-   - table & config
+   - table
 
      - impl numeric view: the idea is to force general cost view
      - tooltips
 
    - ship list
 
+     - sorting
      - find a way to allow list modification
 
-   - settings
+   - settings (TODO)
 
      - i18n
+     - autoconfig table
      - data import / export
 
  */
