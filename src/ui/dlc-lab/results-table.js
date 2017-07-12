@@ -4,9 +4,12 @@ import { connect } from 'react-redux'
 import {
   Table,
   FormControl,
+  OverlayTrigger,
+  Tooltip,
 } from 'react-bootstrap'
 
 import { dlcLabUISelector } from '../../selectors'
+import { dlcResultsSelector } from './selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 import { PTyp } from '../../ptyp'
 import { modifyObject } from '../../utils'
@@ -14,6 +17,12 @@ import { modifyObject } from '../../utils'
 class ResultsTableImpl extends Component {
   static propTypes = {
     rawIncome: PTyp.number.isRequired,
+    resultRows: PTyp.arrayOf(PTyp.shape({
+      id: PTyp.string.isRequired,
+      name: PTyp.string.isRequired,
+      content: PTyp.node.isRequired,
+      tooltip: PTyp.node,
+    })).isRequired,
     modifyDlcLabUI: PTyp.func.isRequired,
   }
 
@@ -52,6 +61,7 @@ class ResultsTableImpl extends Component {
       this.debouncedRawIncomeUpdate)
 
   render() {
+    const {resultRows} = this.props
     const mkHeader = (content, style={}) => (
       <td style={{
         verticalAlign: 'middle',
@@ -62,9 +72,21 @@ class ResultsTableImpl extends Component {
       }}>{content}</td>
     )
 
-    // TODO
-    const mkRow = (name, value='TODO', key=undefined) => (
-      <tr key={key}>{mkHeader(name)}<td>{value}</td></tr>
+    const renderRow = ({id, name, content, tooltip}) => (
+      <tr key={id}>
+        {mkHeader(name)}
+        {
+          tooltip !== null ? (
+            <OverlayTrigger placement="left" overlay={
+              <Tooltip id={`result-row-${name}`}>
+                {tooltip}
+              </Tooltip>}>
+              <td>{content}</td>
+            </OverlayTrigger>) : (
+              <td>{content}</td>
+            )
+        }
+      </tr>
     )
 
     return (
@@ -85,16 +107,7 @@ class ResultsTableImpl extends Component {
             </td>
           </tr>
           {
-            [
-              'Income Modifier',
-              'Basic Income',
-              'Equipment Count',
-              'Ave. Improvement',
-              'DLC Bonus',
-              'Toku DLC Bonus',
-              'Total Income',
-              'Actual Modifier',
-            ].map((n,ind) => mkRow(n,undefined,ind))
+            resultRows.map(renderRow)
           }
         </tbody>
       </Table>
@@ -105,7 +118,8 @@ class ResultsTableImpl extends Component {
 const ResultsTable = connect(
   state => {
     const {rawIncome} = dlcLabUISelector(state)
-    return {rawIncome}
+    const resultRows = dlcResultsSelector(state)
+    return {rawIncome, resultRows}
   },
   mapDispatchToProps)(ResultsTableImpl)
 
