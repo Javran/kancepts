@@ -45,7 +45,12 @@ class ExpedRowViewImpl extends Component {
       onToggleEditor,
       numeric,
     } = this.props
-    const {info, config, showResource} = expedInfoView
+    const {
+      info,
+      config,
+      showResource,
+      resupplyInfo,
+    } = expedInfoView
     const {
       id, name, time,
       itemProb, itemGS,
@@ -115,6 +120,7 @@ class ExpedRowViewImpl extends Component {
             style={{width: '50%'}}
             cost={cost}
             numeric={numeric}
+            resupplyInfo={resupplyInfo}
           />
         </div>
         <Button

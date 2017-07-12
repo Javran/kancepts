@@ -25,7 +25,7 @@ const renderStandard = (gs,daihatsu,prefix,factor) => (
   <OverlayTrigger
     placement="left"
     overlay={
-      <Tooltip id={`${prefix}-income-modifier`}>
+      <Tooltip id={`${prefix}income-modifier`}>
         {pprIncomePercent(factor)}
       </Tooltip>
     }
