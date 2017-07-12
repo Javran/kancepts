@@ -11,6 +11,7 @@ import { ExpedTable } from './exped-table'
 import { ShipList } from './ship-list'
 import { CostModel } from './cost-model'
 import { DlcLab } from './dlc-lab'
+import { SettingsAndTools } from './settings-and-tools'
 import { observeAll } from '../observer'
 import { currentTabSelector } from '../selectors'
 import { mapDispatchToProps } from '../store/reducer/ui/current-tab'
@@ -25,6 +26,7 @@ defineTab('table', 'Table', ExpedTable)
 defineTab('cost-model', 'Cost Model', CostModel)
 defineTab('ship-list', 'Ship List', ShipList)
 defineTab('dlc-lab', 'DLC Lab', DlcLab)
+defineTab('settings', 'Settings & Tools', SettingsAndTools)
 
 class KanceptsMainImpl extends Component {
   static propTypes = {
