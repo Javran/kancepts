@@ -15,10 +15,6 @@ import { store } from './store'
 
    TODO
 
-   - planner
-
-     - tooltip on expeditions
-
    - ship list
 
      - sorting

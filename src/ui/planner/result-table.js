@@ -58,7 +58,7 @@ class ResultTableImpl extends Component {
                 return (
                   <OverlayTrigger
                     key={key}
-                    placement="bottom"
+                    placement="top"
                     overlay={
                       <Tooltip id={`tooltip-${key}`}>
                         <ExpedsDetail expedIds={expedIds} />

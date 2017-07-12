@@ -6,20 +6,10 @@ import {
 
 import { PTyp } from '../../ptyp'
 import { ItemIcon } from '../item-icon'
-import { modifierToFactor } from '../../exped-info'
-
-// 0 < value < 5
-const pprIncomePercent = v => {
-  if (v <= 0 || v >= 5)
-    return console.error(`invariant violation: ${v} is not in range (0,5)`)
-  if (v < 1) {
-    const diff = (1-v)*100
-    return `-${diff.toFixed(2)}%`
-  } else {
-    const diff = (v-1)*100
-    return `+${diff.toFixed(2)}%`
-  }
-}
+import {
+  pprIncomePercent,
+  modifierToFactor,
+} from '../../exped-info'
 
 const renderStandard = (gs,daihatsu,prefix,factor) => (
   <OverlayTrigger
