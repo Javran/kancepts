@@ -90,15 +90,19 @@ class ExpedRowViewImpl extends Component {
             key="item1"
             style={{width: '21%'}}
             isHourly={isHourly}
+            time={time}
             item={itemProb}
             gs={null}
+            prefix={`exped-row-${id}-item1-`}
           />
           <ItemView
             key="item2"
             style={{width: '21%'}}
             isHourly={isHourly}
+            time={time}
             item={itemGS}
             gs={guessedGS}
+            prefix={`exped-row-${id}-item2-`}
           />
         </div>
         <div style={{

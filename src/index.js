@@ -19,13 +19,6 @@ import { store } from './store'
 
      - tooltip on expeditions
 
-   - table
-
-     - impl numeric view: the idea is to force general cost view
-     - hourly view for items
-     - hide gs item for non-great success?
-     - tooltips
-
    - ship list
 
      - sorting
