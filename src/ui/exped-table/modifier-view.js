@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import {
   OverlayTrigger,
   Tooltip,
@@ -8,7 +7,6 @@ import {
 import { PTyp } from '../../ptyp'
 import { ItemIcon } from '../item-icon'
 import { modifierToFactor } from '../../exped-info'
-import { tableUISelector } from '../../selectors'
 
 // 0 < value < 5
 const pprIncomePercent = v => {
@@ -54,7 +52,7 @@ const renderCustom = value => (
   </div>
 )
 
-class ModifierViewImpl extends Component {
+class ModifierView extends Component {
   static propTypes = {
     style: PTyp.object,
     prefix: PTyp.string,
@@ -83,12 +81,5 @@ class ModifierViewImpl extends Component {
     )
   }
 }
-
-const ModifierView = connect(
-  state => {
-    const {numeric} = tableUISelector(state).view
-    return {numeric}
-  }
-)(ModifierViewImpl)
 
 export { ModifierView }

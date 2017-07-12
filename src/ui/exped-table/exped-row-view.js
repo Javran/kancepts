@@ -1,17 +1,19 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
-import { filters } from '../../ship-filters'
 import {
   formatTime,
   resourceColor,
   resourceProperties,
 } from '../../exped-info'
+import { tableUISelector } from '../../selectors'
 import { ModifierView } from './modifier-view'
+import { CostView } from './cost-view'
 
 // eslint-disable-next-line react/prop-types
 const mkItem = ({name, maxCount}, isGS) => {
@@ -28,46 +30,12 @@ const mkItem = ({name, maxCount}, isGS) => {
   )
 }
 
-
-const viewCost = cost => {
-  if (cost.type === 'cost-model') {
-    const filterInfo = filters.find(d => d.id === cost.wildcard)
-    const name = typeof filterInfo === 'undefined' ?
-      cost.wildcard :
-      filterInfo.title
-    return (
-      <div>
-        {`≥${cost.count}, *=${name}`}
-      </div>
-    )
-  }
-  if (cost.type === 'custom') {
-    return (
-      <div style={{display: 'flex'}}>
-        <div style={{
-          flex: 1,
-          fontWeight: 'bold',
-          color: resourceColor.fuel,
-        }}>
-          {-cost.fuel}
-        </div>
-        <div style={{
-          flex: 1,
-          fontWeight: 'bold',
-          color: resourceColor.ammo,
-        }}>
-          {-cost.ammo}
-        </div>
-      </div>
-    )
-  }
-}
-
-class ExpedRowView extends Component {
+class ExpedRowViewImpl extends Component {
   static propTypes = {
     expedInfoView: PTyp.object.isRequired,
     editing: PTyp.bool.isRequired,
     onToggleEditor: PTyp.func.isRequired,
+    numeric: PTyp.bool.isRequired,
   }
 
   render() {
@@ -75,6 +43,7 @@ class ExpedRowView extends Component {
       expedInfoView,
       editing,
       onToggleEditor,
+      numeric,
     } = this.props
     const {info, config, showResource} = expedInfoView
     const {
@@ -139,8 +108,14 @@ class ExpedRowView extends Component {
             prefix={`exped-row-${id}-`}
             style={{width: '50%'}}
             modifier={modifier}
+            numeric={numeric}
           />
-          <div style={{width: '50%'}}>{viewCost(cost)}</div>
+          <CostView
+            prefix={`exped-row-${id}-`}
+            style={{width: '50%'}}
+            cost={cost}
+            numeric={numeric}
+          />
         </div>
         <Button
           onClick={onToggleEditor}
@@ -153,5 +128,12 @@ class ExpedRowView extends Component {
     )
   }
 }
+
+const ExpedRowView = connect(
+  state => {
+    const {numeric} = tableUISelector(state).view
+    return {numeric}
+  }
+)(ExpedRowViewImpl)
 
 export { ExpedRowView }
