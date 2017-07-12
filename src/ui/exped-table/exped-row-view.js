@@ -4,31 +4,17 @@ import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
-import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
 import {
   formatTime,
   resourceColor,
   resourceProperties,
+  guessGreatSuccess,
 } from '../../exped-info'
 import { tableUISelector } from '../../selectors'
+import { ItemView } from './item-view'
 import { ModifierView } from './modifier-view'
 import { CostView } from './cost-view'
-
-// eslint-disable-next-line react/prop-types
-const mkItem = ({name, maxCount}, isGS) => {
-  if (name === null || maxCount === 0)
-    return (<span>-</span>)
-  const countText = isGS ?
-    (maxCount > 1 ? `1~${maxCount}` : '1') :
-    `0~${maxCount}`
-  return (
-    <span>
-      <ItemIcon style={{width: '1.1em'}} name={name} />
-      <span>{`x${countText}`}</span>
-    </span>
-  )
-}
 
 class ExpedRowViewImpl extends Component {
   static propTypes = {
@@ -36,6 +22,7 @@ class ExpedRowViewImpl extends Component {
     editing: PTyp.bool.isRequired,
     onToggleEditor: PTyp.func.isRequired,
     numeric: PTyp.bool.isRequired,
+    isHourly: PTyp.bool.isRequired,
   }
 
   render() {
@@ -44,6 +31,7 @@ class ExpedRowViewImpl extends Component {
       editing,
       onToggleEditor,
       numeric,
+      isHourly,
     } = this.props
     const {
       info,
@@ -58,6 +46,7 @@ class ExpedRowViewImpl extends Component {
     const {
       modifier, cost,
     } = config
+    const guessedGS = guessGreatSuccess(modifier)
     return (
       <div style={{display: 'flex', alignItems: 'center'}}>
         <div style={{
@@ -97,12 +86,20 @@ class ExpedRowViewImpl extends Component {
               )
             })
           }
-          <div key="item1" style={{width: '21%'}}>
-            {mkItem(itemProb,false)}
-          </div>
-          <div key="item2" style={{width: '21%'}}>
-            {mkItem(itemGS,true)}
-          </div>
+          <ItemView
+            key="item1"
+            style={{width: '21%'}}
+            isHourly={isHourly}
+            item={itemProb}
+            gs={null}
+          />
+          <ItemView
+            key="item2"
+            style={{width: '21%'}}
+            isHourly={isHourly}
+            item={itemGS}
+            gs={guessedGS}
+          />
         </div>
         <div style={{
           width: '30%',
@@ -137,8 +134,9 @@ class ExpedRowViewImpl extends Component {
 
 const ExpedRowView = connect(
   state => {
-    const {numeric} = tableUISelector(state).view
-    return {numeric}
+    const {numeric, divide} = tableUISelector(state).view
+    const isHourly = divide === 'hourly'
+    return {numeric, isHourly}
   }
 )(ExpedRowViewImpl)
 

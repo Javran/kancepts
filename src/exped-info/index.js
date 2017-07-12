@@ -149,6 +149,13 @@ const formatTime = minutes => {
 
 const plusResource = liftBinaryToResource((x,y) => x+y)
 
+const guessGreatSuccess = modifier =>
+  modifier.type === 'standard' ?
+    modifier.gs :
+  modifier.type === 'custom' ?
+    modifier.value >= 1.5 :
+  false
+
 export {
   resourceColor,
   allExpedIdList,
@@ -162,4 +169,5 @@ export {
   computeResupplyInfo,
   formatTime,
   modifierToFactor,
+  guessGreatSuccess,
 }
