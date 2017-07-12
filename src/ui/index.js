@@ -59,8 +59,8 @@ class KanceptsMainImpl extends Component {
                 <NavItem eventKey="planner">
                   Planner
                 </NavItem>
-                <NavItem eventKey="config">
-                  Table & Config
+                <NavItem eventKey="table">
+                  Table
                 </NavItem>
                 <NavItem eventKey="cost-model">
                   Cost Model
@@ -78,7 +78,7 @@ class KanceptsMainImpl extends Component {
                 <Tab.Pane eventKey="planner">
                   <Planner />
                 </Tab.Pane>
-                <Tab.Pane eventKey="config">
+                <Tab.Pane eventKey="table">
                   <ExpedTable />
                 </Tab.Pane>
                 <Tab.Pane eventKey="cost-model">
