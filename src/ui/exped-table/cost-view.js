@@ -5,20 +5,37 @@ import {
 } from 'react-bootstrap'
 
 import { PTyp } from '../../ptyp'
-import { filters, compoToStr } from '../../ship-filters'
+import { compoToStr, getFilterName } from '../../ship-filters'
 import {
   resourceColor,
 } from '../../exped-info'
 
-const renderCostModel = (wildcard, count, prefix) => {
-  const filterInfo = filters.find(d => d.id === wildcard)
-  const name = typeof filterInfo === 'undefined' ?
-    wildcard :
-    filterInfo.title
+const renderCostModel = (wildcard, count, compo, cost, prefix) => {
+  const name = getFilterName(wildcard)
   return (
-    <div>
-      {`≥${count}, *=${name}`}
-    </div>
+    <OverlayTrigger
+      placement="left"
+      overlay={
+        <Tooltip id={`${prefix}-cost-cost-model`}>
+          <div>
+            <div>Require ≥{count} ship(s) in fleet</div>
+            <div>Wildcard: {name}</div>
+            <div>Composition: {compoToStr(compo)}</div>
+            <div>
+              Cost: {
+                cost.fuel === 0 ? 'No Fuel Cost' : `Fuel ${-cost.fuel}`
+              } & {
+                cost.ammo === 0 ? 'No Ammo Cost' : `Ammo ${-cost.ammo}`
+              }
+            </div>
+          </div>
+        </Tooltip>
+      }
+    >
+      <div>
+        {`≥${count}, *=${name}`}
+      </div>
+    </OverlayTrigger>
   )
 }
 
@@ -45,7 +62,7 @@ const renderCustom = (fuel, ammo, compo, prefix) => {
     <OverlayTrigger
       placement="left"
       overlay={
-        <Tooltip id={`${prefix}-cost`}>
+        <Tooltip id={`${prefix}-cost-custom`}>
           {compoToStr(compo)}
         </Tooltip>
       }
@@ -75,9 +92,13 @@ class CostView extends Component {
       <div style={style}>
         {
           (numeric || cost.type === 'custom') ?
-            renderCustom(generalCost.fuel,generalCost.ammo,compo,prefix) :
+            renderCustom(
+              generalCost.fuel,generalCost.ammo,
+              compo,prefix) :
           cost.type === 'cost-model' ?
-            renderCostModel(cost.wildcard,cost.count,prefix) :
+            renderCostModel(
+              cost.wildcard,cost.count,
+              compo,generalCost,prefix) :
           null
         }
       </div>
