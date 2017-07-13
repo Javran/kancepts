@@ -1,20 +1,29 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Col,
   Label,
 } from 'react-bootstrap'
 
-import { enumFromTo } from '../../../utils'
+import { selectedExpedsSelector } from './selectors'
+import { mapDispatchToProps } from '../../../store/reducer/ui/settings/exped-table-batch-config'
+import { PTyp } from '../../../ptyp'
 
-class SelectedExpedsArea extends Component {
+class SelectedExpedsAreaImpl extends Component {
+  static propTypes = {
+    selectedExpeds: PTyp.arrayOf(PTyp.number).isRequired,
+    modifyBatchConfig: PTyp.func.isRequired,
+  }
+
   render() {
+    const {selectedExpeds} = this.props
     return (
       <Col md={9} style={{
         display: 'flex',
         flexWrap: 'wrap',
       }}>
         {
-          enumFromTo(1,40).map(x => (
+          selectedExpeds.map(x => (
             <Label key={x} style={{
               fontSize: '.9em',
               marginRight: '.2em',
@@ -27,5 +36,13 @@ class SelectedExpedsArea extends Component {
     )
   }
 }
+
+const SelectedExpedsArea = connect(
+  state => {
+    const selectedExpeds = selectedExpedsSelector(state)
+    return {selectedExpeds}
+  },
+  mapDispatchToProps,
+)(SelectedExpedsAreaImpl)
 
 export { SelectedExpedsArea }

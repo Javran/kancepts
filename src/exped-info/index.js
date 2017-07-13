@@ -119,7 +119,9 @@ const expedInfoList = expedInfoListRaw.map(raw => {
   const $mission = $missions[id]
   const name = $mission.api_name
   const time = $mission.api_time
-  const [fuel,ammo,steel,bauxite] = raw.resource
+  const resourceArr = raw.resource
+  const [fuel,ammo,steel,bauxite] = resourceArr
+  const resourceSum = _.sum(resourceArr)
   const fromRawItem = ([itmId, itmCnt]) =>
     ({name: itemIdToName(itmId), maxCount: itmCnt})
 
@@ -128,9 +130,11 @@ const expedInfoList = expedInfoListRaw.map(raw => {
   const fuelPercent = Math.round($mission.api_use_fuel * 100)
   const ammoPercent = Math.round($mission.api_use_bull * 100)
   const minCompo = minimalFleetCompos[id]
+  const resource = {fuel, ammo, steel, bauxite}
   return {
     id, name, time,
-    resource: {fuel, ammo, steel, bauxite},
+    resource,
+    resourceSum,
     // itemProb: item obtainable randomly from expedition
     // itemGS: guaranteed item if great success is achieved
     itemProb, itemGS,

@@ -12,6 +12,12 @@ const initState = {
       enabled: false,
       value: 500,
     },
+    connective: {
+      // 'enabled' state of this one is derived
+      // from the other two
+      // which is available through selector
+      value: 'and',
+    },
   },
   selected: allExpedIdList,
   options: {
