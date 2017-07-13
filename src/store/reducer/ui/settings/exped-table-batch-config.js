@@ -1,4 +1,25 @@
-const initState = {
+import { expedInfoList } from '../../../../exped-info'
+
+const prepareFilterFunc = ({expedTime, resourceSum, connective}) => {
+  const expedTimeFunc = expedTime.enabled ?
+    (ei => ei.time >= expedTime.value) :
+    () => true
+  const resourceSumFunc = resourceSum.enabled ?
+    (ei => ei.resourceSum >= resourceSum.value) :
+    () => true
+  const connectiveEnabled = expedTime.enabled && resourceSum.enabled
+  if (connectiveEnabled) {
+    const binary =
+      connective.value === 'and' ? ((x,y) => x && y) :
+      connective.value === 'or' ? ((x,y) => x || y) :
+      console.error(`Invalid connective: ${connective.value}`)
+    return ei => binary(expedTimeFunc(ei), resourceSumFunc(ei))
+  } else {
+    return ei => expedTimeFunc(ei) && resourceSumFunc(ei)
+  }
+}
+
+const preInitState = {
   filter: {
     expedTime: {
       enabled: true,
@@ -22,6 +43,13 @@ const initState = {
   },
 }
 
+const initState = {
+  ...preInitState,
+  selected: expedInfoList.filter(
+    prepareFilterFunc(preInitState.filter)
+  ).map(ei => ei.id),
+}
+
 const reducer = (state = initState, action) => {
   if (action.type === 'SettingsExpedTableBatchConfig@modify') {
     const {modifier} = action
@@ -37,4 +65,8 @@ const mapDispatchToProps = dispatch => ({
   }),
 })
 
-export { reducer, mapDispatchToProps }
+export {
+  reducer,
+  mapDispatchToProps,
+  prepareFilterFunc,
+}

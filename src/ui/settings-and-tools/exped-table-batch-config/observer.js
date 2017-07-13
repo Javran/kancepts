@@ -2,21 +2,20 @@ import _ from 'lodash'
 import { observer } from 'redux-observers'
 import {
   filterStateSelector,
-  filterFuncSelector,
 } from './selectors'
 import { modifyObject } from '../../../utils'
 import { expedInfoList } from '../../../exped-info'
 import {
   mapDispatchToProps,
+  prepareFilterFunc,
 } from '../../../store/reducer/ui/settings/exped-table-batch-config'
-import { store } from '../../../store'
 
 const filterStateObserver = observer(
   filterStateSelector,
   (dispatch, current, previous) => {
     if (! _.isEqual(current,previous) &&
         ! _.isEmpty(current)) {
-      const func = filterFuncSelector(store.getState())
+      const func = prepareFilterFunc(current)
       const selected =
         expedInfoList.filter(func).map(ei => ei.id)
       mapDispatchToProps(dispatch)
@@ -27,8 +26,7 @@ const filterStateObserver = observer(
           )
         )
     }
-  },
-  {skipInitialCall: false}
+  }
 )
 
 export { filterStateObserver }

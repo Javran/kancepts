@@ -23,7 +23,6 @@ import { store } from './store'
    - settings (TODO)
 
      - i18n
-     - reset
      - data import / export
 
  */
