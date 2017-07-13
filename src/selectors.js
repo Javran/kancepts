@@ -15,6 +15,7 @@ import {
 const shipListSelector = state => state.shipList
 const expedConfigsSelector = state => state.expedConfigs
 const uiSelector = state => state.ui
+const languageSelector = state => state.language
 
 const currentTabSelector = createSelector(
   uiSelector,
@@ -285,4 +286,5 @@ export {
   makeExpedIncomeSelector,
   expedIncomesSelector,
   expedInfoViewListSelector,
+  languageSelector,
 }

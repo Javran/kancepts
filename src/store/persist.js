@@ -25,23 +25,10 @@ import { createSelector } from 'reselect'
 
 import { shallowEqual } from '../utils'
 
-/*
-
- TODO normalizer on:
-
-   - 'expedConfigs',
-   - 'shipList',
-   - 'ui.planner.config',
-   - 'ui.currentTab',
-   - 'ui.table.view',
-   - 'ui.table.sort',
-   - 'ui.dlcLab',
-
- */
-
 const persistPaths = [
   'expedConfigs',
   'shipList',
+  'language',
   'ui.planner.config',
   'ui.currentTab',
   'ui.table.view',
