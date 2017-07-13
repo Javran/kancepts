@@ -45,13 +45,24 @@ const modifyArray = (index, f) => {
   }
 }
 
-const modifyObject = (propName, f) => {
+const modifyObject = (propName, f, removeUndefined = false) => {
   if (typeof f !== 'function')
     console.error('modifier is not a function')
-  return obj => ({
-    ...obj,
-    [propName]: f(obj[propName]),
-  })
+
+  return obj => {
+    const val = obj[propName]
+    const newVal = f(val)
+    if (typeof newVal === 'undefined' && removeUndefined) {
+      const newObj = {...obj}
+      delete newObj[propName]
+      return newObj
+    } else {
+      return ({
+        ...obj,
+        [propName]: newVal,
+      })
+    }
+  }
 }
 
 const mkErrorRecorder = () => {
@@ -224,10 +235,17 @@ const pprTime = (time, tr=null) => {
     mm > 0 ? `${mm} ${minShort}` : null,
   ]).join(' ')
 }
+
 const mergeMapDispatchToProps = (...mdtps) => dispatch =>
   mdtps.reduce(
     (props, curMdtp) => ({...props, ...curMdtp(dispatch)}),
     {})
+
+// shallowly remove properties whose value is `undefined` for an Object
+const shallowCompactObject = obj =>
+  _.fromPairs(
+    _.toPairs(obj).filter(([_k,v]) =>
+      typeof v !== 'undefined'))
 
 export {
   enumFromTo,
@@ -261,4 +279,5 @@ export {
   improvementToText,
   pprTime,
   mergeMapDispatchToProps,
+  shallowCompactObject,
 }

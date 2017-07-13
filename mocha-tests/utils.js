@@ -3,6 +3,7 @@ import {
   pickSomeFrom,
   modifyObject,
   memoizeFixedArity,
+  shallowCompactObject,
 } from '../src/utils'
 
 const assert = require('assert')
@@ -49,6 +50,20 @@ describe('utils', () => {
             'c',
             x => x+1)))(original),
       {a: {b: {c: 11,f: 1}}, d: 20})
+
+    assert.deepEqual(
+      modifyObject(
+        'a',
+        () => undefined)(original),
+      {a: undefined, d: 20})
+
+    assert.deepEqual(
+      modifyObject(
+        'a',
+        () => undefined,
+        true
+      )(original),
+      {d: 20})
   })
 
   spec('memoizeFixedArity', () => {
@@ -86,5 +101,14 @@ describe('utils', () => {
     })
     // all values are cached
     assert.equal(nowExecCount, execCount)
+  })
+
+  spec('shallowCompactObject', () => {
+    const obj = {a: undefined, b: 1, c: undefined}
+
+    assert.throws(() =>
+      assert.deepEqual({a: undefined},{}))
+
+    assert.deepEqual(shallowCompactObject(obj),{b: 1})
   })
 })
