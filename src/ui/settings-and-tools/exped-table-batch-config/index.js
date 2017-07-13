@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {
   Grid, Col, Row,
-  Button,
   Alert,
 } from 'react-bootstrap'
 
