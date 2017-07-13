@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import React, { Component } from 'react'
 import { Table } from 'react-bootstrap'
 import { connect } from 'react-redux'
@@ -8,15 +7,7 @@ import { expedDetailSelector } from './selectors'
 import { ResourceCell } from './resource-cell'
 import { ConfigCell } from './config-cell'
 import { compoToStr } from '../../../ship-filters'
-
-const pprTime = time => {
-  const hh = Math.floor(time / 60)
-  const mm = time - hh*60
-  return _.compact([
-    hh > 0 ? `${hh} hr` : null,
-    mm > 0 ? `${mm} min` : null,
-  ]).join(' ')
-}
+import { pprTime } from '../../../utils'
 
 class ExpedDetailImpl extends Component {
   static propTypes = {

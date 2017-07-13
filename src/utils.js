@@ -213,6 +213,15 @@ const improvementToText = level =>
   level === 10 ? '★+max' :
   `★+${level}`
 
+const pprTime = time => {
+  const hh = Math.floor(time / 60)
+  const mm = time - hh*60
+  return _.compact([
+    hh > 0 ? `${hh} hr` : null,
+    mm > 0 ? `${mm} min` : null,
+  ]).join(' ')
+}
+
 export {
   enumFromTo,
   ignore,
@@ -243,4 +252,5 @@ export {
 
   handleNoSubmit,
   improvementToText,
+  pprTime,
 }

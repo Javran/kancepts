@@ -1,19 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import FontAwesome from 'react-fontawesome'
 import {
   Col,
   Label,
+  Button,
+  OverlayTrigger,
+  Tooltip,
 } from 'react-bootstrap'
 
 import { selectedExpedsSelector } from './selectors'
 import { mapDispatchToProps } from '../../../store/reducer/ui/settings/exped-table-batch-config'
 import { PTyp } from '../../../ptyp'
+import { modifyObject } from '../../../utils'
+import { ExpedDetail } from './exped-detail'
 
 class SelectedExpedsAreaImpl extends Component {
   static propTypes = {
     selectedExpeds: PTyp.arrayOf(PTyp.number).isRequired,
     modifyBatchConfig: PTyp.func.isRequired,
   }
+
+  modifySelected = modifier =>
+    this.props.modifyBatchConfig(
+      modifyObject('selected', modifier))
+
+  handleRemoveExped = id => () =>
+    this.modifySelected(
+      selected => selected.filter(x => x !== id))
 
   render() {
     const {selectedExpeds} = this.props
@@ -23,14 +37,36 @@ class SelectedExpedsAreaImpl extends Component {
         flexWrap: 'wrap',
       }}>
         {
-          selectedExpeds.map(x => (
-            <Label key={x} style={{
-              fontSize: '.9em',
-              marginRight: '.2em',
-              marginBottom: '.2em',
-              width: '3em',
-            }}>{x}</Label>
-          ))
+          selectedExpeds.length > 0 ? (
+            selectedExpeds.map(id => (
+              <OverlayTrigger
+                key={id}
+                placement="left"
+                overlay={
+                  <Tooltip id={`batch-config-selected-${id}`}>
+                    <ExpedDetail id={id} />
+                  </Tooltip>
+                }>
+                <Label style={{
+                  fontSize: '.9em',
+                  marginRight: '.2em',
+                  marginBottom: '.2em',
+                  width: '5.2em',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}>
+                  <div style={{width: '3em'}}>
+                    {id}
+                  </div>
+                  <Button
+                    onClick={this.handleRemoveExped(id)}
+                    bsStyle="warning" bsSize="xsmall">
+                    <FontAwesome name="close" />
+                  </Button>
+                </Label>
+              </OverlayTrigger>
+            ))
+          ) : 'None'
         }
       </Col>
     )
