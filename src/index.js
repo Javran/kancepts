@@ -22,7 +22,7 @@ import { store } from './store'
 
    - settings (TODO)
 
-     - i18n
+     - i18n (en-US, zh-TW)
 
  */
 
