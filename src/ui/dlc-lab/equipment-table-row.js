@@ -82,6 +82,11 @@ class EquipmentTableRowImpl extends Component {
       // nothing to upgrade or downgrade
       return null
 
+    const minus = val => {
+      const newVal = val-1
+      return newVal <= 0 ? undefined : newVal
+    }
+
     if (which === 'up') {
       if (level >= 10)
         return null
@@ -89,7 +94,8 @@ class EquipmentTableRowImpl extends Component {
         _.flow([
           modifyObject(
             level,
-            () => count-1),
+            () => minus(count),
+            true),
           modifyObject(
             level+1,
             (curCount=0) => curCount+1),
@@ -103,7 +109,8 @@ class EquipmentTableRowImpl extends Component {
         _.flow([
           modifyObject(
             level,
-            () => count-1),
+            () => minus(count),
+            true),
           modifyObject(
             level-1,
             (curCount=0) => curCount+1),
