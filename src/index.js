@@ -23,19 +23,8 @@ import { store } from './store'
    - settings (TODO)
 
      - i18n
-     - autoconfig table
+     - reset
      - data import / export
-     - table batch:
-
-       - reset all
-       - apply great success for
-           - expeditions that
-
-               - longer than ? mins
-               - resource sum >= ?
-
-           - dlc: require 0(*)/1/2/3/4
-           - fleet count: 6(*)/5/4
 
  */
 
