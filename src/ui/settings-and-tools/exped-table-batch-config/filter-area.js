@@ -77,6 +77,7 @@ class FilterAreaImpl extends Component {
     } = this.props
     return (
       <Col md={9} style={{
+        ...formRowStyle,
         display: 'flex',
         flexDirection: 'column',
       }}>

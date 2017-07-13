@@ -1,16 +1,12 @@
-import {
-  allExpedIdList,
-} from '../../../../exped-info'
-
 const initState = {
   filter: {
     expedTime: {
-      enabled: false,
+      enabled: true,
       value: 60,
     },
     resourceSum: {
-      enabled: false,
-      value: 500,
+      enabled: true,
+      value: 400,
     },
     connective: {
       // 'enabled' state of this one is derived
@@ -19,7 +15,7 @@ const initState = {
       value: 'and',
     },
   },
-  selected: allExpedIdList,
+  selected: [],
   options: {
     dlcCount: 4,
     shipCount: 6,

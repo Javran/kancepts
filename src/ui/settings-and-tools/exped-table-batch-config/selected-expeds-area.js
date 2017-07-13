@@ -17,6 +17,7 @@ import { ExpedDetail } from './exped-detail'
 
 class SelectedExpedsAreaImpl extends Component {
   static propTypes = {
+    formRowStyle: PTyp.object.isRequired,
     selectedExpeds: PTyp.arrayOf(PTyp.number).isRequired,
     modifyBatchConfig: PTyp.func.isRequired,
   }
@@ -30,9 +31,10 @@ class SelectedExpedsAreaImpl extends Component {
       selected => selected.filter(x => x !== id))
 
   render() {
-    const {selectedExpeds} = this.props
+    const {selectedExpeds, formRowStyle} = this.props
     return (
       <Col md={9} style={{
+        ...formRowStyle,
         display: 'flex',
         flexWrap: 'wrap',
       }}>

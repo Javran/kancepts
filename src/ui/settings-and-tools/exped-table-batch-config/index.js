@@ -2,13 +2,28 @@ import React, { Component } from 'react'
 import {
   Grid, Col, Row,
   Button,
+  Alert,
 } from 'react-bootstrap'
 
 import { FilterArea } from './filter-area'
 import { SelectedExpedsArea } from './selected-expeds-area'
 import { OptionsArea } from './options-area'
+import { ExecuteButton } from './execute-button'
 
 class ExpedTableBatchConfig extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      message: null,
+    }
+  }
+
+  handleDismissMessage = () =>
+    this.setState({message: null})
+
+  handlePostMessage = message =>
+    this.setState({message})
+
   render() {
     const formElemStyle = {
       marginLeft: '.4em',
@@ -16,6 +31,7 @@ class ExpedTableBatchConfig extends Component {
     const formRowStyle = {
       marginBottom: '.5em',
     }
+    const {message} = this.state
     return (
       <div>
         <div style={{marginBottom: '1em'}}>
@@ -36,7 +52,9 @@ class ExpedTableBatchConfig extends Component {
             <Col md={3}>
               Selected Expeditions
             </Col>
-            <SelectedExpedsArea />
+            <SelectedExpedsArea
+              formRowStyle={formRowStyle}
+            />
           </Row>
           <Row>
             <Col md={3}>
@@ -48,12 +66,22 @@ class ExpedTableBatchConfig extends Component {
           </Row>
           <Row>
             <Col md={12} style={{display: 'flex', justifyContent: 'flex-end'}}>
-              <Button>
-                Execute
-              </Button>
+              <ExecuteButton
+                onPostMessage={this.handlePostMessage}
+              />
             </Col>
           </Row>
         </Grid>
+        {
+          message && (
+            <Alert
+              onDismiss={this.handleDismissMessage}
+              style={{marginTop: '1em'}}
+              bsStyle="success">
+              {message}
+            </Alert>
+          )
+        }
       </div>
     )
   }

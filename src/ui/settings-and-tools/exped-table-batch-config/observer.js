@@ -14,7 +14,8 @@ import { store } from '../../../store'
 const filterStateObserver = observer(
   filterStateSelector,
   (dispatch, current, previous) => {
-    if (! _.isEqual(current,previous)) {
+    if (! _.isEqual(current,previous) &&
+        ! _.isEmpty(current)) {
       const func = filterFuncSelector(store.getState())
       const selected =
         expedInfoList.filter(func).map(ei => ei.id)
@@ -26,6 +27,8 @@ const filterStateObserver = observer(
           )
         )
     }
-  })
+  },
+  {skipInitialCall: false}
+)
 
 export { filterStateObserver }
