@@ -1,3 +1,189 @@
 {
-  "Test": "TEST (cn)"
+  "Expedition": "远征",
+  "Expeditions": "远征",
+  "Resource": "资源",
+  "Cost": "消耗",
+  "Config": "配置",
+  "Composition": "舰队编成",
+  "NormalSuccess": "普通成功",
+  "GreatSuccess": "大成功",
+  "Presets": "预设",
+
+  "Yes": "是",
+  "No": "否",
+
+  "And": "且",
+  "Or": "或",
+
+  "Hours": "小时",
+  "Mins": "分钟",
+
+  "HourShort": "小时",
+  "MinShort": "分钟",
+
+  "NotAva": "无",
+
+  "FleetN": {
+    "one": "%d 舰队",
+    "other": "%d 舰队"
+  },
+
+  "ShipN": {
+    "one": "%d 舰",
+    "other": "%d 舰"
+  },
+
+  "ShipType": "舰种",
+  "ShipName": "舰名",
+
+  "Resource": {
+    "Fuel": "燃油",
+    "Ammo": "弹药",
+    "Steel": "钢材",
+    "Bauxite": "铝土矿",
+    "NoFuelCost": "无燃油消耗",
+    "NoAmmoCost": "无弹药消耗"
+  },
+
+  "STypeLong": {
+    "DD": "驱逐舰 (DD)",
+    "SS(*)": "潜艇系 (SS/SSV)",
+    "DE": "海防舰 (DE)"
+  },
+
+  "IncomeModifier": {
+    "Name": "收入系数",
+    "Standard": "标准",
+    "Custom": "定制",
+    "ModifierNum": "系数"
+  },
+
+  "ResupplyCost": {
+    "Name": "补给消耗",
+    "CostModel": "消耗模型",
+    "Custom": "定制",
+    "ShipCount": "舰船数",
+    "Wildcard": "通配舰种"
+  },
+
+  "Tabs": {
+    "Planner": "远征规划",
+    "Table": "收入表",
+    "CostModel": "消耗模型",
+    "ShipList": "舰船列表",
+    "DlcLab": "大发实验室",
+    "SettingsAndTools": "设置 & 工具"
+  },
+
+  "Planner": {
+    "Expeditions": "远征",
+    "Presets": "预设",
+    "ResourceWeight": "资源权重",
+    "AfkTime": "离线时长",
+    "Fleets": "可用舰队数",
+    "ExpeditionSet": "远征组合",
+    "Score": "资源分",
+
+    "PresetAlts": {
+      "All": {
+        "Name": "全部",
+        "Desc": "全部远征"
+      },
+      "Recommended": {
+        "Name": "推荐",
+        "Desc": "剔除低收益远征与特殊远征"
+      },
+      "Buckets": {
+        "Name": "高速修复",
+        "Desc": "所有可能获得高速修复的远征"
+      },
+      "None": {
+        "Name": "无",
+        "Desc": "不选择任何远征"
+      }
+    }
+  },
+
+  "Table": {
+    "View": "视图",
+    "Total": "单次",
+    "Hourly": "每小时",
+    "Income": {
+      "Gross": "总收入",
+      "Net": "净收入",
+      "Basic": "基础收入"
+    },
+    "Numeric": "数值化",
+    "Sort": "排序",
+    "Duration": "时长",
+    "ItemIsGreatSuccessExclusive": "此物品只能通过大成功获得",
+    "RequireNShipsInFleet": "确保舰船数至少为 %s"
+  },
+
+  "CostModel": {
+    "Examples": "示例"
+  },
+
+  "DlcLab": {
+    "IncludeKinuK2": "包含鬼怒改二",
+    "DlcTable": {
+      "Name": "装备",
+      "Level": "改修度",
+      "Count": "数量",
+      "UpgradeOneMarkdown": "升级 **一件** 装备",
+      "DowngradeOneMarkdown": "降级 **一件** 装备"
+    },
+    "Results": "计算结果",
+    "ResultTable": {
+      "RawIncome": "原始收入",
+      "IncomeMod": "收入系数",
+      "BasicIncome": "基础收入",
+      "EqpCount": "装备数",
+      "AveImp": "平均改修度",
+      "DlcBonus": "大发系加成",
+      "TokuBonus": "特大发加成",
+      "TotalIncome": "总收入",
+      "ActualMod": "实际收入系数"
+    }
+  },
+
+  "SettingsAndTools": {
+    "General": {
+      "Title": "常规设置",
+      "Language": "语言",
+      "Reset": {
+        "Title": "重置",
+        "Desc": "选择下列一项并单击“重置”按钮以继续",
+        "All": "全部数据",
+        "ExpedConfigs": "远征配置",
+        "ShipList": "舰船列表",
+        "Reset": "重置",
+        "ConfirmTitle": "重置确认",
+        "ConfirmMsgMarkdown": "确定要重置 **%s** 吗?"
+      },
+      "ImportAndExport": {
+        "Title": "导入 & 导出",
+        "Import": "导入",
+        "Export": "导出",
+        "MsgCopied": "数据已导出至剪贴板 (%s)",
+        "MsgMerged": "数据已合并完成 (%s)",
+        "MsgMergedNote": "若数据导入后出现任何问题请考虑重置.",
+        "MsgImportError": "数据导入出错 (%s)"
+      }
+    },
+    "ExpedTable": {
+      "Title": "远征收入表",
+      "BatchConfig": {
+        "Title": "批量配置",
+        "Desc": "本工具可以批量设置“大成功”.",
+        "Filter": "过滤",
+        "ExpedTimeMoreThan": "远征时长 ≥",
+        "SumOfRawResourceMoreThan": "原始资源总和 ≥",
+        "SelectedExpeds": "已选远征",
+        "Options": "选项",
+        "MsgExecuted": "批量配置完成 (%s)",
+        "MsgExecutedNote": "本次配置的远征: %s"
+      }
+    }
+  }
 }

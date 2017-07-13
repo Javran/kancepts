@@ -12,6 +12,8 @@ class CostTable extends Component {
     costModel: PTyp.func.isRequired,
     fuelPercent: PTyp.number.isRequired,
     ammoPercent: PTyp.number.isRequired,
+    tr: PTyp.func.isRequired,
+    trN: PTyp.func.isRequired,
   }
 
   render() {
@@ -19,6 +21,8 @@ class CostTable extends Component {
       costModel,
       fuelPercent,
       ammoPercent,
+      tr,
+      trN,
     } = this.props
     return (
       <Table
@@ -27,11 +31,11 @@ class CostTable extends Component {
         <thead>
           <tr>
             <th>
-              Type
+              {tr('ShipType')}
             </th>
             {
               enumFromTo(1,6).map(x => (
-                <th key={x} style={{width: '15%'}}>{x} ship(s)</th>
+                <th key={x} style={{width: '15%'}}>{trN('ShipN',x)}</th>
               ))
             }
           </tr>
@@ -48,7 +52,7 @@ class CostTable extends Component {
                       const cost = costModel({fuelPercent,ammoPercent})(id,x)
                       return (
                         <th key={x}>
-                          <Cell cost={cost} />
+                          <Cell cost={cost} tr={tr} />
                         </th>
                       )
                     })

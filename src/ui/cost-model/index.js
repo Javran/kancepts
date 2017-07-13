@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import {
   costModelSelector,
+  translateSelector,
 } from '../../selectors'
 
 import { CostPicker } from '../cost-picker'
@@ -13,6 +14,8 @@ import { PTyp } from '../../ptyp'
 class CostModelImpl extends Component {
   static propTypes = {
     costModel: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
+    trN: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -27,7 +30,7 @@ class CostModelImpl extends Component {
     this.setState(s)
 
   render() {
-    const { costModel } = this.props
+    const {costModel, tr, trN} = this.props
     const {fuelPercent, ammoPercent} = this.state
     return (
       <div>
@@ -39,6 +42,8 @@ class CostModelImpl extends Component {
           style={{width: '90%', marginLeft: 10}}
         />
         <CostTable
+          tr={tr}
+          trN={trN}
           fuelPercent={fuelPercent}
           ammoPercent={ammoPercent}
           costModel={costModel}
@@ -50,7 +55,8 @@ class CostModelImpl extends Component {
 
 const CostModel = connect(state => {
   const costModel = costModelSelector(state)
-  return {costModel}
+  const trs = translateSelector(state)
+  return {costModel,...trs}
 })(CostModelImpl)
 
 export { CostModel }

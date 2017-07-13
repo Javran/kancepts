@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Panel } from 'react-bootstrap'
 
 import { PTyp } from '../../ptyp'
 import { ResourceSlider } from './resource-slider'
+import { translateSelector } from '../../selectors'
 
-class ResourceWeightPanel extends Component {
+class ResourceWeightPanelImpl extends Component {
   static propTypes = {
     style: PTyp.object,
     weight: PTyp.objectOf(PTyp.number).isRequired,
     onModifyWeight: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -24,7 +27,7 @@ class ResourceWeightPanel extends Component {
   }
 
   render() {
-    const {style,weight} = this.props
+    const {style,weight,tr} = this.props
     const rowStyle = {
       display: 'flex',
       marginTop: '.8em',
@@ -33,7 +36,7 @@ class ResourceWeightPanel extends Component {
     return (
       <Panel
         style={style}
-        header="Resource Weight"
+        header={tr('Planner.ResourceWeight')}
       >
         <div style={rowStyle}>
           <ResourceSlider
@@ -67,5 +70,7 @@ class ResourceWeightPanel extends Component {
     )
   }
 }
+
+const ResourceWeightPanel = connect(translateSelector)(ResourceWeightPanelImpl)
 
 export { ResourceWeightPanel }

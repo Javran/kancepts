@@ -18,22 +18,35 @@ const computeTokuFactor = (normalCount, tokuCount) => {
     : /* normalCount > 3 */ 0.06
 }
 
+// TODO: utils
+const capFirst = s => {
+  if (typeof s !== 'string' || s.length === 0)
+    return s
+
+  if (s.length === 1)
+    return s.toUpperCase()
+
+  const x = s.substr(0,1)
+  const xs = s.substr(1)
+  return `${x.toUpperCase()}${xs}`
+}
+
 const dlcResultsSelector = createSelector(
   dlcLabUISelector,
   ui => {
     const {kinuK2, gsPercent, equipments, rawIncome} = ui
     const rows = []
-    const createRow = (id, name, content, tooltip=null) =>
-      rows.push({id,name,content,tooltip})
+    const createRow = (id, content, tooltip=null) =>
+      rows.push({id,name: capFirst(id),content,tooltip})
     const incomeMod = 1+0.5*gsPercent/100
     createRow(
-      'incomeMod', 'Income Modifier',
+      'incomeMod',
       incomeMod.toFixed(4),
       `=1+0.5*${gsPercent}%`
     )
     const basicIncome = Math.floor(rawIncome*incomeMod)
     createRow(
-      'basicIncome', 'Basic Income',
+      'basicIncome',
       basicIncome,
       `=${rawIncome}*${incomeMod.toFixed(4)}%`
     )
@@ -44,7 +57,7 @@ const dlcResultsSelector = createSelector(
           _.flatMap(
             Object.values(equipments),
             Object.values)))
-    createRow('eqpCount', 'Equipment Count', eqpCount)
+    createRow('eqpCount', eqpCount)
 
     const starCount =
       _.sum(
@@ -58,7 +71,6 @@ const dlcResultsSelector = createSelector(
       [(starCount/eqpCount).toFixed(2), `=${starCount}/${eqpCount}`]
     createRow(
       'aveImp',
-      'Ave. Improvement',
       aveImp, aveImpTooltip)
     const [normalCount,t89Count,t2Count,tokuCount] =
       [68,166,167,193].map(id => {
@@ -79,7 +91,7 @@ const dlcResultsSelector = createSelector(
       `${(bStar*100).toFixed(2)}%)`
 
     createRow(
-      'dlcBonus', 'DLC Bonus',
+      'dlcBonus',
       String(dlcBonus), dlcBonusTooltip)
 
     const tokuFactor = computeTokuFactor(normalCount,tokuCount)
@@ -87,17 +99,17 @@ const dlcResultsSelector = createSelector(
     const tokuBonusTooltip =
       `=${basicIncome}x${(tokuFactor*100).toFixed(2)}%`
     createRow(
-      'tokuBonus', 'Toku DLC Bonus',
+      'tokuBonus',
       String(tokuBonus), tokuBonusTooltip)
 
     const totalIncome = basicIncome + dlcBonus + tokuBonus
     const totalIncomeTooltip =
       `=${[basicIncome,dlcBonus,tokuBonus].map(String).join('+')}`
-    createRow('totalIncome', 'Total Income', String(totalIncome), totalIncomeTooltip)
+    createRow('totalIncome', String(totalIncome), totalIncomeTooltip)
     const [actualMod, actualModTooltip] = rawIncome > 0 ?
       [(totalIncome/rawIncome).toFixed(4), `=${totalIncome}/${rawIncome}`] :
       [String(0), null]
-    createRow('actualMod', 'Actual Modifier', actualMod, actualModTooltip)
+    createRow('actualMod', actualMod, actualModTooltip)
     return rows
   })
 

@@ -12,7 +12,7 @@ import {
 import { EquipmentTable } from './equipment-table'
 import { NewEquipmentPanel } from './new-equipment-panel'
 import { ResultsTable } from './results-table'
-import { dlcLabUISelector } from '../../selectors'
+import { dlcLabUISelector, translateSelector } from '../../selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 import { PTyp } from '../../ptyp'
 import { modifyObject } from '../../utils'
@@ -22,6 +22,7 @@ class DlcLabImpl extends Component {
     kinuK2: PTyp.bool.isRequired,
     gsPercent: PTyp.number.isRequired,
     modifyDlcLabUI: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -73,7 +74,7 @@ class DlcLabImpl extends Component {
       this.debouncedGsPercentUpdate)
 
   render() {
-    const {kinuK2} = this.props
+    const {kinuK2, tr} = this.props
     const {gsPercentStr} = this.state
     return (
       <div style={{display: 'flex'}}>
@@ -83,17 +84,17 @@ class DlcLabImpl extends Component {
             width: '60%',
             marginRight: 10,
           }}
-          header="Expedition"
+          header={tr('Expedition')}
         >
           <FormGroup style={{marginBottom: 5}}>
             <Checkbox
               onChange={this.handleToggleKinuK2}
               checked={kinuK2} inline>
-              Include Kinu K2
+              {tr('DlcLab.IncludeKinuK2')}
             </Checkbox>
           </FormGroup>
           <div style={{display: 'flex', alignItems: 'center'}}>
-            <div style={{marginRight: 5, flex: 1}}>Great Success:</div>
+            <div style={{marginRight: 5, flex: 1}}>{tr('GreatSuccess')}:</div>
             <Button
               onClick={this.handleGsPercentChange(0)}
               bsSize="small" style={{minWidth: '6em'}}>
@@ -120,7 +121,7 @@ class DlcLabImpl extends Component {
         <Panel
           className="dlc-lab-control-panel"
           style={{flex: 1}}
-          header="Results"
+          header={tr('DlcLab.Results')}
         >
           <ResultsTable />
         </Panel>
@@ -132,7 +133,8 @@ class DlcLabImpl extends Component {
 const DlcLab = connect(
   state => {
     const {kinuK2, gsPercent} = dlcLabUISelector(state)
-    return {kinuK2, gsPercent}
+    const {tr} = translateSelector(state)
+    return {kinuK2, gsPercent, tr}
   },
   mapDispatchToProps,
 )(DlcLabImpl)

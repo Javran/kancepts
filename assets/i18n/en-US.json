@@ -1,3 +1,78 @@
 {
-  "Test": "TEST(en)"
+  "Tabs": {
+    "Planner": "Planner",
+    "Table": "Table",
+    "CostModel": "Cost Model",
+    "ShipList": "Ship List",
+    "DlcLab": "DLC Lab",
+    "SettingsAndTools": "Settings & Tools"
+  },
+
+  "Table": {
+    "ItemIsGreatSuccessExclusive": "Only obtainable through great success",
+    "RequireNShipsInFleet": "Require ≥%s ship(s) in fleet"
+  },
+
+  "DlcLab": {
+    "IncludeKinuK2": "Include Kinu Kai Ni",
+    "DlcTable": {
+      "Name": "Name",
+      "Level": "Level",
+      "Count": "Count",
+      "UpgradeOneMarkdown": "Upgrade **one** equipment",
+      "DowngradeOneMarkdown": "Downgrade **one** equipment"
+    },
+    "Results": "Results",
+    "ResultTable": {
+      "RawIncome": "Raw Income",
+      "IncomeMod": "Income Modifier",
+      "BasicIncome": "Basic Income",
+      "EqpCount": "Equipment Count",
+      "AveImp": "Ave. Improvement",
+      "DlcBonus": "DLC Bonus",
+      "TokuBonus": "Toku DLC Bonus",
+      "TotalIncome": "Total Income",
+      "ActualMod": "Actual Income Modifier"
+    }
+  },
+
+  "SettingsAndTools": {
+    "General": {
+      "Title": "General",
+      "Language": "Language",
+      "Reset": {
+        "Title": "Reset",
+        "Desc": "Select one of the followings and hit \"Reset\" button to continue.",
+        "All": "Everything",
+        "ExpedConfigs": "Expedition Configs",
+        "ShipList": "Ship List",
+        "Reset": "Reset",
+        "ConfirmTitle": "Confirm Resetting",
+        "ConfirmMsgMarkdown": "Are you sure to reset **%s** ?"
+      },
+      "ImportAndExport": {
+        "Title": "Import & Export",
+        "Import": "Import",
+        "Export": "Export",
+        "MsgCopied": "Copied to clipboard at %s",
+        "MsgMerged": "State merged at %s",
+        "MsgMergedNote": "Please reset if anything goes wrong.",
+        "MsgImportError": "Error while processing import data at %s"
+      }
+    },
+    "ExpedTable": {
+      "Title": "Expedition Table",
+      "BatchConfig": {
+        "Title": "Batch Config",
+        "Desc": "This tool can apply \"Great Success\" configs on multiple expeditions at once.",
+        "Filter": "Filter",
+        "ExpedTimeMoreThan": "Expedition Time ≥",
+        "SumOfRawResourceMoreThan": "Expedition Time ≥",
+        "SelectedExpeds": "Selected Expeditions",
+        "Options": "Options",
+        "MsgExecuted": "Executed at %s",
+        "MsgExecutedNote": "Modified expeditions: %s"
+      }
+    }
+  }
 }

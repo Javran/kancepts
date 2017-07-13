@@ -14,6 +14,7 @@ class ResupplyCostEdit extends Component {
     // TODO: details
     cost: PTyp.object.isRequired,
     onModify: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   handleSelectType = newType => {
@@ -70,18 +71,18 @@ class ResupplyCostEdit extends Component {
   }
 
   render() {
-    const {cost, id} = this.props
+    const {cost, id, tr} = this.props
     return (
       <Tabs
         id={`resupply-cost-exped-${id}`}
         animation={false}
         onSelect={this.handleSelectType}
         activeKey={cost.curType}>
-        <Tab eventKey="cost-model" title="Cost Model">
+        <Tab eventKey="cost-model" title={tr('ResupplyCost.CostModel')}>
           <div style={{padding: 10}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <div style={{width: '40%'}}>
-                Ship Count:
+                {tr('ResupplyCost.ShipCount')}:
               </div>
               <FormControl
                 onChange={this.handleChangeShipCount}
@@ -96,7 +97,7 @@ class ResupplyCostEdit extends Component {
             </div>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <div style={{width: '40%'}}>
-                Wildcard:
+                {tr('ResupplyCost.Wildcard')}:
               </div>
               <FormControl
                 onChange={this.handleChangeWildcard}
@@ -104,13 +105,14 @@ class ResupplyCostEdit extends Component {
                 componentClass="select"
                 style={{width: '60%', flex: 1}}>
                 {
-                  ['dd','ss-like','de'].map(x => (
+                  [
+                    ['dd','DD'],
+                    ['ss-like','SS(*)'],
+                    ['de', 'DE'],
+                  ].map(([x,stype]) => (
                     <option value={x} key={x}>
                       {
-                        x === 'dd' ? 'Destroyer (DD)' :
-                        x === 'ss-like' ? 'Submarine (SS/SSV)' :
-                        x === 'de' ? 'Escort (DE)' :
-                        x
+                        tr(`STypeLong.${stype}`)
                       }
                     </option>
                   ))
@@ -119,11 +121,11 @@ class ResupplyCostEdit extends Component {
             </div>
           </div>
         </Tab>
-        <Tab eventKey="custom" title="Custom">
+        <Tab eventKey="custom" title={tr('ResupplyCost.Custom')}>
           <div style={{padding: 10}}>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <div style={{width: '40%'}}>
-                Fuel:
+                {tr('Resource.Fuel')}:
               </div>
               <Form
                 onSubmit={handleNoSubmit}
@@ -137,7 +139,7 @@ class ResupplyCostEdit extends Component {
             </div>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <div style={{width: '40%'}}>
-                Ammo:
+                {tr('Resource.Ammo')}:
               </div>
               <Form
                 onSubmit={handleNoSubmit}

@@ -213,12 +213,15 @@ const improvementToText = level =>
   level === 10 ? '★+max' :
   `★+${level}`
 
-const pprTime = time => {
+const pprTime = (time, tr=null) => {
+  const [hourShort,minShort] = typeof tr === 'function' ?
+    ['HourShort', 'MinShort'].map(x => tr(x)) :
+    ['hr', 'min']
   const hh = Math.floor(time / 60)
   const mm = time - hh*60
   return _.compact([
-    hh > 0 ? `${hh} hr` : null,
-    mm > 0 ? `${mm} min` : null,
+    hh > 0 ? `${hh} ${hourShort}` : null,
+    mm > 0 ? `${mm} ${minShort}` : null,
   ]).join(' ')
 }
 const mergeMapDispatchToProps = (...mdtps) => dispatch =>

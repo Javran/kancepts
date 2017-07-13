@@ -4,6 +4,7 @@ import {
   Button, ButtonToolbar,
   Modal,
 } from 'react-bootstrap'
+import Markdown from 'react-remarkable'
 
 import {
   mergeMapDispatchToProps,
@@ -20,18 +21,21 @@ import {
   mapDispatchToProps as shipListMdtp,
 } from '../../../store/reducer/ship-list'
 
+import { translateSelector } from '../../../selectors'
+
 const resetOptions = []
 const defineReset = (id, desc) => resetOptions.push({id, desc})
 
-defineReset('all', 'Everything')
-defineReset('expedConfigs', 'Expedition Configs')
-defineReset('shipList', 'Ship List')
+defineReset('all', 'All')
+defineReset('expedConfigs', 'ExpedConfigs')
+defineReset('shipList', 'ShipList')
 
 class ResetAreaImpl extends Component {
   static propTypes = {
     factoryReset: PTyp.func.isRequired,
     resetExpedConfigs: PTyp.func.isRequired,
     resetShipList: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -75,11 +79,12 @@ class ResetAreaImpl extends Component {
   }
 
   render() {
+    const {tr} = this.props
     const {resetFocus, showModal} = this.state
     return (
       <div>
         <div style={{marginBottom: '.5em'}}>
-          {`Select one of the followings and hit "Reset" button to continue.`}
+          {tr('SettingsAndTools.General.Reset.Desc')}
         </div>
         <ButtonToolbar>
           {
@@ -91,7 +96,7 @@ class ResetAreaImpl extends Component {
                   onClick={this.handleChangeResetFocus(id)}
                   bsStyle={isActive ? 'danger' : 'default'}
                   key={id}>
-                  {desc}
+                  {tr(`SettingsAndTools.General.Reset.${desc}`)}
                 </Button>
               )
             })
@@ -101,25 +106,36 @@ class ResetAreaImpl extends Component {
           <Button
             onClick={this.handleOpenResetModal}
           >
-            Reset
+            {tr('SettingsAndTools.General.Reset.Reset')}
           </Button>
         </div>
         <Modal
           onHide={this.handleCloseResetModal}
           show={showModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Confirm Resetting</Modal.Title>
+            <Modal.Title>
+              {tr('SettingsAndTools.General.Reset.ConfirmTitle')}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure to reset <strong>{this.getCurrentDesc()}</strong> ?
+            <Markdown
+              source={
+                tr(
+                  'SettingsAndTools.General.Reset.ConfirmMsgMarkdown',
+                  tr(`SettingsAndTools.General.Reset.${this.getCurrentDesc()}`)
+                )
+              }
+            />
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.handleCloseResetModal}>No</Button>
+            <Button onClick={this.handleCloseResetModal}>
+              {tr('No')}
+            </Button>
             <Button
               bsStyle="danger"
               onClick={this.handleReset}
             >
-              Yes
+              {tr('Yes')}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -129,7 +145,7 @@ class ResetAreaImpl extends Component {
 }
 
 const ResetArea = connect(
-  null,
+  translateSelector,
   mergeMapDispatchToProps(
     rootMdtp,
     expedConfigsMdtp,

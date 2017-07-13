@@ -14,12 +14,14 @@ import { mapDispatchToProps } from '../../../store/reducer/ui/settings/exped-tab
 import { PTyp } from '../../../ptyp'
 import { modifyObject } from '../../../utils'
 import { ExpedDetail } from './exped-detail'
+import { translateSelector } from '../../../selectors'
 
 class SelectedExpedsAreaImpl extends Component {
   static propTypes = {
     formRowStyle: PTyp.object.isRequired,
     selectedExpeds: PTyp.arrayOf(PTyp.number).isRequired,
     modifyBatchConfig: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   modifySelected = modifier =>
@@ -31,7 +33,7 @@ class SelectedExpedsAreaImpl extends Component {
       selected => selected.filter(x => x !== id))
 
   render() {
-    const {selectedExpeds, formRowStyle} = this.props
+    const {selectedExpeds, formRowStyle, tr} = this.props
     return (
       <Col md={9} style={{
         ...formRowStyle,
@@ -46,7 +48,7 @@ class SelectedExpedsAreaImpl extends Component {
                 placement="left"
                 overlay={
                   <Tooltip id={`batch-config-selected-${id}`}>
-                    <ExpedDetail id={id} />
+                    <ExpedDetail id={id} tr={tr} />
                   </Tooltip>
                 }>
                 <Label style={{
@@ -78,7 +80,8 @@ class SelectedExpedsAreaImpl extends Component {
 const SelectedExpedsArea = connect(
   state => {
     const selectedExpeds = selectedExpedsSelector(state)
-    return {selectedExpeds}
+    const {tr} = translateSelector(state)
+    return {selectedExpeds,tr}
   },
   mapDispatchToProps,
 )(SelectedExpedsAreaImpl)

@@ -10,7 +10,7 @@ import {
   resourceColor,
 } from '../../exped-info'
 
-const renderCostModel = (wildcard, count, compo, cost, prefix) => {
+const renderCostModel = (wildcard, count, compo, cost, prefix, tr) => {
   const name = getFilterName(wildcard)
   return (
     <OverlayTrigger
@@ -18,14 +18,18 @@ const renderCostModel = (wildcard, count, compo, cost, prefix) => {
       overlay={
         <Tooltip id={`${prefix}-cost-cost-model`}>
           <div>
-            <div>Require ≥{count} ship(s) in fleet</div>
-            <div>Wildcard: {name}</div>
-            <div>Composition: {compoToStr(compo)}</div>
+            <div>{tr('Table.RequireNShipsInFleet',count)}</div>
+            <div>{tr('ResupplyCost.Wildcard')}: {name}</div>
+            <div>{tr('Composition')}: {compoToStr(compo)}</div>
             <div>
-              Cost: {
-                cost.fuel === 0 ? 'No Fuel Cost' : `Fuel ${-cost.fuel}`
+              {tr('Cost')}: {
+                cost.fuel === 0 ?
+                  tr('Resource.NoFuelCost') :
+                  `${tr('Resource.Fuel')} ${-cost.fuel}`
               } & {
-                cost.ammo === 0 ? 'No Ammo Cost' : `Ammo ${-cost.ammo}`
+                cost.ammo === 0 ?
+                  tr('Resource.NoAmmoCost') :
+                  `${tr('Resource.Ammo')} ${-cost.ammo}`
               }
             </div>
           </div>
@@ -82,10 +86,11 @@ class CostView extends Component {
       compo: PTyp.object,
     }).isRequired,
     numeric: PTyp.bool.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   render() {
-    const {style, cost, prefix, resupplyInfo, numeric} = this.props
+    const {style, cost, prefix, resupplyInfo, numeric, tr} = this.props
     const generalCost = resupplyInfo.cost
     const {compo} = resupplyInfo
     return (
@@ -98,7 +103,7 @@ class CostView extends Component {
           cost.type === 'cost-model' ?
             renderCostModel(
               cost.wildcard,cost.count,
-              compo,generalCost,prefix) :
+              compo,generalCost,prefix,tr) :
           null
         }
       </div>

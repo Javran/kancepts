@@ -9,6 +9,7 @@ import FontAwesome from 'react-fontawesome'
 import { PTyp } from '../../../ptyp'
 import { normalizePersistState } from '../../../store/persist'
 import { mapDispatchToProps } from '../../../store/reducer'
+import { translateSelector } from '../../../selectors'
 
 const processRaw = rawStr => {
   const rawObj = JSON.parse(rawStr)
@@ -25,6 +26,7 @@ class ImportAreaImpl extends Component {
   static propTypes = {
     merge: PTyp.func.isRequired,
     onPostMessage: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -41,7 +43,7 @@ class ImportAreaImpl extends Component {
 
   handleSave = () => {
     const {content} = this.state
-    const {onPostMessage, merge} = this.props
+    const {onPostMessage, merge, tr} = this.props
     try {
       const importedState = processRaw(content)
       merge(importedState)
@@ -51,13 +53,14 @@ class ImportAreaImpl extends Component {
           <div>
             <div>
               {
-                `State merged` +
-                ` at ${String(new Date())}`
+                tr(
+                  'SettingsAndTools.General.ImportAndExport.MsgMerged',
+                  String(new Date())
+                )
               }
             </div>
             <div>
-              Note that imported data is not checked strictly.
-              Please reset if anything goes wrong.
+              {tr('SettingsAndTools.General.ImportAndExport.MsgMergedNote')}
             </div>
           </div>
         )
@@ -69,8 +72,10 @@ class ImportAreaImpl extends Component {
           <div>
             <div>
               {
-                `Error while processing import data` +
-                ` at ${String(new Date())}`
+                tr(
+                  'SettingsAndTools.General.ImportAndExport.MsgImportError',
+                  String(new Date())
+                )
               }
             </div>
             <div>{e.message}</div>
@@ -108,7 +113,7 @@ class ImportAreaImpl extends Component {
 }
 
 const ImportArea = connect(
-  null,
+  translateSelector,
   mapDispatchToProps
 )(ImportAreaImpl)
 

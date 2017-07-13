@@ -1,10 +1,12 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Panel,
   Button,
 } from 'react-bootstrap'
 
+import { translateSelector } from '../../selectors'
 import { PTyp } from '../../ptyp'
 import {
   allExpedIdList,
@@ -12,11 +14,12 @@ import {
   formatTime,
 } from '../../exped-info'
 
-class ExpedPanel extends Component {
+class ExpedPanelImpl extends Component {
   static propTypes = {
     style: PTyp.object,
     expedFlags: PTyp.objectOf(PTyp.bool).isRequired,
     onToggleExped: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -24,11 +27,11 @@ class ExpedPanel extends Component {
   }
 
   render() {
-    const {style, expedFlags, onToggleExped} = this.props
+    const {style, expedFlags, onToggleExped, tr} = this.props
     return (
       <Panel
         style={style}
-        header="Expeditions"
+        header={tr('Planner.Expeditions')}
       >
         <div style={{
           display: 'flex',
@@ -36,7 +39,6 @@ class ExpedPanel extends Component {
           justifyContent: 'space-between',
         }}>
           {
-
             _.chunk(allExpedIdList,8).map((expedIds,ind) => {
               const world = ind+1
               return (
@@ -90,5 +92,7 @@ class ExpedPanel extends Component {
     )
   }
 }
+
+const ExpedPanel = connect(translateSelector)(ExpedPanelImpl)
 
 export { ExpedPanel }

@@ -5,7 +5,7 @@ import {
   Table,
 } from 'react-bootstrap'
 import { PTyp } from '../../ptyp'
-import { dlcLabUISelector } from '../../selectors'
+import { dlcLabUISelector, translateSelector } from '../../selectors'
 import { enumFromTo } from '../../utils'
 import { dlcList } from '../../master-data'
 import { EquipmentTableRow } from './equipment-table-row'
@@ -14,6 +14,7 @@ class EquipmentTableImpl extends Component {
   static propTypes = {
     style: PTyp.object,
     equipments: PTyp.object.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -21,7 +22,7 @@ class EquipmentTableImpl extends Component {
   }
 
   render() {
-    const {equipments, style} = this.props
+    const {equipments, style, tr} = this.props
     return (
       <Table
         style={{
@@ -31,9 +32,15 @@ class EquipmentTableImpl extends Component {
         bordered condensed>
         <thead>
           <tr>
-            <th>Name</th>
-            <th style={{width: '32%'}}>Level</th>
-            <th style={{width: '32%'}}>Count</th>
+            <th>
+              {tr('DlcLab.DlcTable.Name')}
+            </th>
+            <th style={{width: '32%'}}>
+              {tr('DlcLab.DlcTable.Level')}
+            </th>
+            <th style={{width: '32%'}}>
+              {tr('DlcLab.DlcTable.Count')}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -72,7 +79,8 @@ class EquipmentTableImpl extends Component {
 const EquipmentTable = connect(
   state => {
     const {equipments} = dlcLabUISelector(state)
-    return {equipments}
+    const {tr} = translateSelector(state)
+    return {equipments,tr}
   },
 )(EquipmentTableImpl)
 

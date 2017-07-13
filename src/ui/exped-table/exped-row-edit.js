@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Button, Panel } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 
@@ -6,8 +7,9 @@ import { IncomeModifierEdit } from './income-modifier-edit'
 import { ResupplyCostEdit } from './resupply-cost-edit'
 
 import { PTyp } from '../../ptyp'
+import { translateSelector } from '../../selectors'
 
-class ExpedRowEdit extends Component {
+class ExpedRowEditImpl extends Component {
   static propTypes = {
     modifier: PTyp.object,
     cost: PTyp.object,
@@ -15,6 +17,7 @@ class ExpedRowEdit extends Component {
     onModifyModifier: PTyp.func.isRequired,
     onModifyCost: PTyp.func.isRequired,
     onSave: PTyp.func,
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -28,6 +31,7 @@ class ExpedRowEdit extends Component {
       modifier, cost, id,
       onModifyModifier, onModifyCost,
       onSave,
+      tr,
     } = this.props
     // make the value a boolean
     const isInputValid = !!onSave
@@ -52,10 +56,11 @@ class ExpedRowEdit extends Component {
             flex: 1,
             width: '47.5%',
           }}
-          header="Income Modifier">
+          header={tr('IncomeModifier.Name')}>
           <IncomeModifierEdit
             id={id}
             modifier={modifier}
+            tr={tr}
             onModify={onModifyModifier}
           />
         </Panel>
@@ -66,10 +71,11 @@ class ExpedRowEdit extends Component {
             flex: 1,
             width: '47.5%',
           }}
-          header="Resupply Cost">
+          header={tr('ResupplyCost.Name')}>
           <ResupplyCostEdit
             id={id}
             cost={cost}
+            tr={tr}
             onModify={onModifyCost}
           />
         </Panel>
@@ -90,5 +96,7 @@ class ExpedRowEdit extends Component {
     )
   }
 }
+
+const ExpedRowEdit = connect(translateSelector)(ExpedRowEditImpl)
 
 export { ExpedRowEdit }

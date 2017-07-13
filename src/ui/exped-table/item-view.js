@@ -14,13 +14,13 @@ const mapMaybeRanged = f => x => x.ranged ?
 const maybeRangedToAverage = x => x.ranged ?
   (x.min + x.max)/2 : x.value
 
-const prepareText = (maybeRanged, isHourly, time, gs) => {
+const prepareText = (maybeRanged, isHourly, time, gs, tr) => {
   const noGSItem = gs === false
   if (noGSItem) {
     return {
       content: '0',
       contentClass: 'text-danger',
-      tooltip: 'Only obtainable through great success',
+      tooltip: tr('Table.ItemIsGreatSuccessExclusive'),
     }
   }
   if (isHourly) {
@@ -60,6 +60,7 @@ class ItemView extends Component {
     // true / false: great success item
     gs: PTyp.bool,
     prefix: PTyp.string.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -67,7 +68,7 @@ class ItemView extends Component {
   }
 
   render() {
-    const {style, item, isHourly, gs, time, prefix} = this.props
+    const {style, item, isHourly, gs, time, prefix, tr} = this.props
     const {name, maxCount} = item
     if (name === null || maxCount === 0)
       return (<span>-</span>)
@@ -79,7 +80,7 @@ class ItemView extends Component {
         {ranged: true, min, max}
     })()
     const {content,contentClass,tooltip} =
-      prepareText(count,isHourly,time,gs)
+      prepareText(count,isHourly,time,gs,tr)
     const contentNode = (
       <span>
         <ItemIcon style={{width: '1.1em'}} name={name} />

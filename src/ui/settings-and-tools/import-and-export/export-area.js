@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap'
 import FontAwesome from 'react-fontawesome'
 import { encodedPersistStateSelector } from '../../../store/persist'
+import { translateSelector } from '../../../selectors'
 import { PTyp } from '../../../ptyp'
 
 const canCopyToClipboard = (() => {
@@ -20,6 +21,7 @@ class ExportAreaImpl extends Component {
   static propTypes = {
     encoded: PTyp.string.isRequired,
     onPostMessage: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   handleSelectAll = () => {
@@ -38,10 +40,11 @@ class ExportAreaImpl extends Component {
       return console.error(`failed to copy text to clipboard, err=${e}`)
     }
 
-    const {onPostMessage} = this.props
+    const {onPostMessage,tr} = this.props
     onPostMessage(
       'success',
-      `Copied to clipboard at ${String(new Date())}`)
+      tr('SettingsAndTools.General.ImportAndExport.MsgCopied', String(new Date()))
+    )
   }
 
   render() {
@@ -78,7 +81,8 @@ class ExportAreaImpl extends Component {
 const ExportArea = connect(
   state => {
     const encoded = encodedPersistStateSelector(state)
-    return {encoded}
+    const {tr} = translateSelector(state)
+    return {encoded, tr}
   }
 )(ExportAreaImpl)
 

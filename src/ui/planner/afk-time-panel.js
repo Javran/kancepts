@@ -1,11 +1,13 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Panel,
   Form, FormControl,
 } from 'react-bootstrap'
 
 import { handleNoSubmit } from '../../utils'
+import { translateSelector } from '../../selectors'
 import { PTyp } from '../../ptyp'
 
 /*
@@ -39,11 +41,12 @@ const stateFromAfkTime = afkTime => {
   }
 }
 
-class AfkTimePanel extends Component {
+class AfkTimePanelImpl extends Component {
   static propTypes = {
     style: PTyp.object,
     afkTime: PTyp.number.isRequired,
     onModify: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -93,12 +96,12 @@ class AfkTimePanel extends Component {
   }
 
   render() {
-    const {style} = this.props
+    const {style, tr} = this.props
     const {minuteStr, hourStr} = this.state
     return (
       <Panel
         style={style}
-        header="AFK Time"
+        header={tr('Planner.AfkTime')}
       >
         <div
           style={{
@@ -116,7 +119,7 @@ class AfkTimePanel extends Component {
             />
           </Form>
           <div style={{marginLeft: '.5em', width: '30%'}}>
-            Hours
+            {tr('Hours')}
           </div>
         </div>
         <div
@@ -134,12 +137,14 @@ class AfkTimePanel extends Component {
             />
           </Form>
           <div style={{marginLeft: '.5em', width: '30%'}}>
-            Mins
+            {tr('Mins')}
           </div>
         </div>
       </Panel>
     )
   }
 }
+
+const AfkTimePanel = connect(translateSelector)(AfkTimePanelImpl)
 
 export { AfkTimePanel }

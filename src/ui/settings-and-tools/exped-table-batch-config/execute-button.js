@@ -11,6 +11,7 @@ import {
   selectedExpedsSelector,
   expedBatchConfigSelector,
 } from './selectors'
+import { translateSelector } from '../../../selectors'
 import {
   mapDispatchToProps,
 } from '../../../store/reducer/exped-configs'
@@ -40,6 +41,7 @@ class ExecuteButtonImpl extends Component {
     selected: PTyp.array.isRequired,
     options: PTyp.object.isRequired,
     modifyExpedConfig: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   handleExecute = () => {
@@ -48,15 +50,25 @@ class ExecuteButtonImpl extends Component {
       selected,
       options,
       modifyExpedConfig,
+      tr,
     } = this.props
     modifyExpeds(selected, modifyExpedConfig, options)
     onPostMessage(
       <div>
-        <div>Executed at {String(new Date())}</div>
         <div>
-          {'Modified expeditions: '}
           {
-            selected.join(', ')
+            tr(
+              'SettingsAndTools.ExpedTable.BatchConfig.MsgExecuted',
+              String(new Date())
+            )
+          }
+        </div>
+        <div>
+          {
+            tr(
+              'SettingsAndTools.ExpedTable.BatchConfig.MsgExecutedNote',
+              selected.join(', ')
+            )
           }
         </div>
       </div>
@@ -82,7 +94,8 @@ const ExecuteButton = connect(
   state => {
     const selected = selectedExpedsSelector(state)
     const {options} = expedBatchConfigSelector(state)
-    return {selected, options}
+    const {tr} = translateSelector(state)
+    return {selected, options, tr}
   },
   mapDispatchToProps
 )(ExecuteButtonImpl)

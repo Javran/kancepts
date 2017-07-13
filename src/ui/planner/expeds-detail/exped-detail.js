@@ -3,6 +3,7 @@ import { Table } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { PTyp } from '../../../ptyp'
 import { resourceProperties } from '../../../exped-info'
+import { translateSelector } from '../../../selectors'
 import { expedDetailSelector } from './selectors'
 import { ResourceCell } from './resource-cell'
 import { ConfigCell } from './config-cell'
@@ -15,10 +16,11 @@ class ExpedDetailImpl extends Component {
     info: PTyp.object.isRequired,
     config: PTyp.object.isRequired,
     expedIncome: PTyp.object.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   render() {
-    const {id, info, config, expedIncome} = this.props
+    const {id, info, config, expedIncome, tr} = this.props
     const {name, time} = info
     const textStyle = {textAlign: 'left'}
     const {gross, resupplyInfo} = expedIncome
@@ -31,15 +33,15 @@ class ExpedDetailImpl extends Component {
         <div style={{display: 'flex', marginLeft: '2em'}}>
           <div
             style={{...textStyle, width: '8em'}}>
-            Expedition #{id}
+            {tr('Expedition')} #{id}
           </div>
           <div
             style={{...textStyle, width: '11em'}}>
             {name}
           </div>
           <div
-            style={{...textStyle, width: '6em'}}>
-            {pprTime(time)}
+            style={{...textStyle, width: '8em'}}>
+            {pprTime(time,tr)}
           </div>
         </div>
         <Table
@@ -53,7 +55,7 @@ class ExpedDetailImpl extends Component {
           <tbody>
             <tr>
               <td style={{...cellStyle, width: '8em'}}>
-                Resource
+                {tr('Resource')}
               </td>
               {
                 resourceProperties.map(rp => (
@@ -68,7 +70,7 @@ class ExpedDetailImpl extends Component {
             </tr>
             <tr>
               <td style={cellStyle}>
-                Cost
+                {tr('Cost')}
               </td>
               <td>
                 <ResourceCell name="fuel" value={-cost.fuel} />
@@ -79,17 +81,17 @@ class ExpedDetailImpl extends Component {
             </tr>
             <tr>
               <td style={cellStyle}>
-                Config
+                {tr('Config')}
               </td>
               <td colSpan={4} style={cellStyle}>
-                <ConfigCell config={config} />
+                <ConfigCell config={config} tr={tr} />
               </td>
             </tr>
             {
               compo !== null && (
                 <tr>
                   <td style={cellStyle}>
-                    Composition
+                    {tr('Composition')}
                   </td>
                   <td colSpan={4} style={cellStyle}>
                     {compoToStr(compo)}
@@ -106,8 +108,10 @@ class ExpedDetailImpl extends Component {
 
 
 const ExpedDetail = connect(
-  (state,{id}) =>
-    expedDetailSelector(id)(state)
+  (state,{id}) => {
+    const {tr} = translateSelector(state)
+    return {...expedDetailSelector(id)(state),tr}
+  }
 )(ExpedDetailImpl)
 
 export { ExpedDetail }

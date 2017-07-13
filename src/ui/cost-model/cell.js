@@ -13,6 +13,7 @@ class Cell extends PureComponent {
       ammoCost: PTyp.number.isRequired,
       nameList: PTyp.array.isRequired,
     }),
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -20,11 +21,11 @@ class Cell extends PureComponent {
   }
 
   render() {
-    const {cost} = this.props
+    const {cost, tr} = this.props
     if (cost === null) {
       return (
         <div>
-          N/A
+          {tr('NotAva')}
         </div>
       )
     }
@@ -32,7 +33,7 @@ class Cell extends PureComponent {
     const tooltip = (
       <Tooltip id="tooltip">
         <div>
-          <div>Examples:</div>
+          <div>{tr('CostModel.Examples')}:</div>
           {
             cost.nameList.map((n,ind) => (
               <div key={

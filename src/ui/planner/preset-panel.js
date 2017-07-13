@@ -2,15 +2,20 @@ import React, { Component } from 'react'
 import {
   Panel,
   Button,
+  OverlayTrigger,
+  Tooltip,
 } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
 import { PTyp } from '../../ptyp'
 import { presets } from '../../exped-info/presets'
+import { translateSelector } from '../../selectors'
 
-class PresetPanel extends Component {
+class PresetPanelImpl extends Component {
   static propTypes = {
     style: PTyp.object,
     onApplyPreset: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -18,25 +23,27 @@ class PresetPanel extends Component {
   }
 
   render() {
-    const {style, onApplyPreset} = this.props
+    const {style, onApplyPreset, tr} = this.props
     return (
       <Panel
         style={style}
-        header="Presets"
+        header={tr('Planner.Presets')}
       >
         <div style={{padding: '4px 2px'}}>
           {
-            presets.map((preset,ind) => (
-              <Button
-                block
-                onClick={onApplyPreset(preset.expedFlags)}
-                key={
-                  // eslint-disable-next-line react/no-array-index-key
-                  ind
-                }
+            presets.map(({expedFlags,name}) => (
+              <OverlayTrigger key={name} placement="left" overlay={
+                <Tooltip id={`planner-preset-${name}`}>
+                  {tr(`Planner.PresetAlts.${name}.Desc`)}
+                </Tooltip>
+              }>
+                <Button
+                  block
+                  onClick={onApplyPreset(expedFlags)}
                 >
-                {preset.name}
-              </Button>
+                  {tr(`Planner.PresetAlts.${name}.Name`)}
+                </Button>
+              </OverlayTrigger>
             ))
           }
         </div>
@@ -44,5 +51,7 @@ class PresetPanel extends Component {
     )
   }
 }
+
+const PresetPanel = connect(translateSelector)(PresetPanelImpl)
 
 export { PresetPanel }

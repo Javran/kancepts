@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Grid, Col, Row,
   Alert,
@@ -9,7 +10,14 @@ import { SelectedExpedsArea } from './selected-expeds-area'
 import { OptionsArea } from './options-area'
 import { ExecuteButton } from './execute-button'
 
-class ExpedTableBatchConfig extends Component {
+import { translateSelector } from '../../../selectors'
+import { PTyp } from '../../../ptyp'
+
+class ExpedTableBatchConfigImpl extends Component {
+  static propTypes = {
+    tr: PTyp.func.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -31,16 +39,16 @@ class ExpedTableBatchConfig extends Component {
       marginBottom: '.5em',
     }
     const {message} = this.state
+    const {tr} = this.props
     return (
       <div>
         <div style={{marginBottom: '1em'}}>
-          This tool can apply great success configs on
-          multiple expeditions at once.
+          {tr('SettingsAndTools.ExpedTable.BatchConfig.Desc')}
         </div>
         <Grid style={{width: '100%'}}>
           <Row>
             <Col md={3}>
-              Filter
+              {tr('SettingsAndTools.ExpedTable.BatchConfig.Filter')}
             </Col>
             <FilterArea
               formRowStyle={formRowStyle}
@@ -49,7 +57,7 @@ class ExpedTableBatchConfig extends Component {
           </Row>
           <Row>
             <Col md={3}>
-              Selected Expeditions
+              {tr('SettingsAndTools.ExpedTable.BatchConfig.SelectedExpeds')}
             </Col>
             <SelectedExpedsArea
               formRowStyle={formRowStyle}
@@ -57,7 +65,7 @@ class ExpedTableBatchConfig extends Component {
           </Row>
           <Row>
             <Col md={3}>
-              Options
+              {tr('SettingsAndTools.ExpedTable.BatchConfig.Options')}
             </Col>
             <OptionsArea
               formRowStyle={formRowStyle}
@@ -85,5 +93,7 @@ class ExpedTableBatchConfig extends Component {
     )
   }
 }
+
+const ExpedTableBatchConfig = connect(translateSelector)(ExpedTableBatchConfigImpl)
 
 export { ExpedTableBatchConfig }

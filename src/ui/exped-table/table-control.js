@@ -7,7 +7,7 @@ import {
   ButtonGroup,
   Button,
 } from 'react-bootstrap'
-import { tableUISelector } from '../../selectors'
+import { tableUISelector, translateSelector } from '../../selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/table'
 import { ItemIcon } from '../item-icon'
 import { resourceProperties } from '../../exped-info'
@@ -21,6 +21,7 @@ const reverseDirection = x =>
 class TableControlImpl extends Component {
   static propTypes = {
     control: PTyp.object.isRequired,
+    tr: PTyp.func.isRequired,
     modifyTableUI: PTyp.func.isRequired,
   }
 
@@ -86,11 +87,11 @@ class TableControlImpl extends Component {
     const rowStyle = {display: 'flex', alignItems: 'center', marginBottom: 10}
     const headerStyle = {marginRight: 5, width: '4%', minWidth: '45px'}
     const sorterBtnStyle = {minWidth: 90}
-    const {control} = this.props
+    const {control,tr} = this.props
     return (
       <div>
         <div style={rowStyle}>
-          <div style={headerStyle}>View</div>
+          <div style={headerStyle}>{tr('Table.View')}</div>
           <ButtonToolbar>
             <ButtonGroup>
               {
@@ -102,7 +103,7 @@ class TableControlImpl extends Component {
                     onClick={this.handleViewDivideChange(id)}
                     key={id}
                     active={control.view.divide === id}>
-                    {title}
+                    {tr(`Table.${title}`)}
                   </Button>
                 ))
               }
@@ -110,15 +111,15 @@ class TableControlImpl extends Component {
             <ButtonGroup>
               {
                 [
-                  ['gross', 'Gross Income'],
-                  ['net', 'Net Income'],
-                  ['basic', 'Basic Income'],
+                  ['gross', 'Gross'],
+                  ['net', 'Net'],
+                  ['basic', 'Basic'],
                 ].map(([id, title]) => (
                   <Button
                     onClick={this.handleViewIncomeChange(id)}
                     key={id}
                     active={control.view.income === id}>
-                    {title}
+                    {tr(`Table.Income.${title}`)}
                   </Button>
                 ))
               }
@@ -127,19 +128,19 @@ class TableControlImpl extends Component {
               <Button
                 onClick={this.handleViewNumericToggle}
                 active={control.view.numeric}>
-                Numeric
+                {tr('Table.Numeric')}
               </Button>
             </ButtonGroup>
           </ButtonToolbar>
         </div>
         <div style={rowStyle}>
-          <div style={headerStyle}>Sort</div>
+          <div style={headerStyle}>{tr('Table.Sort')}</div>
           <ButtonToolbar>
             <ButtonGroup>
               {
                 [
-                  ['id', 'Id', 'asc'],
-                  ['time', 'Time', 'asc'],
+                  ['id', 'ID', 'asc'],
+                  ['time', tr('Table.Duration'), 'asc'],
                   ...resourceProperties.map(rp =>
                     [rp, <ItemIcon name={rp} style={{width: '1em'}} />, 'desc']),
                 ].map(([id,content,originDir]) => {
@@ -175,7 +176,8 @@ class TableControlImpl extends Component {
 const TableControl = connect(
   state => {
     const control = tableUISelector(state)
-    return {control}
+    const {tr} = translateSelector(state)
+    return {control,tr}
   },
   mapDispatchToProps)(TableControlImpl)
 

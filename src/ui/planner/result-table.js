@@ -9,16 +9,18 @@ import {
 
 import { resourceProperties } from '../../exped-info'
 import { ItemIcon } from '../item-icon'
-import { plannerResultsSelector } from '../../selectors'
+import { plannerResultsSelector, translateSelector } from '../../selectors'
 import { PTyp } from '../../ptyp'
 import { ExpedsDetail } from './expeds-detail'
 
 class ResultTableImpl extends Component {
   static propTypes = {
     results: PTyp.array.isRequired,
+    tr: PTyp.func.isRequired,
   }
+
   render() {
-    const {results} = this.props
+    const {results, tr} = this.props
     const pprNum = x => _.isInteger(x) ? String(x) : x.toFixed(2)
     return (
       <div
@@ -36,7 +38,7 @@ class ResultTableImpl extends Component {
           <thead>
             <tr>
               <th style={{width: 'auto'}}>
-                Expedition Set
+                {tr('Planner.ExpeditionSet')}
               </th>
               {
                 resourceProperties.map(rp => (
@@ -47,7 +49,9 @@ class ResultTableImpl extends Component {
                   </th>
                 ))
               }
-              <th style={{width: '18%'}}>Score</th>
+              <th style={{width: '18%'}}>
+                {tr('Planner.Score')}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -89,7 +93,8 @@ class ResultTableImpl extends Component {
 
 const ResultTable = connect(state => {
   const results = _.take(plannerResultsSelector(state),100)
-  return {results}
+  const {tr} = translateSelector(state)
+  return {results,tr}
 })(ResultTableImpl)
 
 export {

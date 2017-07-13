@@ -11,7 +11,7 @@ import {
   resourceProperties,
   guessGreatSuccess,
 } from '../../exped-info'
-import { tableUISelector } from '../../selectors'
+import { tableUISelector, translateSelector } from '../../selectors'
 import { ItemView } from './item-view'
 import { ModifierView } from './modifier-view'
 import { CostView } from './cost-view'
@@ -32,6 +32,7 @@ class ExpedRowViewImpl extends Component {
       onToggleEditor,
       numeric,
       isHourly,
+      tr,
     } = this.props
     const {
       info,
@@ -93,6 +94,7 @@ class ExpedRowViewImpl extends Component {
             time={time}
             item={itemProb}
             gs={null}
+            tr={tr}
             prefix={`exped-row-${id}-item1-`}
           />
           <ItemView
@@ -102,6 +104,7 @@ class ExpedRowViewImpl extends Component {
             time={time}
             item={itemGS}
             gs={guessedGS}
+            tr={tr}
             prefix={`exped-row-${id}-item2-`}
           />
         </div>
@@ -121,6 +124,7 @@ class ExpedRowViewImpl extends Component {
             style={{width: '50%'}}
             cost={cost}
             numeric={numeric}
+            tr={tr}
             resupplyInfo={resupplyInfo}
           />
         </div>
@@ -139,8 +143,9 @@ class ExpedRowViewImpl extends Component {
 const ExpedRowView = connect(
   state => {
     const {numeric, divide} = tableUISelector(state).view
+    const {tr} = translateSelector(state)
     const isHourly = divide === 'hourly'
-    return {numeric, isHourly}
+    return {numeric, isHourly, tr}
   }
 )(ExpedRowViewImpl)
 

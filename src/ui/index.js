@@ -13,7 +13,10 @@ import { CostModel } from './cost-model'
 import { DlcLab } from './dlc-lab'
 import { SettingsAndTools } from './settings-and-tools'
 import { observeAll } from '../observer'
-import { currentTabSelector } from '../selectors'
+import {
+  currentTabSelector,
+  translateSelector,
+} from '../selectors'
 import { mapDispatchToProps } from '../store/reducer/ui/current-tab'
 import { PTyp } from '../ptyp'
 
@@ -23,15 +26,16 @@ const defineTab = (id, desc, TabComponent) =>
 
 defineTab('planner', 'Planner', Planner)
 defineTab('table', 'Table', ExpedTable)
-defineTab('cost-model', 'Cost Model', CostModel)
-defineTab('ship-list', 'Ship List', ShipList)
-defineTab('dlc-lab', 'DLC Lab', DlcLab)
-defineTab('settings', 'Settings & Tools', SettingsAndTools)
+defineTab('cost-model', 'CostModel', CostModel)
+defineTab('ship-list', 'ShipList', ShipList)
+defineTab('dlc-lab', 'DlcLab', DlcLab)
+defineTab('settings', 'SettingsAndTools', SettingsAndTools)
 
 class KanceptsMainImpl extends Component {
   static propTypes = {
     currentTab: PTyp.string.isRequired,
     switchTab: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -59,6 +63,7 @@ class KanceptsMainImpl extends Component {
     this.props.switchTab(activeKey)
 
   render() {
+    const {tr} = this.props
     return (
       <div style={{padding: 20}}>
         <Tab.Container
@@ -71,7 +76,7 @@ class KanceptsMainImpl extends Component {
                 {
                   tabs.map(({id,desc}) => (
                     <NavItem eventKey={id} key={id}>
-                      {desc}
+                      {tr(`Tabs.${desc}`)}
                     </NavItem>
                   ))
                 }
@@ -98,7 +103,8 @@ class KanceptsMainImpl extends Component {
 const KanceptsMain = connect(
   state => {
     const currentTab = currentTabSelector(state)
-    return {currentTab}
+    const {tr} = translateSelector(state)
+    return {currentTab, tr}
   },
   mapDispatchToProps,
 )(KanceptsMainImpl)

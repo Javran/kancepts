@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Tab, Row, Col,
   NavItem, Nav,
@@ -7,8 +8,15 @@ import {
 
 import { ImportArea } from './import-area'
 import { ExportArea } from './export-area'
+import { translateSelector } from '../../../selectors'
 
-class ImportAndExport extends Component {
+import { PTyp } from '../../../ptyp'
+
+class ImportAndExportImpl extends Component {
+  static propTypes = {
+    tr: PTyp.func.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -31,6 +39,7 @@ class ImportAndExport extends Component {
     this.setState({message: null})
 
   render() {
+    const {tr} = this.props
     const {mode, message} = this.state
 
     return (
@@ -44,10 +53,10 @@ class ImportAndExport extends Component {
             <Col sm={12}>
               <Nav bsStyle="tabs">
                 <NavItem eventKey="import">
-                  Import
+                  {tr('SettingsAndTools.General.ImportAndExport.Import')}
                 </NavItem>
                 <NavItem eventKey="export">
-                  Export
+                  {tr('SettingsAndTools.General.ImportAndExport.Export')}
                 </NavItem>
               </Nav>
             </Col>
@@ -80,5 +89,7 @@ class ImportAndExport extends Component {
     )
   }
 }
+
+const ImportAndExport = connect(translateSelector)(ImportAndExportImpl)
 
 export { ImportAndExport }

@@ -7,6 +7,7 @@ import Markdown from 'react-remarkable'
 import { modifyObject, improvementToText } from '../../utils'
 import { CellControl } from './cell-control'
 import { PTyp } from '../../ptyp'
+import { translateSelector } from '../../selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 
 class EquipmentTableRowImpl extends Component {
@@ -20,6 +21,7 @@ class EquipmentTableRowImpl extends Component {
     // only make sense when the current row
     // is responsible for showing the name col
     rowSpan: PTyp.number,
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -113,6 +115,7 @@ class EquipmentTableRowImpl extends Component {
     const {
       rowSpan,
       name, id, level, count,
+      tr,
     } = this.props
     return (
       <tr>
@@ -139,18 +142,18 @@ class EquipmentTableRowImpl extends Component {
               <FontAwesome name="angle-double-down" />
             }
             leftBtnTooltip={
-              <Markdown>
-                Downgrade **one** equipment
-              </Markdown>
+              <Markdown
+                source={tr('DlcLab.DlcTable.DowngradeOneMarkdown')}
+              />
             }
             leftAction={this.handleLevelChange('down')}
             rightBtnContent={
               <FontAwesome name="angle-double-up" />
             }
             rightBtnTooltip={
-              <Markdown>
-                Upgrade **one** equipment
-              </Markdown>
+              <Markdown
+                source={tr('DlcLab.DlcTable.UpgradeOneMarkdown')}
+              />
             }
             rightAction={this.handleLevelChange('up')}
             value={improvementToText(level)} />
@@ -177,7 +180,7 @@ class EquipmentTableRowImpl extends Component {
 }
 
 const EquipmentTableRow = connect(
-  null,
+  translateSelector,
   mapDispatchToProps)(EquipmentTableRowImpl)
 
 export { EquipmentTableRow }

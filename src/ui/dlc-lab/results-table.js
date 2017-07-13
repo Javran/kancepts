@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from 'react-bootstrap'
 
-import { dlcLabUISelector } from '../../selectors'
+import { dlcLabUISelector, translateSelector } from '../../selectors'
 import { dlcResultsSelector } from './selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 import { PTyp } from '../../ptyp'
@@ -24,6 +24,7 @@ class ResultsTableImpl extends Component {
       tooltip: PTyp.node,
     })).isRequired,
     modifyDlcLabUI: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -61,7 +62,7 @@ class ResultsTableImpl extends Component {
       this.debouncedRawIncomeUpdate)
 
   render() {
-    const {resultRows} = this.props
+    const {resultRows,tr} = this.props
     const mkHeader = (content, style={}) => (
       <td style={{
         verticalAlign: 'middle',
@@ -74,7 +75,7 @@ class ResultsTableImpl extends Component {
 
     const renderRow = ({id, name, content, tooltip}) => (
       <tr key={id}>
-        {mkHeader(name)}
+        {mkHeader(tr(`DlcLab.ResultTable.${name}`))}
         {
           tooltip !== null ? (
             <OverlayTrigger placement="left" overlay={
@@ -96,7 +97,7 @@ class ResultsTableImpl extends Component {
         <tbody>
           <tr>
             {
-              mkHeader('Raw Income',{width: '45%'})
+              mkHeader(tr('DlcLab.ResultTable.RawIncome'),{width: '45%'})
             }
             <td>
               <FormControl
@@ -119,7 +120,8 @@ const ResultsTable = connect(
   state => {
     const {rawIncome} = dlcLabUISelector(state)
     const resultRows = dlcResultsSelector(state)
-    return {rawIncome, resultRows}
+    const {tr} = translateSelector(state)
+    return {rawIncome, resultRows, tr}
   },
   mapDispatchToProps)(ResultsTableImpl)
 

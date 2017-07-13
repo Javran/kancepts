@@ -14,6 +14,7 @@ class IncomeModifierEdit extends Component {
     // TODO: details
     modifier: PTyp.object.isRequired,
     onModify: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   handleSelectType = newType => {
@@ -58,19 +59,19 @@ class IncomeModifierEdit extends Component {
   }
 
   render() {
-    const {modifier, id} = this.props
+    const {modifier, id, tr} = this.props
     return (
       <Tabs
         id={`income-modifier-exped-${id}`}
         animation={false}
         onSelect={this.handleSelectType}
         activeKey={modifier.curType}>
-        <Tab eventKey="standard" title="Standard">
+        <Tab eventKey="standard" title={tr('IncomeModifier.Standard')}>
           <div style={{padding: 10}}>
             <Checkbox
               onChange={this.handleToggleGS}
               checked={modifier.standard.gs}>
-              Great Success
+              {tr('GreatSuccess')}
             </Checkbox>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <div style={{width: '40%'}}>
@@ -90,10 +91,10 @@ class IncomeModifierEdit extends Component {
             </div>
           </div>
         </Tab>
-        <Tab eventKey="custom" title="Custom">
+        <Tab eventKey="custom" title={tr('IncomeModifier.Custom')}>
           <div style={{padding: 10, display: 'flex', alignItems: 'center'}}>
             <div style={{width: '40%'}}>
-              Modifier:
+              {tr('IncomeModifier.ModifierNum')}:
             </div>
             <Form
               onSubmit={handleNoSubmit}

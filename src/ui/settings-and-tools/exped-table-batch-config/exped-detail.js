@@ -11,7 +11,7 @@ class ExpedDetail extends PureComponent {
   }
 
   render() {
-    const {id} = this.props
+    const {id, tr} = this.props
     const expedInfo = expedInfoList.find(ei => ei.id === id)
     const {resource} = expedInfo
     return (
@@ -23,9 +23,9 @@ class ExpedDetail extends PureComponent {
         <div>
           {
             [
-              `Expedition #${id}`,
+              `${tr('Expedition')} #${id}`,
               expedInfo.name,
-              pprTime(expedInfo.time),
+              pprTime(expedInfo.time, tr),
             ].join(', ')
           }
         </div>

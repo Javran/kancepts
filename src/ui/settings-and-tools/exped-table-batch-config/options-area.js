@@ -6,12 +6,13 @@ import {
 } from 'react-bootstrap'
 
 import { ItemIcon } from '../../item-icon'
-import { enumFromTo, modifyObject } from '../../../utils'
+import { enumFromTo, modifyObject, mergeMapDispatchToProps } from '../../../utils'
 import { PTyp } from '../../../ptyp'
 import {
   mapDispatchToProps,
 } from '../../../store/reducer/ui/settings/exped-table-batch-config'
 import { expedBatchConfigSelector } from './selectors'
+import { translateSelector } from '../../../selectors'
 
 class OptionsAreaImpl extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class OptionsAreaImpl extends Component {
     options: PTyp.object.isRequired,
     selected: PTyp.array.isRequired,
     modifyBatchConfig: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   modifyOptions = modifier =>
@@ -40,6 +42,7 @@ class OptionsAreaImpl extends Component {
       formRowStyle,
       selected,
       options,
+      tr,
     } = this.props
     const disabled = selected.length === 0
     return (
@@ -68,7 +71,7 @@ class OptionsAreaImpl extends Component {
           </Row>
           <Row>
             <Col md={3}>
-              Ship Count
+              {tr('ResupplyCost.ShipCount')}
             </Col>
             <Col md={9}>
               <FormControl
@@ -94,7 +97,10 @@ class OptionsAreaImpl extends Component {
 }
 
 const OptionsArea = connect(
-  expedBatchConfigSelector,
+  mergeMapDispatchToProps(
+    expedBatchConfigSelector,
+    translateSelector
+  ),
   mapDispatchToProps
 )(OptionsAreaImpl)
 

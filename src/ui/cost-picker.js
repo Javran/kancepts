@@ -1,9 +1,11 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Slider from 'rc-slider'
 import {
   DropdownButton, MenuItem,
 } from 'react-bootstrap'
+import { translateSelector } from '../selectors'
 import { ItemIcon } from './item-icon'
 
 // table copied from:
@@ -18,7 +20,7 @@ const percents = enumFromTo(0,100,x => x+10)
 const percentMarks = _.fromPairs(percents.map(x =>
   [x, `${x}%`]))
 
-class CostPicker extends Component {
+class CostPickerImpl extends Component {
   static propTypes = {
     style: PTyp.object,
     // both fuelPercent and ammoPercent are numbers between 0~100
@@ -31,6 +33,7 @@ class CostPicker extends Component {
     // - onChangeCost({ammoPercent})
     // - onChangeCost({fuelPercent,ammoPercent})
     onChangeCost: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -53,6 +56,7 @@ class CostPicker extends Component {
       style, prefix,
       fuelPercent, ammoPercent,
       onChangeCost,
+      tr,
     } = this.props
     return (
       <div style={style}>
@@ -63,14 +67,18 @@ class CostPicker extends Component {
               width: '15vw',
               maxWidth: 200,
             }}
-            title="Presets"
+            title={tr('Presets')}
             block
             id={`${prefix}cost-picker-preset`}>
             {
               expedCostGrouping.map(({fuel,ammo,expeds}) => {
                 const key = `f${fuel}-a${ammo}`
                 const es = expeds.join(', ')
-                const desc = `Fuel: ${fuel}%, Ammo: ${ammo}%, Expeditions: ${es}`
+                const desc = [
+                  `${tr('Resource.Fuel')}: ${fuel}%`,
+                  `${tr('Resource.Ammo')}: ${ammo}%`,
+                  `${tr('Expeditions')}: ${es}`,
+                ].join(', ')
                 return (
                   <MenuItem
                     key={key}
@@ -103,6 +111,8 @@ class CostPicker extends Component {
     )
   }
 }
+
+const CostPicker = connect(translateSelector)(CostPickerImpl)
 
 export {
   CostPicker,

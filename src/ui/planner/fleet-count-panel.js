@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Panel,
   FormGroup,
@@ -6,12 +7,15 @@ import {
 } from 'react-bootstrap'
 
 import { PTyp } from '../../ptyp'
+import { translateSelector } from '../../selectors'
 
-class FleetCountPanel extends Component {
+class FleetCountPanelImpl extends Component {
   static propTypes = {
     style: PTyp.object,
     fleetCount: PTyp.number.isRequired,
     onModify: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
+    trN: PTyp.func.isRequired,
   }
 
   static defaultProps = {
@@ -25,13 +29,11 @@ class FleetCountPanel extends Component {
   }
 
   render() {
-    const {
-      style,fleetCount,
-    } = this.props
+    const {style,fleetCount,tr,trN} = this.props
     return (
       <Panel
         style={style}
-        header="Fleets"
+        header={tr(`Planner.Fleets`)}
       >
         <FormGroup
           style={{paddingLeft: 8, width: '100%'}}
@@ -45,7 +47,7 @@ class FleetCountPanel extends Component {
                 onChange={this.handleChange}
                 name="fleet-count"
                 value={curFleetCount}>
-                {`${curFleetCount} Fleet(s)`}
+                {trN('FleetN',curFleetCount)}
               </Radio>
             ))
           }
@@ -54,5 +56,7 @@ class FleetCountPanel extends Component {
     )
   }
 }
+
+const FleetCountPanel = connect(translateSelector)(FleetCountPanelImpl)
 
 export { FleetCountPanel }

@@ -9,11 +9,12 @@ import {
 } from 'react-bootstrap'
 
 import { PTyp } from '../../../ptyp'
-import { modifyObject } from '../../../utils'
+import { modifyObject, mergeMapDispatchToProps } from '../../../utils'
 import {
   mapDispatchToProps,
 } from '../../../store/reducer/ui/settings/exped-table-batch-config'
 import { filterStateSelector } from './selectors'
+import { translateSelector } from '../../../selectors'
 
 class FilterAreaImpl extends Component {
   static propTypes = {
@@ -23,6 +24,7 @@ class FilterAreaImpl extends Component {
     resourceSum: PTyp.object.isRequired,
     connective: PTyp.object.isRequired,
     modifyBatchConfig: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   modifyFilter = modifier =>
@@ -74,6 +76,7 @@ class FilterAreaImpl extends Component {
     const {
       formRowStyle, formElemStyle,
       expedTime, resourceSum, connective,
+      tr,
     } = this.props
     return (
       <Col md={9} style={{
@@ -90,7 +93,7 @@ class FilterAreaImpl extends Component {
             onChange={this.handleToggleFilter('expedTime')}
             checked={expedTime.enabled}
             style={formElemStyle}>
-            Expedition Time ≥
+            {tr('SettingsAndTools.ExpedTable.BatchConfig.ExpedTimeMoreThan')}
           </Checkbox>
           <FormControl
             onChange={this.handleChangeValue('expedTime')}
@@ -103,7 +106,7 @@ class FilterAreaImpl extends Component {
             value={expedTime.value}
           />
           <span style={formElemStyle}>
-            mins
+            {tr('Mins')}
           </span>
         </FormGroup>
         <FormControl
@@ -115,8 +118,12 @@ class FilterAreaImpl extends Component {
           value={connective.value}
           onChange={this.handleChangeConnective}
           componentClass="select">
-          <option value="and">AND</option>
-          <option value="or">OR</option>
+          <option value="and">
+            {tr('And')}
+          </option>
+          <option value="or">
+            {tr('Or')}
+          </option>
         </FormControl>
         <FormGroup style={{
           ...formRowStyle,
@@ -127,7 +134,7 @@ class FilterAreaImpl extends Component {
             onChange={this.handleToggleFilter('resourceSum')}
             checked={resourceSum.enabled}
             style={formElemStyle}>
-            Sum of Raw Resources ≥
+            {tr('SettingsAndTools.ExpedTable.BatchConfig.SumOfRawResourceMoreThan')}
           </Checkbox>
           <FormControl
             onChange={this.handleChangeValue('resourceSum')}
@@ -146,7 +153,10 @@ class FilterAreaImpl extends Component {
 }
 
 const FilterArea = connect(
-  filterStateSelector,
+  mergeMapDispatchToProps(
+    filterStateSelector,
+    translateSelector
+  ),
   mapDispatchToProps,
 )(FilterAreaImpl)
 

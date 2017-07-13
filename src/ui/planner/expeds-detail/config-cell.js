@@ -4,9 +4,9 @@ import { ItemIcon } from '../../item-icon'
 import { PTyp } from '../../../ptyp'
 import { pprIncomePercent } from '../../../exped-info'
 
-const renderStandard = (gs,daihatsu) => (
+const renderStandard = (gs,daihatsu,tr) => (
   <div>
-    Standard, {gs ? 'Great Success' : 'Normal Success'}
+    {tr('IncomeModifier.Standard')}, {tr(gs ? 'GreatSuccess' : 'NormalSuccess')}
     {
       daihatsu > 0 && (
         <span>
@@ -22,22 +22,23 @@ const renderStandard = (gs,daihatsu) => (
   </div>
 )
 
-const renderCustom = value => (
-  <div>Custom, {pprIncomePercent(value)}</div>
+const renderCustom = (value,tr) => (
+  <div>{tr('IncomeModifier.Custom')}, {pprIncomePercent(value)}</div>
 )
 
 class ConfigCell extends PureComponent {
   static propTypes = {
     config: PTyp.object.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   render() {
-    const {config} = this.props
+    const {config,tr} = this.props
     const {modifier} = config
     return modifier.type === 'standard' ?
-        renderStandard(modifier.gs,modifier.daihatsu) :
+        renderStandard(modifier.gs,modifier.daihatsu,tr) :
       modifier.type === 'custom' ?
-        renderCustom(modifier.value) :
+        renderCustom(modifier.value,tr) :
       null
   }
 }
