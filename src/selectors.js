@@ -12,6 +12,8 @@ import {
   allExpedIdList,
 } from './exped-info'
 
+import { i18nInstances } from './i18n'
+
 const shipListSelector = state => state.shipList
 const expedConfigsSelector = state => state.expedConfigs
 const uiSelector = state => state.ui
@@ -272,6 +274,16 @@ const expedInfoViewListSelector = createSelector(
     return sortFunc(expedInfoViewList)
   })
 
+// provide `tr` and `trN` function according to language
+const translateSelector = createSelector(
+  languageSelector,
+  lang => {
+    const i18nInst = i18nInstances[lang]
+    const tr = i18nInst.__.bind(i18nInst)
+    const trN = i18nInst.__n.bind(i18nInst)
+    return {tr, trN}
+  })
+
 export {
   shipDetailListSelector,
   shipCostListByFilterSelector,
@@ -287,4 +299,5 @@ export {
   expedIncomesSelector,
   expedInfoViewListSelector,
   languageSelector,
+  translateSelector,
 }

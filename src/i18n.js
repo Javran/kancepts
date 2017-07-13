@@ -39,8 +39,6 @@ const i18nInstances = _.fromPairs(supportedLocales.map(lang => {
   return [lang, inst]
 }))
 
-window.i18n = i18nInstances
-
 export {
   supportedLocales,
   describeLocale,

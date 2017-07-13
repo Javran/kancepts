@@ -6,7 +6,9 @@ import {
   Button,
 } from 'react-bootstrap'
 
-import { languageSelector } from '../../selectors'
+import {
+  languageSelector,
+} from '../../selectors'
 import { mapDispatchToProps } from '../../store/reducer/language'
 import { PTyp } from '../../ptyp'
 import { supportedLocales, describeLocale } from '../../i18n'

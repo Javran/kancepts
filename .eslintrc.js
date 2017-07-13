@@ -33,7 +33,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
     'arrow-parens': ['error', 'as-needed'],
-    'no-underscore-dangle': ['error', { 'allow': ['__','__r'] }],
+    'no-underscore-dangle': ['error', { 'allow': ['__','__r','__n'] }],
     'no-console': ['error', { 'allow': ['warn', 'error', 'info'] }],
     'no-continue': 'off',
     'space-in-parens': 'off',
