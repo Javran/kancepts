@@ -21,8 +21,23 @@
  */
 import _ from 'lodash'
 import { observer } from 'redux-observers'
+import { createSelector } from 'reselect'
 
 import { shallowEqual } from '../utils'
+
+/*
+
+ TODO normalizer on:
+
+   - 'expedConfigs',
+   - 'shipList',
+   - 'ui.planner.config',
+   - 'ui.currentTab',
+   - 'ui.table.view',
+   - 'ui.table.sort',
+   - 'ui.dlcLab',
+
+ */
 
 const persistPaths = [
   'expedConfigs',
@@ -45,6 +60,13 @@ const persistStateSelector = state => persistPaths
       return curObj
     },
     {})
+
+const encodedPersistStateSelector = createSelector(
+  persistStateSelector,
+  pState => JSON.stringify({
+    version: 1,
+    state: pState,
+  }))
 
 const saveToLocalStorageImpl = state =>
   setTimeout(() => {
@@ -101,4 +123,6 @@ export {
   persistStateObserver,
   loadPreparedState,
   clearPersistData,
+  encodedPersistStateSelector,
+  normalizePersistState,
 }
