@@ -19,7 +19,7 @@ const prepareText = (maybeRanged, isHourly, time, gs) => {
   if (noGSItem) {
     return {
       content: '0',
-      contentStyle: {color: 'red'},
+      contentClass: 'text-danger',
       tooltip: 'Only obtainable through great success',
     }
   }
@@ -34,7 +34,7 @@ const prepareText = (maybeRanged, isHourly, time, gs) => {
       `${r.value.toFixed(2)} / 8 hours`
     return {
       content,
-      contentStyle: {},
+      contentClass: null,
       tooltip,
     }
   } else {
@@ -44,7 +44,7 @@ const prepareText = (maybeRanged, isHourly, time, gs) => {
       String(maybeRanged.value)
     return {
       content,
-      contentStyle: {},
+      contentClass: null,
       tooltip: null,
     }
   }
@@ -78,12 +78,12 @@ class ItemView extends Component {
         {ranged: false, value: min} :
         {ranged: true, min, max}
     })()
-    const {content,contentStyle,tooltip} =
+    const {content,contentClass,tooltip} =
       prepareText(count,isHourly,time,gs)
     const contentNode = (
       <span>
         <ItemIcon style={{width: '1.1em'}} name={name} />
-        <span style={contentStyle}>
+        <span className={contentClass !== null ? contentClass : undefined}>
           {`x${content}`}
         </span>
       </span>

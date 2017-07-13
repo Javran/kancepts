@@ -78,6 +78,9 @@ class ResetAreaImpl extends Component {
     const {resetFocus, showModal} = this.state
     return (
       <div>
+        <div style={{marginBottom: '.5em'}}>
+          {`Select one of the followings and hit "Reset" button to continue.`}
+        </div>
         <ButtonToolbar>
           {
             resetOptions.map(({id,desc}) => {
