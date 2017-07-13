@@ -55,6 +55,10 @@ const saveToLocalStorageImpl = state =>
     localStorage.kancepts = JSON.stringify(kanceptsData)
   })
 
+const clearPersistData = () => {
+  delete localStorage.kancepts
+}
+
 const saveToLocalStorage = _.debounce(
   saveToLocalStorageImpl,
   500
@@ -96,4 +100,5 @@ const loadPreparedState = () => {
 export {
   persistStateObserver,
   loadPreparedState,
+  clearPersistData,
 }

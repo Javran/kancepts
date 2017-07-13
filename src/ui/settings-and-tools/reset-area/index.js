@@ -1,8 +1,24 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Button, ButtonToolbar,
   Modal,
 } from 'react-bootstrap'
+
+import {
+  mergeMapDispatchToProps,
+} from '../../../utils'
+import { PTyp } from '../../../ptyp'
+
+import {
+  mapDispatchToProps as rootMdtp,
+} from '../../../store/reducer'
+import {
+  mapDispatchToProps as expedConfigsMdtp,
+} from '../../../store/reducer/exped-configs'
+import {
+  mapDispatchToProps as shipListMdtp,
+} from '../../../store/reducer/ship-list'
 
 const resetOptions = []
 const defineReset = (id, desc) => resetOptions.push({id, desc})
@@ -11,7 +27,13 @@ defineReset('all', 'Everything')
 defineReset('expedConfigs', 'Expedition Configs')
 defineReset('shipList', 'Ship List')
 
-class ResetArea extends Component {
+class ResetAreaImpl extends Component {
+  static propTypes = {
+    factoryReset: PTyp.func.isRequired,
+    resetExpedConfigs: PTyp.func.isRequired,
+    resetShipList: PTyp.func.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -41,7 +63,15 @@ class ResetArea extends Component {
 
   handleReset = () => {
     this.handleCloseResetModal()
-    // TODO reset
+    const {resetFocus} = this.state
+
+    const resetFunc =
+      resetFocus === 'all' ? this.props.factoryReset :
+      resetFocus === 'expedConfigs' ? this.props.resetExpedConfigs :
+      resetFocus === 'shipList' ? this.props.resetShipList :
+      console.error(`Unknown reset type ${resetFocus}`)
+
+    resetFunc()
   }
 
   render() {
@@ -94,5 +124,14 @@ class ResetArea extends Component {
     )
   }
 }
+
+const ResetArea = connect(
+  null,
+  mergeMapDispatchToProps(
+    rootMdtp,
+    expedConfigsMdtp,
+    shipListMdtp
+  ),
+)(ResetAreaImpl)
 
 export { ResetArea }

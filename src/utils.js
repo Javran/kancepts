@@ -221,6 +221,10 @@ const pprTime = time => {
     mm > 0 ? `${mm} min` : null,
   ]).join(' ')
 }
+const mergeMapDispatchToProps = (...mdtps) => dispatch =>
+  mdtps.reduce(
+    (props, curMdtp) => ({...props, ...curMdtp(dispatch)}),
+    {})
 
 export {
   enumFromTo,
@@ -253,4 +257,5 @@ export {
   handleNoSubmit,
   improvementToText,
   pprTime,
+  mergeMapDispatchToProps,
 }
