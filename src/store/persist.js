@@ -26,6 +26,7 @@ import { shallowEqual } from '../utils'
 
 const persistPaths = [
   'expedConfigs',
+  'shipList',
   'ui.planner.config',
   'ui.currentTab',
   'ui.table.view',

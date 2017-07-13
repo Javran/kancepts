@@ -28,6 +28,11 @@ const normalizeShip = s => {
 
 const normalizeShipList = fp.map(normalizeShip)
 const defaultShipList = normalizeShipList(rawDefaultShipList)
+  .map((x,ind) => ({
+    ...x,
+    // note that rosterId in game starts from 1
+    // so we'd better make it consistent with the game
+    rosterId: ind+1}))
 
 // NOTE: shipList, as a reducer, should provide a default value when it's missing
 // it's preloadedState that loads user settings and has it passed to this reducer.

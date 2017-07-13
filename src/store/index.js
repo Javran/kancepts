@@ -7,4 +7,6 @@ const preloadedState = loadPreparedState()
 
 const store = createStore(reducer, preloadedState)
 
+window.getStore = store.getState
+
 export { store }
