@@ -3,6 +3,7 @@ import {
   Panel,
 } from 'react-bootstrap'
 import { ExpedTableBatchConfig } from './exped-table-batch-config'
+import { ResetArea } from './reset-area'
 
 class SettingsAndTools extends Component {
   render() {
@@ -14,7 +15,7 @@ class SettingsAndTools extends Component {
             TODO
           </Panel>
           <Panel header="Reset">
-            TODO
+            <ResetArea />
           </Panel>
           <Panel header="Import & Export">
             TODO
