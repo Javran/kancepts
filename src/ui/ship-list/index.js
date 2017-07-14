@@ -8,18 +8,21 @@ import {
 } from 'react-bootstrap'
 
 import {
-  costPickerSelector,
-  shipDetailListSelector,
   translateSelector,
+  shipListUISelector,
 } from '../../selectors'
+import {
+  shipViewListSelector,
+} from './selectors'
 
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
 
 import { CostPicker } from '../cost-picker'
 import { filters } from '../../ship-filters'
-import { mapDispatchToProps } from '../../store/reducer/ship-list'
-import { modifyArray } from '../../utils'
+import { mapDispatchToProps as shipListMdtp } from '../../store/reducer/ship-list'
+import { mapDispatchToProps as shipListUIMdtp } from '../../store/reducer/ui/ship-list'
+import { modifyArray, modifyObject, mergeMapDispatchToProps } from '../../utils'
 import { SearchAndAdd } from './search-and-add'
 
 const WrappedTd = ({content}) => (
@@ -36,22 +39,20 @@ WrappedTd.propTypes = PTyp.node.isRequired
 
 class ShipListImpl extends Component {
   static propTypes = {
-    shipDetailList: PTyp.array.isRequired,
-    fuelPercent: PTyp.number.isRequired,
-    ammoPercent: PTyp.number.isRequired,
+    shipViewList: PTyp.array.isRequired,
     tr: PTyp.func.isRequired,
+    filter: PTyp.string.isRequired,
+    sort: PTyp.shape({
+      reversed: PTyp.bool.isRequired,
+      method: PTyp.string.isRequired,
+    }).isRequired,
     modifyShipList: PTyp.func.isRequired,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      filter: 'any',
-    }
+    modifyShipListUI: PTyp.func.isRequired,
   }
 
   handleChangeFilter = filter => () =>
-    this.setState({filter})
+    this.props.modifyShipListUI(
+      modifyObject('filter', () => filter))
 
   handleToggleRing = rosterId => () =>
     this.props.modifyShipList(shipList => {
@@ -73,12 +74,7 @@ class ShipListImpl extends Component {
       shipList.filter(s => s.rosterId !== rosterId))
 
   render() {
-    const {shipDetailList, tr} = this.props
-    const filterFunc =
-      filters.find(x => x.id === this.state.filter).func
-    const {fuelPercent, ammoPercent} = this.props
-    const fuelCostFactor = fuelPercent / 100
-    const ammoCostFactor = ammoPercent / 100
+    const {shipViewList, tr, filter} = this.props
     const iconStyle = {
       height: '1em',
     }
@@ -97,7 +93,7 @@ class ShipListImpl extends Component {
               {
                 filters.map(({id,title}) => (
                   <Button
-                    active={this.state.filter === id}
+                    active={filter === id}
                     onClick={this.handleChangeFilter(id)}
                     key={id}
                     >
@@ -135,49 +131,51 @@ class ShipListImpl extends Component {
               </thead>
               <tbody>
                 {
-                  shipDetailList
-                    .filter(filterFunc)
-                    .map(s => {
-                      const {fuelCost, ammoCost} =
-                        s.computeCost(fuelCostFactor,ammoCostFactor)
-                      return (
-                        <tr
-                          key={s.rosterId}>
-                          <WrappedTd content={s.typeName} />
-                          <td style={{display: 'flex'}}>
-                            <div style={{
-                              flex: 1,
-                              width: 'auto',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                              overflow: 'hidden',
-                            }}>
-                              {s.shipName}
-                            </div>
-                            <Button
-                              onClick={this.handleToggleRing(s.rosterId)}
-                              bsStyle={s.ring ? 'primary' : 'default'}
-                              style={s.ring ? {} : {opacity: .5}}
-                              bsSize="xsmall">
-                              <ItemIcon
-                                style={iconStyle}
-                                name="ring"
-                              />
-                            </Button>
-                          </td>
-                          <td>{fuelCost}</td>
-                          <td>{ammoCost}</td>
-                          <td>{fuelCost+ammoCost}</td>
-                          <td style={{textAlign: 'center'}}>
-                            <Button
-                              onClick={this.handleRemoveShip(s.rosterId)}
-                              bsSize="xsmall" bsStyle="danger">
-                              <FontAwesome name="close" />
-                            </Button>
-                          </td>
-                        </tr>
-                      )
-                    })
+                shipViewList
+                  .map(s => {
+                    const {
+                      rosterId, typeName, shipName,
+                      fuel, ammo, sumFuelAmmo,
+                      ring,
+                    } = s
+                    return (
+                      <tr
+                        key={rosterId}>
+                        <WrappedTd content={typeName} />
+                        <td style={{display: 'flex'}}>
+                          <div style={{
+                            flex: 1,
+                            width: 'auto',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                          }}>
+                            {shipName}
+                          </div>
+                          <Button
+                            onClick={this.handleToggleRing(rosterId)}
+                            bsStyle={ring ? 'primary' : 'default'}
+                            style={ring ? {} : {opacity: .5}}
+                            bsSize="xsmall">
+                            <ItemIcon
+                              style={iconStyle}
+                              name="ring"
+                            />
+                          </Button>
+                        </td>
+                        <td>{fuel}</td>
+                        <td>{ammo}</td>
+                        <td>{sumFuelAmmo}</td>
+                        <td style={{textAlign: 'center'}}>
+                          <Button
+                            onClick={this.handleRemoveShip(rosterId)}
+                            bsSize="xsmall" bsStyle="danger">
+                            <FontAwesome name="close" />
+                          </Button>
+                        </td>
+                      </tr>
+                    )
+                  })
                 }
               </tbody>
             </Table>
@@ -190,12 +188,15 @@ class ShipListImpl extends Component {
 
 const ShipList = connect(
   state => {
-    const shipDetailList = shipDetailListSelector(state)
+    const shipViewList = shipViewListSelector(state)
+    const {filter, sort} = shipListUISelector(state)
     const {tr} = translateSelector(state)
-    const cost = costPickerSelector(state)
-    return {shipDetailList, tr, ...cost}
+    return {shipViewList, tr, filter, sort}
   },
-  mapDispatchToProps
+  mergeMapDispatchToProps(
+    shipListMdtp,
+    shipListUIMdtp
+  )
 )(ShipListImpl)
 
 export { ShipList }

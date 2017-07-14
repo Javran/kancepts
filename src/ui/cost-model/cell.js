@@ -5,13 +5,14 @@ import {
 } from 'react-bootstrap'
 import { PTyp } from '../../ptyp'
 import { resourceColor } from '../../exped-info'
+import { ItemIcon } from '../item-icon'
 
 class Cell extends PureComponent {
   static propTypes = {
     cost: PTyp.shape({
       fuelCost: PTyp.number.isRequired,
       ammoCost: PTyp.number.isRequired,
-      nameList: PTyp.array.isRequired,
+      fleet: PTyp.array.isRequired,
     }),
     tr: PTyp.func.isRequired,
   }
@@ -35,12 +36,24 @@ class Cell extends PureComponent {
         <div>
           <div>{tr('CostModel.Examples')}:</div>
           {
-            cost.nameList.map((n,ind) => (
-              <div key={
-                // eslint-disable-next-line react/no-array-index-key
-                ind
-              }>
-                {n}
+            cost.fleet.map(({rosterId,shipName,ring}) => (
+              <div
+                key={rosterId}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}>
+                <div>{shipName}</div>
+                {
+                  ring && (
+                    <ItemIcon
+                      name="ring"
+                      style={{
+                        width: '1em',
+                        marginLeft: '.2em',
+                      }} />
+                  )
+                }
               </div>
             ))
           }

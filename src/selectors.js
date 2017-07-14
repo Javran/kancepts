@@ -103,7 +103,7 @@ const scan = (xs, acc, zero) => {
    - ShipType: ship filter id
    - Count: an integer >= 0
    - ActualCost:
-     - {fuelCost, ammoCost} (might include other fields like 'nameList')
+     - {fuelCost, ammoCost} (might include other fields like 'fleet')
      - or null if the number of qualified ships is not sufficient
 
    TODO:
@@ -120,12 +120,11 @@ const costModelSelector = createSelector(
       const ammoCostFactor = ammoPercent / 100
 
       // sort by cost lowest cost
-      // TODO: track marriage state
       const shipCostListWithDup =
         shipCostListByFilter[filterId]
           .map(s => {
             const {fuelCost, ammoCost} = s.computeCost(fuelCostFactor,ammoCostFactor)
-            return {...s, fuelCost, ammoCost, nameList: [s.shipName]}
+            return {...s, fuelCost, ammoCost, fleet: [s]}
           })
           .sort((x,y) => (x.fuelCost+x.ammoCost) - (y.fuelCost+y.ammoCost))
 
@@ -145,12 +144,12 @@ const costModelSelector = createSelector(
       const plusCost = (x,y) => ({
         fuelCost: x.fuelCost + y.fuelCost,
         ammoCost: x.ammoCost + y.ammoCost,
-        nameList: [...x.nameList, ...y.nameList],
+        fleet: [...x.fleet, ...y.fleet],
       })
       const accumulatedCostList = scan(
         shipCostList,
         plusCost,
-        {fuelCost: 0, ammoCost: 0, nameList: []})
+        {fuelCost: 0, ammoCost: 0, fleet: []})
 
       return accumulatedCostList.length > count ? accumulatedCostList[count] : null
     }

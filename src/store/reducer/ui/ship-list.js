@@ -4,6 +4,19 @@ const initState = {
     masterId: 184,
     ring: false,
   },
+  filter: 'any',
+  sort: {
+    /*
+
+       stype / fuel / ammo / sumFuelAmmo
+
+       - all are direct properties
+       - masterId then rosterId as ultimate resolver
+
+     */
+    method: 'stype',
+    reversed: false,
+  },
 }
 
 const reducer = (state = initState, action) => {

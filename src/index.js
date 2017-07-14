@@ -19,10 +19,6 @@ import { store } from './store'
 
      - sorting
 
-   - cost model
-
-     - marriage state?
-
  */
 
 ReactDOM.render(
