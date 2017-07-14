@@ -20,10 +20,6 @@ import { store } from './store'
      - sorting
      - find a way to allow list modification
 
-   - settings (TODO)
-
-     - i18n (en-US)
-
  */
 
 ReactDOM.render(

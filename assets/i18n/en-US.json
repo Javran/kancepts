@@ -1,4 +1,71 @@
 {
+  "Expedition": "Expedition",
+  "Expeditions": "Expeditions",
+  "ResourceText": "Resource",
+  "Cost": "Cost",
+  "Config": "Config",
+  "Composition": "Composition",
+  "NormalSuccess": "Normal Success",
+  "GreatSuccess": "Great Success",
+  "Presets": "Presets",
+
+  "Yes": "Yes",
+  "No": "No",
+
+  "And": "AND",
+  "Or": "OR",
+
+  "Hours": "hours",
+  "Mins": "mins",
+
+  "HourShort": "hr",
+  "MinShort": "min",
+
+  "NotAva": "N/A",
+
+  "FleetN": {
+    "one": "%d fleet",
+    "other": "%d fleets"
+  },
+
+  "ShipN": {
+    "one": "%d ship",
+    "other": "%d ships"
+  },
+
+  "ShipType": "Type",
+  "ShipName": "Name",
+
+  "Resource": {
+    "Fuel": "Fuel",
+    "Ammo": "Ammo",
+    "Steel": "Steel",
+    "Bauxite": "Bauxite",
+    "NoFuelCost": "No Fuel Cost",
+    "NoAmmoCost": "No Ammo Cost"
+  },
+
+  "STypeLong": {
+    "DD": "Destroyer (DD)",
+    "SS(*)": "Submarine-like (SS/SSV)",
+    "DE": "Escort (DE)"
+  },
+
+  "IncomeModifier": {
+    "Name": "Income Modifier",
+    "Standard": "Standard",
+    "Custom": "Custom",
+    "ModifierNum": "Modifier"
+  },
+
+  "ResupplyCost": {
+    "Name": "Resupply Cost",
+    "CostModel": "Cost Model",
+    "Custom": "Custom",
+    "ShipCount": "Ship Count",
+    "Wildcard": "Wildcard"
+  },
+
   "Tabs": {
     "Planner": "Planner",
     "Table": "Table",
@@ -8,9 +75,53 @@
     "SettingsAndTools": "Settings & Tools"
   },
 
+  "Planner": {
+    "Expeditions": "Expeditions",
+    "Presets": "Presets",
+    "ResourceWeight": "Resource Weight",
+    "AfkTime": "AFK Time",
+    "Fleets": "Fleets",
+    "ExpeditionSet": "Expedition Set",
+    "Score": "Score",
+
+    "PresetAlts": {
+      "All": {
+        "Name": "All",
+        "Desc": "All expeditions"
+      },
+      "Recommended": {
+        "Name": "Recommended",
+        "Desc": "Exclude non-beneficial expeditions and special ones"
+      },
+      "Buckets": {
+        "Name": "Buckets",
+        "Desc": "All expeditions that might yield instant repair buckets"
+      },
+      "None": {
+        "Name": "None",
+        "Desc": "Deselect all"
+      }
+    }
+  },
+
   "Table": {
+    "View": "View",
+    "Total": "Total",
+    "Hourly": "Hourly",
+    "Income": {
+      "Gross": "Gross Income",
+      "Net": "Net Income",
+      "Basic": "Basic Income"
+    },
+    "Numeric": "Numeric",
+    "Sort": "Sort",
+    "Duration": "Time",
     "ItemIsGreatSuccessExclusive": "Only obtainable through great success",
     "RequireNShipsInFleet": "Require ≥%s ship(s) in fleet"
+  },
+
+  "CostModel": {
+    "Examples": "Examples"
   },
 
   "DlcLab": {

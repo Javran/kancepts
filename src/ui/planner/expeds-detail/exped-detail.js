@@ -55,7 +55,7 @@ class ExpedDetailImpl extends Component {
           <tbody>
             <tr>
               <td style={{...cellStyle, width: '8em'}}>
-                {tr('Resource')}
+                {tr('ResourceText')}
               </td>
               {
                 resourceProperties.map(rp => (
