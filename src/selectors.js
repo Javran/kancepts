@@ -168,7 +168,7 @@ const expedViewSortFunctionSelector = createSelector(
     const resourceGetter = rp =>
       expedView => {
         const v = expedView.showResource[rp]
-        return v === null ? 0 : v
+        return v === null ? -Infinity : v
       }
     const getterToComparator = (getter, flip=false) =>
       (x,y) => {

@@ -21,8 +21,6 @@
   "HourShort": "小時",
   "MinShort": "分鐘",
 
-  "NotAva": "無",
-
   "FleetN": {
     "one": "%d 艦隊",
     "other": "%d 艦隊"
@@ -117,10 +115,12 @@
     "Sort": "排序",
     "Duration": "時長",
     "ItemIsGreatSuccessExclusive": "此物品只能通過大成功獲得",
-    "RequireNShipsInFleet": "確保艦船數至少爲 %s"
+    "RequireNShipsInFleet": "確保艦船數至少爲 %s",
+    "NotAva": "無效"
   },
 
   "CostModel": {
+    "NotAva": "無",
     "Examples": "示例"
   },
 

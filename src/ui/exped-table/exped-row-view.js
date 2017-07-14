@@ -23,6 +23,7 @@ class ExpedRowViewImpl extends Component {
     onToggleEditor: PTyp.func.isRequired,
     numeric: PTyp.bool.isRequired,
     isHourly: PTyp.bool.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   render() {
@@ -70,7 +71,7 @@ class ExpedRowViewImpl extends Component {
             resourceProperties.map(rp => {
               const resourceVal = showResource[rp]
               const resourceText =
-                resourceVal === null ? 'N/A' :
+                resourceVal === null ? tr('Table.NotAva') :
                 _.isInteger(resourceVal) ? String(resourceVal) :
                 String(resourceVal.toFixed(2))
               const nz = resourceVal !== 0

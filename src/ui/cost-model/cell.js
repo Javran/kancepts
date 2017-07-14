@@ -25,7 +25,7 @@ class Cell extends PureComponent {
     if (cost === null) {
       return (
         <div>
-          {tr('NotAva')}
+          {tr('CostModel.NotAva')}
         </div>
       )
     }

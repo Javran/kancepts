@@ -25,6 +25,7 @@ module.exports = {
       'message': 'Always use named exports'
     }],
     'no-lonely-if': 'off',
+    'no-floating-decimal': 'off',
     'no-underscore-dangle': ['error', { 'allowAfterThis': true }],
     'import/extensions': ['error', { 'es': 'never' }],
     'import/no-extraneous-dependencies': 'off',

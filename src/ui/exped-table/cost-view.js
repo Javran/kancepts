@@ -12,6 +12,15 @@ import {
 
 const renderCostModel = (wildcard, count, compo, cost, prefix, tr) => {
   const name = getFilterName(wildcard)
+  const costDesc = cost === null ? tr('Table.NotAva') :
+    [
+      cost.fuel === 0 ?
+        tr('Resource.NoFuelCost') :
+        `${tr('Resource.Fuel')} ${-cost.fuel}`,
+      cost.ammo === 0 ?
+        tr('Resource.NoAmmoCost') :
+        `${tr('Resource.Ammo')} ${-cost.ammo}`,
+    ].join(' & ')
   return (
     <OverlayTrigger
       placement="left"
@@ -22,15 +31,7 @@ const renderCostModel = (wildcard, count, compo, cost, prefix, tr) => {
             <div>{tr('ResupplyCost.Wildcard')}: {name}</div>
             <div>{tr('Composition')}: {compoToStr(compo)}</div>
             <div>
-              {tr('Cost')}: {
-                cost.fuel === 0 ?
-                  tr('Resource.NoFuelCost') :
-                  `${tr('Resource.Fuel')} ${-cost.fuel}`
-              } & {
-                cost.ammo === 0 ?
-                  tr('Resource.NoAmmoCost') :
-                  `${tr('Resource.Ammo')} ${-cost.ammo}`
-              }
+              {tr('Cost')}: {costDesc}
             </div>
           </div>
         </Tooltip>
@@ -82,7 +83,7 @@ class CostView extends Component {
     cost: PTyp.object.isRequired,
     prefix: PTyp.string.isRequired,
     resupplyInfo: PTyp.shape({
-      cost: PTyp.object.isRequired,
+      cost: PTyp.object,
       compo: PTyp.object,
     }).isRequired,
     numeric: PTyp.bool.isRequired,
@@ -91,8 +92,24 @@ class CostView extends Component {
 
   render() {
     const {style, cost, prefix, resupplyInfo, numeric, tr} = this.props
-    const generalCost = resupplyInfo.cost
     const {compo} = resupplyInfo
+    const generalCost = resupplyInfo.cost
+    if (generalCost === null) {
+      // generalCost will be null only if we are using a cost model
+      // but cannot find enough ship from ship list.
+      if (cost.type !== 'cost-model') {
+        return console.error(`unexpected cost type: ${cost.type}`)
+      }
+      return (
+        <div style={style}>
+          {
+            renderCostModel(
+              cost.wildcard,cost.count,
+              compo,generalCost,prefix,tr)
+          }
+        </div>
+      )
+    }
     return (
       <div style={style}>
         {

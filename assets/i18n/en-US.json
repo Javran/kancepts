@@ -21,8 +21,6 @@
   "HourShort": "hr",
   "MinShort": "min",
 
-  "NotAva": "N/A",
-
   "FleetN": {
     "one": "%d fleet",
     "other": "%d fleets"
@@ -117,10 +115,12 @@
     "Sort": "Sort",
     "Duration": "Time",
     "ItemIsGreatSuccessExclusive": "Only obtainable through great success",
-    "RequireNShipsInFleet": "Require ≥%s ship(s) in fleet"
+    "RequireNShipsInFleet": "Require ≥%s ship(s) in fleet",
+    "NotAva": "N/A"
   },
 
   "CostModel": {
+    "NotAva": "N/A",
     "Examples": "Examples"
   },
 
