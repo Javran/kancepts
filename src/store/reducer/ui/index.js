@@ -5,6 +5,9 @@ import * as currentTab from './current-tab'
 import * as dlcLab from './dlc-lab'
 import * as settings from './settings'
 import * as costPicker from './cost-picker'
+import * as shipList from './ship-list'
+
+// TODO: import { reducer as shipList }
 
 const reducer = combineReducers({
   table: table.reducer,
@@ -13,6 +16,7 @@ const reducer = combineReducers({
   dlcLab: dlcLab.reducer,
   settings: settings.reducer,
   costPicker: costPicker.reducer,
+  shipList: shipList.reducer,
 })
 
 export {

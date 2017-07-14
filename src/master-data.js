@@ -20,11 +20,33 @@ const dlcList = [
   }
 })
 
+const $shipTypeArray = rawMasterData.api_mst_stype
+const $shipArray = rawMasterData.api_mst_ship
+
+const $friendlyShipArray =
+  $shipArray.filter(x => x.api_id < 1500)
+
+const pprShipType = stype => {
+  const raw = $shipTypes[stype]
+  const name = raw.api_name
+  const id = raw.api_id
+  return `${name} (${id})`
+}
+
+const masterIdsGrouppedBySType = (() => {
+  const masterIds = $friendlyShipArray.map(x => x.api_id)
+  return _.groupBy(masterIds,mstId => $ships[mstId].api_stype)
+})()
+
 export {
   $ships,
   $shipTypes,
   $missions,
+
   dlcList,
+  $shipTypeArray,
+  pprShipType,
+  masterIdsGrouppedBySType,
 
   rawMasterData,
 }

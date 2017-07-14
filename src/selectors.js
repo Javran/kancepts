@@ -119,14 +119,28 @@ const costModelSelector = createSelector(
       const fuelCostFactor = fuelPercent / 100
       const ammoCostFactor = ammoPercent / 100
 
-      // sort and select first <count> ships with lowest cost
-      const shipCostList =
+      // sort by cost lowest cost
+      // TODO: track marriage state
+      const shipCostListWithDup =
         shipCostListByFilter[filterId]
           .map(s => {
             const {fuelCost, ammoCost} = s.computeCost(fuelCostFactor,ammoCostFactor)
             return {...s, fuelCost, ammoCost, nameList: [s.shipName]}
           })
           .sort((x,y) => (x.fuelCost+x.ammoCost) - (y.fuelCost+y.ammoCost))
+
+      // remove duplication
+      const shipCostList = []
+      {
+        const masterIdSet = new Set()
+        for (let i=0; i<shipCostListWithDup.length; ++i) {
+          const ship = shipCostListWithDup[i]
+          if (masterIdSet.has(ship.masterId))
+            continue
+          shipCostList.push(ship)
+          masterIdSet.add(ship.masterId)
+        }
+      }
 
       const plusCost = (x,y) => ({
         fuelCost: x.fuelCost + y.fuelCost,
@@ -288,6 +302,10 @@ const costPickerSelector = createSelector(
   uiSelector,
   ui => ui.costPicker)
 
+const shipListUISelector = createSelector(
+  uiSelector,
+  ui => ui.shipList)
+
 export {
   shipDetailListSelector,
   shipCostListByFilterSelector,
@@ -305,4 +323,6 @@ export {
   languageSelector,
   translateSelector,
   costPickerSelector,
+  shipListSelector,
+  shipListUISelector,
 }
