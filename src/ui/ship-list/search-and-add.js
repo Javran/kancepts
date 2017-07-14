@@ -11,9 +11,14 @@ import {
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
 import { searchAndAddUISelector } from './selectors'
+import { translateSelector } from '../../selectors'
 import { mapDispatchToProps as shipListUIMdtp } from '../../store/reducer/ui/ship-list'
 import { mapDispatchToProps as shipListMdtp } from '../../store/reducer/ship-list'
-import { modifyObject, mergeMapDispatchToProps } from '../../utils'
+import {
+  modifyObject,
+  mergeMapDispatchToProps,
+  mergeMapStateToProps,
+} from '../../utils'
 import {
   $shipTypeArray,
   $ships,
@@ -30,6 +35,8 @@ class SearchAndAddImpl extends Component {
     count: PTyp.number.isRequired,
     modifyShipListUI: PTyp.func.isRequired,
     modifyShipList: PTyp.func.isRequired,
+    tr: PTyp.func.isRequired,
+    trN: PTyp.func.isRequired,
   }
 
   modifyUI = modifier =>
@@ -75,13 +82,14 @@ class SearchAndAddImpl extends Component {
       style,
       stype, masterId,
       ring, count,
+      tr, trN,
     } = this.props
     const $ship = $ships[masterId]
     return (
       <Panel
         style={style}
         className="shiplist-panel"
-        header="Search & Add"
+        header={tr('ShipList.SearchAndAdd.Title')}
       >
         <Grid style={{
           marginTop: '.4em',
@@ -131,7 +139,9 @@ class SearchAndAddImpl extends Component {
           </Row>
           <Row style={{marginTop: '.4em'}}>
             <Col sm={12} style={{display: 'flex', alignItems: 'center'}}>
-              <div style={{flex: 1}}>{count} ships found in current list</div>
+              <div style={{flex: 1}}>
+                {tr('ShipList.SearchAndAdd.SearchResult',trN('ShipN',count))}
+              </div>
               <ButtonToolbar>
                 <Button
                   onClick={this.handleToggleRing}
@@ -157,7 +167,10 @@ class SearchAndAddImpl extends Component {
 }
 
 const SearchAndAdd = connect(
-  searchAndAddUISelector,
+  mergeMapStateToProps(
+    searchAndAddUISelector,
+    translateSelector
+  ),
   mergeMapDispatchToProps(
     shipListUIMdtp,
     shipListMdtp

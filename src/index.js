@@ -18,7 +18,10 @@ import { store } from './store'
    - ship list
 
      - sorting
-     - find a way to allow list modification
+
+   - cost model
+
+     - marriage state?
 
  */
 

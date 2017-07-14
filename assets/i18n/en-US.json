@@ -124,6 +124,13 @@
     "Examples": "Examples"
   },
 
+  "ShipList": {
+    "SearchAndAdd": {
+      "Title": "Search & Add",
+      "SearchResult": "%s found in current list"
+    }
+  },
+
   "DlcLab": {
     "IncludeKinuK2": "Include Kinu Kai Ni",
     "DlcTable": {

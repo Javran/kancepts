@@ -124,6 +124,13 @@
     "Examples": "示例"
   },
 
+  "ShipList": {
+    "SearchAndAdd": {
+      "Title": "查找 & 添加",
+      "SearchResult": "在當前艦船列表中找到 %s"
+    }
+  },
+
   "DlcLab": {
     "IncludeKinuK2": "包含鬼怒改二",
     "DlcTable": {
