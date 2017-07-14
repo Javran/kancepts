@@ -9,7 +9,7 @@ import {
 } from 'react-bootstrap'
 
 import { PTyp } from '../../../ptyp'
-import { modifyObject, mergeMapDispatchToProps } from '../../../utils'
+import { modifyObject, mergeMapStateToProps } from '../../../utils'
 import {
   mapDispatchToProps,
 } from '../../../store/reducer/ui/settings/exped-table-batch-config'
@@ -153,7 +153,7 @@ class FilterAreaImpl extends Component {
 }
 
 const FilterArea = connect(
-  mergeMapDispatchToProps(
+  mergeMapStateToProps(
     filterStateSelector,
     translateSelector
   ),

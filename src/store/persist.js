@@ -34,6 +34,7 @@ const persistPaths = [
   'ui.table.view',
   'ui.table.sort',
   'ui.dlcLab',
+  'ui.costPicker',
 ]
 
 // get non-undefined path values and merge them into another Object

@@ -284,6 +284,10 @@ const translateSelector = createSelector(
     return {tr, trN}
   })
 
+const costPickerSelector = createSelector(
+  uiSelector,
+  ui => ui.costPicker)
+
 export {
   shipDetailListSelector,
   shipCostListByFilterSelector,
@@ -300,4 +304,5 @@ export {
   expedInfoViewListSelector,
   languageSelector,
   translateSelector,
+  costPickerSelector,
 }

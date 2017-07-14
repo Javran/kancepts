@@ -20,6 +20,11 @@ import { store } from './store'
      - sorting
      - find a way to allow list modification
 
+   - cost picker
+
+     - rework layout
+     - reduxify
+
  */
 
 ReactDOM.render(

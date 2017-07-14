@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap'
 
 import { ItemIcon } from '../../item-icon'
-import { enumFromTo, modifyObject, mergeMapDispatchToProps } from '../../../utils'
+import { enumFromTo, modifyObject, mergeMapStateToProps } from '../../../utils'
 import { PTyp } from '../../../ptyp'
 import {
   mapDispatchToProps,
@@ -97,7 +97,7 @@ class OptionsAreaImpl extends Component {
 }
 
 const OptionsArea = connect(
-  mergeMapDispatchToProps(
+  mergeMapStateToProps(
     expedBatchConfigSelector,
     translateSelector
   ),

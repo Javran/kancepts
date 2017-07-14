@@ -241,6 +241,8 @@ const mergeMapDispatchToProps = (...mdtps) => dispatch =>
     (props, curMdtp) => ({...props, ...curMdtp(dispatch)}),
     {})
 
+const mergeMapStateToProps = mergeMapDispatchToProps
+
 // shallowly remove properties whose value is `undefined` for an Object
 const shallowCompactObject = obj =>
   _.fromPairs(
@@ -279,5 +281,6 @@ export {
   improvementToText,
   pprTime,
   mergeMapDispatchToProps,
+  mergeMapStateToProps,
   shallowCompactObject,
 }

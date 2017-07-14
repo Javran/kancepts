@@ -5,15 +5,19 @@ import Slider from 'rc-slider'
 import {
   DropdownButton, MenuItem,
 } from 'react-bootstrap'
-import { translateSelector } from '../selectors'
+import {
+  translateSelector,
+  costPickerSelector,
+} from '../selectors'
 import { ItemIcon } from './item-icon'
+import { mapDispatchToProps } from '../store/reducer/ui/cost-picker'
 
 // table copied from:
 // https://github.com/KC3Kai/KC3Kai/blob/7d551f3d84a386027286947552e3ef112c65a06b/src/pages/strategy/tabs/expedtable/expedtable.js#L108-L118
 import expedCostGrouping from '../assets/exped-cost-grouping.json'
 
 import { PTyp } from '../ptyp'
-import { enumFromTo } from '../utils'
+import { enumFromTo, mergeMapStateToProps } from '../utils'
 
 const percents = enumFromTo(0,100,x => x+10)
 
@@ -112,7 +116,12 @@ class CostPickerImpl extends Component {
   }
 }
 
-const CostPicker = connect(translateSelector)(CostPickerImpl)
+const CostPicker = connect(
+  mergeMapStateToProps(
+    costPickerSelector,
+    translateSelector),
+  mapDispatchToProps,
+)(CostPickerImpl)
 
 export {
   CostPicker,
