@@ -8,6 +8,7 @@ import {
 
 import {
   shipDetailListSelector,
+  translateSelector,
 } from '../../selectors'
 
 import { ItemIcon } from '../item-icon'
@@ -31,6 +32,7 @@ WrappedTd.propTypes = PTyp.node.isRequired
 class ShipListImpl extends Component {
   static propTypes = {
     shipDetailList: PTyp.array.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -49,7 +51,7 @@ class ShipListImpl extends Component {
     this.setState(s)
 
   render() {
-    const { shipDetailList } = this.props
+    const {shipDetailList, tr} = this.props
     const filterFunc =
       filters.find(x => x.id === this.state.filter).func
     const {fuelPercent, ammoPercent} = this.state
@@ -90,10 +92,10 @@ class ShipListImpl extends Component {
               <thead>
                 <tr>
                   <th style={{width: '16%'}}>
-                    Type
+                    {tr('ShipType')}
                   </th>
                   <th style={{width: 'auto'}}>
-                    Name
+                    {tr('ShipName')}
                   </th>
                   <th style={{width: '18%'}}>
                     <ItemIcon style={iconStyle} name="fuel" />
@@ -155,7 +157,8 @@ class ShipListImpl extends Component {
 
 const ShipList = connect(state => {
   const shipDetailList = shipDetailListSelector(state)
-  return {shipDetailList}
+  const {tr} = translateSelector(state)
+  return {shipDetailList, tr}
 })(ShipListImpl)
 
 export { ShipList }
