@@ -20,6 +20,7 @@ import { CostPicker } from '../cost-picker'
 import { filters } from '../../ship-filters'
 import { mapDispatchToProps } from '../../store/reducer/ship-list'
 import { modifyArray } from '../../utils'
+import { SearchAndAdd } from './search-and-add'
 
 const WrappedTd = ({content}) => (
   <td>
@@ -85,7 +86,10 @@ class ShipListImpl extends Component {
       <div>
         <CostPicker
           prefix="ship-list-"
-          style={{marginLeft: 10, marginBottom: 8}}
+          style={{marginLeft: 10, marginBottom: 10}}
+        />
+        <SearchAndAdd
+          style={{marginLeft: 10, marginBottom: 2}}
         />
         <div style={{display: 'flex'}}>
           <div style={{margin: 10}}>
