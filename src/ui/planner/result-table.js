@@ -61,6 +61,7 @@ class ResultTableImpl extends Component {
                 const key=`planner-result-row-${expedIds.join('-')}`
                 return (
                   <OverlayTrigger
+                    delayShow={100}
                     key={key}
                     placement="top"
                     overlay={
