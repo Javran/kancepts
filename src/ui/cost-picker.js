@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Slider from 'rc-slider'
 import {
-  DropdownButton, MenuItem,
+  DropdownButton, MenuItem, Grid, Row, Col, Panel,
 } from 'react-bootstrap'
 import {
   translateSelector,
@@ -42,7 +42,6 @@ class CostPickerImpl extends Component {
   }
 
   // 3 possible calls:
-  // TODO: reduxify
   // - updateCost({fuelPercent})
   // - updateCost({ammoPercent})
   // - updateCost({fuelPercent,ammoPercent})
@@ -67,55 +66,64 @@ class CostPickerImpl extends Component {
       tr,
     } = this.props
     return (
-      <div style={style}>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-          <DropdownButton
-            onSelect={this.updateCost}
-            style={{
-              width: '15vw',
-              maxWidth: 200,
-            }}
-            title={tr('Presets')}
-            block
-            id={`${prefix}cost-picker-preset`}>
-            {
-              expedCostGrouping.map(({fuel,ammo,expeds}) => {
-                const key = `f${fuel}-a${ammo}`
-                const es = expeds.join(', ')
-                const desc = [
-                  `${tr('Resource.Fuel')}: ${fuel}%`,
-                  `${tr('Resource.Ammo')}: ${ammo}%`,
-                  `${tr('Expeditions')}: ${es}`,
-                ].join(', ')
-                return (
-                  <MenuItem
-                    key={key}
-                    eventKey={{ammoPercent: ammo,fuelPercent: fuel}}>
-                    {desc}
-                  </MenuItem>
-                )
-              })
-            }
-          </DropdownButton>
-          <div style={{flex: 1, display: 'flex', marginLeft: 15}}>
-            {
-              [
-                {rp: 'fuel', value: fuelPercent},
-                {rp: 'ammo', value: ammoPercent},
-              ].map(({rp,value}) => (
-                <div style={{display: 'flex', flex: 1}} key={rp}>
-                  <ItemIcon name={rp} style={{width: '1.2em'}} />
-                  <Slider
-                    style={{marginLeft: 20, marginRight: 20}}
-                    value={value}
-                    onChange={this.handleChange(rp)}
-                    min={0} max={100} step={null} marks={percentMarks} />
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      </div>
+      <Panel style={style}>
+        <Grid style={{width: '100%', marginBottom: '.5em'}}>
+          <Row style={{display: 'flex', alignItems: 'center'}}>
+            <Col sm={2} style={{marginRight: '1em'}}>
+              <DropdownButton
+                onSelect={this.updateCost}
+                title={tr('Presets')}
+                block
+                id={`${prefix}cost-picker-preset`}>
+                {
+                  expedCostGrouping.map(({fuel,ammo,expeds}) => {
+                    const key = `f${fuel}-a${ammo}`
+                    const es = expeds.join(', ')
+                    const desc = [
+                      `${tr('Resource.Fuel')}: ${fuel}%`,
+                      `${tr('Resource.Ammo')}: ${ammo}%`,
+                      `${tr('Expeditions')}: ${es}`,
+                    ].join(', ')
+                    return (
+                      <MenuItem
+                        key={key}
+                        eventKey={{ammoPercent: ammo,fuelPercent: fuel}}>
+                        {desc}
+                      </MenuItem>
+                    )
+                  })
+                }
+              </DropdownButton>
+            </Col>
+            <Col sm={10}>
+              {
+                [
+                  {rp: 'fuel', value: fuelPercent},
+                  {rp: 'ammo', value: ammoPercent},
+                ].map(({rp,value}) => (
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }} key={rp}>
+                    <ItemIcon name={rp} style={{width: '1.2em'}} />
+                    <Slider
+                      style={{
+                        marginLeft: 20,
+                        marginRight: 20,
+                        marginBottom: 20,
+                        marginTop: 20,
+                      }}
+                      value={value}
+                      onChange={this.handleChange(rp)}
+                      min={0} max={100} step={null} marks={percentMarks} />
+                  </div>
+                ))
+              }
+            </Col>
+          </Row>
+        </Grid>
+      </Panel>
     )
   }
 }

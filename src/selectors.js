@@ -47,10 +47,10 @@ const shipResupplyCost = ship => {
 const shipDetailListSelector = createSelector(
   shipListSelector,
   shipList => {
-    const shipToDetail = (ship,ind) => {
-      const mstId = ship.id
-      const ring = ship.ring
-      const $ship = $ships[mstId]
+    const shipToDetail = ship => {
+      const {ring, rosterId} = ship
+      const masterId = ship.id
+      const $ship = $ships[masterId]
       const stype = $ship.api_stype
       const shipName = $ship.api_name
       const typeName = $shipTypes[stype].api_name
@@ -58,13 +58,13 @@ const shipDetailListSelector = createSelector(
       const maxAmmo = $ship.api_bull_max
 
       return {
-        mstId,
+        masterId,
+        rosterId,
         stype,
         typeName,
         shipName,
         ring,
         computeCost: shipResupplyCost({ring,maxFuel,maxAmmo}),
-        key: ind,
       }
     }
     const shipDetailList = shipList.map(shipToDetail)

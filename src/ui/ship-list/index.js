@@ -62,7 +62,7 @@ class ShipListImpl extends Component {
       <div>
         <CostPicker
           prefix="ship-list-"
-          style={{width: '90%', marginLeft: 10}}
+          style={{marginLeft: 10, marginBottom: 8}}
         />
         <div style={{display: 'flex'}}>
           <div style={{margin: 10}}>
@@ -113,7 +113,7 @@ class ShipListImpl extends Component {
                     return (
                       <tr
                         style={filterFunc(s) ? {} : {display: 'none'} }
-                        key={s.key}>
+                        key={s.rosterId}>
                         <WrappedTd content={s.typeName} />
                         <td style={{display: 'flex'}}>
                           <div style={{

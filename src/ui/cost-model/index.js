@@ -29,10 +29,7 @@ class CostModelImpl extends Component {
     } = this.props
     return (
       <div>
-        <CostPicker
-          prefix="ship-list-"
-          style={{width: '90%', marginLeft: 10}}
-        />
+        <CostPicker prefix="ship-list-" />
         <CostTable
           tr={tr}
           trN={trN}

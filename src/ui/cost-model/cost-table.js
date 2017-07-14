@@ -26,7 +26,7 @@ class CostTable extends Component {
     } = this.props
     return (
       <Table
-        style={{tableLayout: 'fixed', margin: 10}}
+        style={{tableLayout: 'fixed'}}
         striped bordered condensed hover>
         <thead>
           <tr>
