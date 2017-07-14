@@ -50,6 +50,10 @@ class ShipListImpl extends Component {
     modifyShipListUI: PTyp.func.isRequired,
   }
 
+  modifySort = modifier =>
+    this.props.modifyShipListUI(
+      modifyObject('sort', modifier))
+
   handleChangeFilter = filter => () =>
     this.props.modifyShipListUI(
       modifyObject('filter', () => filter))
@@ -72,6 +76,32 @@ class ShipListImpl extends Component {
   handleRemoveShip = rosterId => () =>
     this.props.modifyShipList(shipList =>
       shipList.filter(s => s.rosterId !== rosterId))
+
+  handleClickSorter = method => () => {
+    const thisMethod = this.props.sort.method
+
+    if (thisMethod === method) {
+      this.modifySort(
+        modifyObject('reversed', x => !x)
+      )
+    } else {
+      this.modifySort(s => ({
+        ...s,
+        method,
+        reversed: false,
+      }))
+    }
+  }
+
+  mayRenderSorterDir = method => {
+    const thisMethod = this.props.sort.method
+    if (thisMethod !== method)
+      return false
+    const name = this.props.sort.reversed ? 'sort-desc' : 'sort-asc'
+    return (
+      <FontAwesome style={{marginLeft: '.5em'}} name={name} />
+    )
+  }
 
   render() {
     const {shipViewList, tr, filter} = this.props
@@ -109,22 +139,38 @@ class ShipListImpl extends Component {
               striped bordered condensed hover>
               <thead>
                 <tr>
-                  <th style={{width: '16%'}}>
+                  <th
+                    style={{width: '16%'}}
+                    onClick={this.handleClickSorter('stype')}
+                  >
                     {tr('ShipType')}
+                    {this.mayRenderSorterDir('stype')}
                   </th>
                   <th style={{width: 'auto'}}>
                     {tr('ShipName')}
                   </th>
-                  <th style={{width: '18%'}}>
+                  <th
+                    style={{width: '18%'}}
+                    onClick={this.handleClickSorter('fuel')}
+                  >
                     <ItemIcon style={iconStyle} name="fuel" />
+                    {this.mayRenderSorterDir('fuel')}
                   </th>
-                  <th style={{width: '18%'}}>
+                  <th
+                    style={{width: '18%'}}
+                    onClick={this.handleClickSorter('ammo')}
+                  >
                     <ItemIcon style={iconStyle} name="ammo" />
+                    {this.mayRenderSorterDir('ammo')}
                   </th>
-                  <th style={{width: '18%'}}>
+                  <th
+                    style={{width: '18%'}}
+                    onClick={this.handleClickSorter('sumFuelAmmo')}
+                  >
                     <ItemIcon style={iconStyle} name="fuel" />
                     +
                     <ItemIcon style={iconStyle} name="ammo" />
+                    {this.mayRenderSorterDir('sumFuelAmmo')}
                   </th>
                   <th style={{width: '7%'}} />
                 </tr>

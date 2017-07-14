@@ -11,16 +11,6 @@ import { register } from './registerServiceWorker'
 
 import { store } from './store'
 
-/*
-
-   TODO
-
-   - ship list
-
-     - sorting
-
- */
-
 ReactDOM.render(
   (
     <div className="root">
