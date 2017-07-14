@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import FontAwesome from 'react-fontawesome'
 
 import {
   ButtonGroup, Button,
@@ -17,6 +18,8 @@ import { PTyp } from '../../ptyp'
 
 import { CostPicker } from '../cost-picker'
 import { filters } from '../../ship-filters'
+import { mapDispatchToProps } from '../../store/reducer/ship-list'
+import { modifyArray } from '../../utils'
 
 const WrappedTd = ({content}) => (
   <td>
@@ -36,6 +39,7 @@ class ShipListImpl extends Component {
     fuelPercent: PTyp.number.isRequired,
     ammoPercent: PTyp.number.isRequired,
     tr: PTyp.func.isRequired,
+    modifyShipList: PTyp.func.isRequired,
   }
 
   constructor(props) {
@@ -48,6 +52,25 @@ class ShipListImpl extends Component {
   handleChangeFilter = filter => () =>
     this.setState({filter})
 
+  handleToggleRing = rosterId => () =>
+    this.props.modifyShipList(shipList => {
+      const shipInd = shipList.findIndex(s => s.rosterId === rosterId)
+      if (shipInd === -1) {
+        console.error(`cannot find ship with rosterId ${rosterId}`)
+        return shipList
+      }
+      return modifyArray(
+        shipInd, ship => ({
+          ...ship,
+          ring: !ship.ring,
+        })
+      )(shipList)
+    })
+
+  handleRemoveShip = rosterId => () =>
+    this.props.modifyShipList(shipList =>
+      shipList.filter(s => s.rosterId !== rosterId))
+
   render() {
     const {shipDetailList, tr} = this.props
     const filterFunc =
@@ -56,7 +79,7 @@ class ShipListImpl extends Component {
     const fuelCostFactor = fuelPercent / 100
     const ammoCostFactor = ammoPercent / 100
     const iconStyle = {
-      height: '1.2em',
+      height: '1em',
     }
     return (
       <div>
@@ -103,43 +126,54 @@ class ShipListImpl extends Component {
                     +
                     <ItemIcon style={iconStyle} name="ammo" />
                   </th>
+                  <th style={{width: '7%'}} />
                 </tr>
               </thead>
               <tbody>
                 {
-                  shipDetailList.map(s => {
-                    const {fuelCost, ammoCost} =
-                      s.computeCost(fuelCostFactor,ammoCostFactor)
-                    return (
-                      <tr
-                        style={filterFunc(s) ? {} : {display: 'none'} }
-                        key={s.rosterId}>
-                        <WrappedTd content={s.typeName} />
-                        <td style={{display: 'flex'}}>
-                          <div style={{
-                            flex: 1,
-                            width: 'auto',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                          }}>
-                            {s.shipName}
-                          </div>
-                          {
-                            s.ring && (
+                  shipDetailList
+                    .filter(filterFunc)
+                    .map(s => {
+                      const {fuelCost, ammoCost} =
+                        s.computeCost(fuelCostFactor,ammoCostFactor)
+                      return (
+                        <tr
+                          key={s.rosterId}>
+                          <WrappedTd content={s.typeName} />
+                          <td style={{display: 'flex'}}>
+                            <div style={{
+                              flex: 1,
+                              width: 'auto',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                            }}>
+                              {s.shipName}
+                            </div>
+                            <Button
+                              onClick={this.handleToggleRing(s.rosterId)}
+                              bsStyle={s.ring ? 'primary' : 'default'}
+                              style={s.ring ? {} : {opacity: .5}}
+                              bsSize="xsmall">
                               <ItemIcon
                                 style={iconStyle}
                                 name="ring"
                               />
-                            )
-                          }
-                        </td>
-                        <td>{fuelCost}</td>
-                        <td>{ammoCost}</td>
-                        <td>{fuelCost+ammoCost}</td>
-                      </tr>
-                    )
-                  })
+                            </Button>
+                          </td>
+                          <td>{fuelCost}</td>
+                          <td>{ammoCost}</td>
+                          <td>{fuelCost+ammoCost}</td>
+                          <td style={{textAlign: 'center'}}>
+                            <Button
+                              onClick={this.handleRemoveShip(s.rosterId)}
+                              bsSize="xsmall" bsStyle="danger">
+                              <FontAwesome name="close" />
+                            </Button>
+                          </td>
+                        </tr>
+                      )
+                    })
                 }
               </tbody>
             </Table>
@@ -150,11 +184,14 @@ class ShipListImpl extends Component {
   }
 }
 
-const ShipList = connect(state => {
-  const shipDetailList = shipDetailListSelector(state)
-  const {tr} = translateSelector(state)
-  const cost = costPickerSelector(state)
-  return {shipDetailList, tr, ...cost}
-})(ShipListImpl)
+const ShipList = connect(
+  state => {
+    const shipDetailList = shipDetailListSelector(state)
+    const {tr} = translateSelector(state)
+    const cost = costPickerSelector(state)
+    return {shipDetailList, tr, ...cost}
+  },
+  mapDispatchToProps
+)(ShipListImpl)
 
 export { ShipList }

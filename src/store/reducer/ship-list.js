@@ -7,9 +7,8 @@ import rawDefaultShipList from '../../assets/default-ship-list.json'
    {
      id: <master id>,
      ring: <boolean>, // married or not
+     rosterId: <number>, // must be unique, and greater than 0
    }
-
-   but additionally simply passing a number `id` should be interpreted as `{id, ring: false}`.
 
  */
 
@@ -37,6 +36,10 @@ const defaultShipList = normalizeShipList(rawDefaultShipList)
 // NOTE: shipList, as a reducer, should provide a default value when it's missing
 // it's preloadedState that loads user settings and has it passed to this reducer.
 const reducer = (state = defaultShipList, action) => {
+  if (action.type === 'ShipList@modify') {
+    const {modifier} = action
+    return modifier(state)
+  }
   if (action.type === 'ShipList@reset') {
     return defaultShipList
   }
@@ -44,6 +47,10 @@ const reducer = (state = defaultShipList, action) => {
 }
 
 const mapDispatchToProps = dispatch => ({
+  modifyShipList: modifier => dispatch({
+    type: 'ShipList@modify',
+    modifier,
+  }),
   resetShipList: () => dispatch({
     type: 'ShipList@reset',
   }),
