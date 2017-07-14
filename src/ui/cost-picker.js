@@ -32,11 +32,7 @@ class CostPickerImpl extends Component {
     ammoPercent: PTyp.number.isRequired,
     // a prefix for a11y stuff.
     prefix: PTyp.string,
-    // 3 possible calls:
-    // - onChangeCost({fuelPercent})
-    // - onChangeCost({ammoPercent})
-    // - onChangeCost({fuelPercent,ammoPercent})
-    onChangeCost: PTyp.func.isRequired,
+    modifyCostPicker: PTyp.func.isRequired,
     tr: PTyp.func.isRequired,
   }
 
@@ -45,13 +41,22 @@ class CostPickerImpl extends Component {
     prefix: '',
   }
 
+  // 3 possible calls:
+  // TODO: reduxify
+  // - updateCost({fuelPercent})
+  // - updateCost({ammoPercent})
+  // - updateCost({fuelPercent,ammoPercent})
+  updateCost = newCost =>
+    this.props.modifyCostPicker(cost => ({
+      ...cost, ...newCost,
+    }))
+
   handleChange = rp => value => {
-    const {onChangeCost} = this.props
     if (rp === 'fuel') {
-      onChangeCost({fuelPercent: value})
+      this.updateCost({fuelPercent: value})
     }
     if (rp === 'ammo') {
-      onChangeCost({ammoPercent: value})
+      this.updateCost({ammoPercent: value})
     }
   }
 
@@ -59,14 +64,13 @@ class CostPickerImpl extends Component {
     const {
       style, prefix,
       fuelPercent, ammoPercent,
-      onChangeCost,
       tr,
     } = this.props
     return (
       <div style={style}>
         <div style={{display: 'flex', alignItems: 'center'}}>
           <DropdownButton
-            onSelect={onChangeCost}
+            onSelect={this.updateCost}
             style={{
               width: '15vw',
               maxWidth: 200,

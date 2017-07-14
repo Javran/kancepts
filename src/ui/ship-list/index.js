@@ -7,6 +7,7 @@ import {
 } from 'react-bootstrap'
 
 import {
+  costPickerSelector,
   shipDetailListSelector,
   translateSelector,
 } from '../../selectors'
@@ -32,6 +33,8 @@ WrappedTd.propTypes = PTyp.node.isRequired
 class ShipListImpl extends Component {
   static propTypes = {
     shipDetailList: PTyp.array.isRequired,
+    fuelPercent: PTyp.number.isRequired,
+    ammoPercent: PTyp.number.isRequired,
     tr: PTyp.func.isRequired,
   }
 
@@ -39,22 +42,17 @@ class ShipListImpl extends Component {
     super(props)
     this.state = {
       filter: 'any',
-      fuelPercent: 100,
-      ammoPercent: 100,
     }
   }
 
   handleChangeFilter = filter => () =>
     this.setState({filter})
 
-  handleChangeCost = s =>
-    this.setState(s)
-
   render() {
     const {shipDetailList, tr} = this.props
     const filterFunc =
       filters.find(x => x.id === this.state.filter).func
-    const {fuelPercent, ammoPercent} = this.state
+    const {fuelPercent, ammoPercent} = this.props
     const fuelCostFactor = fuelPercent / 100
     const ammoCostFactor = ammoPercent / 100
     const iconStyle = {
@@ -64,9 +62,6 @@ class ShipListImpl extends Component {
       <div>
         <CostPicker
           prefix="ship-list-"
-          fuelPercent={fuelPercent}
-          ammoPercent={ammoPercent}
-          onChangeCost={this.handleChangeCost}
           style={{width: '90%', marginLeft: 10}}
         />
         <div style={{display: 'flex'}}>
@@ -158,7 +153,8 @@ class ShipListImpl extends Component {
 const ShipList = connect(state => {
   const shipDetailList = shipDetailListSelector(state)
   const {tr} = translateSelector(state)
-  return {shipDetailList, tr}
+  const cost = costPickerSelector(state)
+  return {shipDetailList, tr, ...cost}
 })(ShipListImpl)
 
 export { ShipList }

@@ -23,7 +23,6 @@ import { store } from './store'
    - cost picker
 
      - rework layout
-     - reduxify
 
  */
 
