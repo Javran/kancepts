@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import * as expedTableBatchConfig from './exped-table-batch-config'
+import { reducer as expedTableBatchConfig } from './exped-table-batch-config'
 
 const reducer = combineReducers({
-  expedTableBatchConfig: expedTableBatchConfig.reducer,
+  expedTableBatchConfig,
 })
 
 export { reducer }

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
-import * as config from './config'
-import * as results from './results'
+import { reducer as config } from './config'
+import { reducer as results } from './results'
 
 const reducer = combineReducers({
-  config: config.reducer,
-  results: results.reducer,
+  config,
+  results,
 })
 
 export {

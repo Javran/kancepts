@@ -2,18 +2,18 @@ import { combineReducers } from 'redux'
 
 import { clearPersistData } from '../persist'
 
-import * as shipList from './ship-list'
-import * as expedConfigs from './exped-configs'
-import * as ui from './ui'
-import * as language from './language'
+import { reducer as shipList } from './ship-list'
+import { reducer as expedConfigs } from './exped-configs'
+import { reducer as ui } from './ui'
+import { reducer as language } from './language'
 
 import { mergeObject } from './merge-object'
 
 const internReducer = combineReducers({
-  shipList: shipList.reducer,
-  expedConfigs: expedConfigs.reducer,
-  language: language.reducer,
-  ui: ui.reducer,
+  shipList,
+  expedConfigs,
+  language,
+  ui,
 })
 
 const reducer = (state, action) => {
