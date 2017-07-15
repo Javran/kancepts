@@ -8,6 +8,7 @@ import { ItemIcon } from '../../item-icon'
 class ExpedDetail extends PureComponent {
   static propTypes = {
     id: PTyp.number.isRequired,
+    tr: PTyp.func.isRequired,
   }
 
   render() {
