@@ -54,7 +54,8 @@ class ExpedPanelImpl extends Component {
                       return (
                         <Button
                           key={expedId}
-                          bsStyle={flag ? 'success' : 'default'}
+                          bsStyle={flag ? 'primary' : 'default'}
+                          style={flag ? {} : {opacity: .5}}
                           bsSize="small"
                           onClick={onToggleExped(expedId)}
                           block>
