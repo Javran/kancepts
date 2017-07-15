@@ -95,7 +95,7 @@ class CostPickerImpl extends Component {
                 }
               </DropdownButton>
             </Col>
-            <Col sm={10}>
+            <Col sm={10} style={{width: '100%'}}>
               {
                 [
                   {rp: 'fuel', value: fuelPercent},

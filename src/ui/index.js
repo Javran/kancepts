@@ -65,7 +65,7 @@ class KanceptsMainImpl extends Component {
   render() {
     const {tr} = this.props
     return (
-      <div style={{padding: 20}}>
+      <div style={{padding: 20, minWidth: 800}}>
         <Tab.Container
           id="tab-picker"
           onSelect={this.handleSelectTab}
