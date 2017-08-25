@@ -219,10 +219,12 @@ const shallowEqual = shallowequal
 const handleNoSubmit = e =>
   e.preventDefault()
 
+/* eslint-disable indent */
 const improvementToText = level =>
   level === 0 ? '★=0' :
   level === 10 ? '★+max' :
   `★+${level}`
+/* eslint-enable indent */
 
 const pprTime = (time, tr=null) => {
   const [hourShort,minShort] = typeof tr === 'function' ?

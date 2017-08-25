@@ -70,10 +70,12 @@ class ExpedRowViewImpl extends Component {
           {
             resourceProperties.map(rp => {
               const resourceVal = showResource[rp]
+              /* eslint-disable indent */
               const resourceText =
                 resourceVal === null ? tr('Table.NotAva') :
                 _.isInteger(resourceVal) ? String(resourceVal) :
                 String(resourceVal.toFixed(2))
+              /* eslint-enable indent */
               const nz = resourceVal !== 0
               const style = nz ?
                 {fontWeight: 'bold', color: resourceColor[rp]} :

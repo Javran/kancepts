@@ -9,10 +9,12 @@ const prepareFilterFunc = ({expedTime, resourceSum, connective}) => {
     () => true
   const connectiveEnabled = expedTime.enabled && resourceSum.enabled
   if (connectiveEnabled) {
+    /* eslint-disable indent */
     const binary =
       connective.value === 'and' ? ((x,y) => x && y) :
       connective.value === 'or' ? ((x,y) => x || y) :
       console.error(`Invalid connective: ${connective.value}`)
+    /* eslint-enable indent */
     return ei => binary(expedTimeFunc(ei), resourceSumFunc(ei))
   } else {
     return ei => expedTimeFunc(ei) && resourceSumFunc(ei)

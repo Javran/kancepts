@@ -99,7 +99,7 @@ class ControlImpl extends Component {
             }}
             afkTime={planner.afkTime}
             onModify={this.handleModifyAfkTime}
-            />
+          />
           <FleetCountPanel
             style={{
               ...panelStyle,

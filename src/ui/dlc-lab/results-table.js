@@ -83,9 +83,10 @@ class ResultsTableImpl extends Component {
                 {tooltip}
               </Tooltip>}>
               <td>{content}</td>
-            </OverlayTrigger>) : (
-              <td>{content}</td>
-            )
+            </OverlayTrigger>
+          ) : (
+            <td>{content}</td>
+          )
         }
       </tr>
     )

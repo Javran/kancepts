@@ -61,11 +61,13 @@ class ModifierView extends Component {
     return (
       <div style={style}>
         {
+          /* eslint-disable indent */
           (numeric || modifier.type === 'custom') ?
             renderCustom(factor) :
           modifier.type === 'standard' ?
             renderStandard(modifier.gs, modifier.daihatsu, prefix, factor) :
           null
+          /* eslint-enable indent */
         }
       </div>
     )

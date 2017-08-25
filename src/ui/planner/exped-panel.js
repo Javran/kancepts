@@ -45,7 +45,7 @@ class ExpedPanelImpl extends Component {
                 <div
                   key={world}
                   style={{width: '19%', marginRight: 2, marginLeft: 2}}
-                  >
+                >
                   {
                     expedIds.map(expedId => {
                       const info =

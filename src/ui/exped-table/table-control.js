@@ -13,10 +13,12 @@ import { ItemIcon } from '../item-icon'
 import { resourceProperties } from '../../exped-info'
 import { PTyp } from '../../ptyp'
 
+/* eslint-disable indent */
 const reverseDirection = x =>
   x === 'asc' ? 'desc' :
   x === 'desc' ? 'asc' :
   console.error(`expecting asc/desc while getting ${x}`)
+/* eslint-enable indent */
 
 class TableControlImpl extends Component {
   static propTypes = {

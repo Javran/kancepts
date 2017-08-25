@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {
   Tabs, Tab,
   Checkbox, FormControl, Form,
- } from 'react-bootstrap'
+} from 'react-bootstrap'
 
 import { PTyp } from '../../ptyp'
 import { ItemIcon } from '../item-icon'

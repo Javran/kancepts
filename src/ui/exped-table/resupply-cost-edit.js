@@ -3,7 +3,7 @@ import {
   Tabs, Form,
   Tab,
   FormControl,
- } from 'react-bootstrap'
+} from 'react-bootstrap'
 
 import { handleNoSubmit } from '../../utils'
 import { PTyp } from '../../ptyp'

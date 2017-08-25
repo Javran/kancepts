@@ -126,7 +126,7 @@ class ShipListImpl extends Component {
                     active={filter === id}
                     onClick={this.handleChangeFilter(id)}
                     key={id}
-                    >
+                  >
                     {title}
                   </Button>
                 ))
@@ -177,8 +177,7 @@ class ShipListImpl extends Component {
               </thead>
               <tbody>
                 {
-                shipViewList
-                  .map(s => {
+                  shipViewList.map(s => {
                     const {
                       rosterId, typeName, shipName,
                       fuel, ammo, sumFuelAmmo,

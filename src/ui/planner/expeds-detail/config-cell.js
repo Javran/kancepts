@@ -35,11 +35,13 @@ class ConfigCell extends PureComponent {
   render() {
     const {config,tr} = this.props
     const {modifier} = config
+    /* eslint-disable indent */
     return modifier.type === 'standard' ?
         renderStandard(modifier.gs,modifier.daihatsu,tr) :
       modifier.type === 'custom' ?
         renderCustom(modifier.value,tr) :
       null
+    /* eslint-enable indent */
   }
 }
 

@@ -191,6 +191,7 @@ const expedViewSortFunctionSelector = createSelector(
       }
 
     const idComparator = getterToComparator(idGetter)
+    /* eslint-disable indent */
     const comparator =
       sortSpec.method === 'id' ?
         idComparator :
@@ -199,6 +200,7 @@ const expedViewSortFunctionSelector = createSelector(
       resourceProperties.includes(sortSpec.method) ?
         getterToComparator(resourceGetter(sortSpec.method),true) :
       console.error(`unknown sort method: ${sortSpec.method}`)
+    /* eslint-enable indent */
     // use idComparator as tiebreaker
     const resolvedComparator = (x,y) => {
       const result = comparator(x,y)
@@ -270,12 +272,14 @@ const expedInfoViewListSelector = createSelector(
           console.error(`unknown income view method: ${incomeViewMethod}`)
       const resourceDivide = val =>
         val === null ? null : (val*60/info.time)
+      /* eslint-disable indent */
       const showResource =
         divideMethod === 'total' ?
           showResourceTotal :
         divideMethod === 'hourly' ?
           onResourceValue(resourceDivide)(showResourceTotal) :
         console.error(`unknown divide method: ${divideMethod}`)
+      /* eslint-enable indent */
       return {
         id,
         info,

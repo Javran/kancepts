@@ -104,6 +104,7 @@ const computeResupplyInfo = costConfig => {
   console.error(`Unexpected cost config type: ${costConfig.type}`)
 }
 
+/* eslint-disable indent */
 const itemIdToName = x =>
     x === 0 ? null
   : x === 1 ? 'bucket'
@@ -113,6 +114,7 @@ const itemIdToName = x =>
   : x === 11 ? 'coin-medium'
   : x === 12 ? 'coin-large'
   : console.error(`unknown item id: ${x}`)
+/* eslint-enable indent */
 
 const expedInfoList = expedInfoListRaw.map(raw => {
   const id = raw.api_id
@@ -153,12 +155,14 @@ const formatTime = minutes => {
 
 const plusResource = liftBinaryToResource((x,y) => x+y)
 
+/* eslint-disable indent */
 const guessGreatSuccess = modifier =>
   modifier.type === 'standard' ?
     modifier.gs :
   modifier.type === 'custom' ?
     modifier.value >= 1.5 :
   false
+/* eslint-enable indent */
 
 // 0 < value < 5
 const pprIncomePercent = v => {

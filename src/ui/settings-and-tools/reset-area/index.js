@@ -68,13 +68,13 @@ class ResetAreaImpl extends Component {
   handleReset = () => {
     this.handleCloseResetModal()
     const {resetFocus} = this.state
-
+    /* eslint-disable indent */
     const resetFunc =
       resetFocus === 'all' ? this.props.factoryReset :
       resetFocus === 'expedConfigs' ? this.props.resetExpedConfigs :
       resetFocus === 'shipList' ? this.props.resetShipList :
       console.error(`Unknown reset type ${resetFocus}`)
-
+    /* eslint-enable indent */
     resetFunc()
   }
 

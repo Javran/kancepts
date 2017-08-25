@@ -6,16 +6,20 @@ const computeTokuFactor = (normalCount, tokuCount) => {
   if (tokuCount <= 2)
     return 0.02 * tokuCount
   if (tokuCount === 3) {
+    /* eslint-disable indent */
     return normalCount <= 1 ? 0.05
       : normalCount === 2 ? 0.052
       : /* normalCount > 2 */ 0.054
+    /* eslint-enable indent */
   }
   // tokuCount > 3
+  /* eslint-disable indent */
   return normalCount === 0 ? 0.054
     : normalCount === 1 ? 0.056
     : normalCount === 2 ? 0.058
     : normalCount === 3 ? 0.059
     : /* normalCount > 3 */ 0.06
+  /* eslint-enable indent */
 }
 
 // TODO: utils
@@ -63,8 +67,9 @@ const dlcResultsSelector = createSelector(
       _.sum(
         _.flatMap(
           Object.values(equipments),
-          Object.entries)
-         .map(([levelStr,count]) => Number(levelStr)*count))
+          Object.entries
+        ).map(([levelStr,count]) => Number(levelStr)*count)
+      )
 
     const [aveImp, aveImpTooltip] = eqpCount === 0 ?
       [String(0), null] :

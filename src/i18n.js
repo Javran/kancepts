@@ -20,7 +20,7 @@ const guessLocale = () => {
     const shortLang = lang.substr(0,2).toLowerCase()
     return shortLang === 'zh' ? 'zh-CN' :
       shortLang === 'en' ? 'en-US' :
-      'en-US'
+        'en-US'
   } else {
     return lang
   }

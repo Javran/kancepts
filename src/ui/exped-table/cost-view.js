@@ -113,6 +113,7 @@ class CostView extends Component {
     return (
       <div style={style}>
         {
+          /* eslint-disable indent */
           (numeric || cost.type === 'custom') ?
             renderCustom(
               generalCost.fuel,generalCost.ammo,
@@ -122,6 +123,7 @@ class CostView extends Component {
               cost.wildcard,cost.count,
               compo,generalCost,prefix,tr) :
           null
+          /* eslint-enable indent */
         }
       </div>
     )
