@@ -35,8 +35,9 @@ window.getStore = store.getState
  */
 
 setTimeout(() => {
-  const searchString = window.location.search
-  console.log(window.location)
+  const {location, history} = window
+  const searchString = location.search
+  history.replaceState(null, '', location.pathname)
   console.log(searchString)
 })
 
