@@ -35,6 +35,13 @@ window.getStore = store.getState
      - r318%2Cr185%2Cr184%2C393 (encoded by encodeURIComponent)
      - so the final search string should be: '?sl=r318%2Cr185%2Cr184%2C393'
 
+   to construct what's after 'sl=' from poi:
+
+   encodeURIComponent(
+     Object.values(getStore().info.ships).map(x =>
+       `${x.api_lv>99?'r':''}${x.api_ship_id}`).join(',')
+   )
+
  */
 
 setTimeout(() => {
@@ -79,6 +86,11 @@ setTimeout(() => {
         // TODO: import message.
         mdtpShipList(store.dispatch).modifyShipList(() =>
           newShipList)
+        /*
+           TODO: exclude ships not in master data?
+           do not directly removing them from imports. as the master data might
+           be available later.
+         */
       } catch (e) {
         console.error('error while processing "sl" import params', e)
       }
