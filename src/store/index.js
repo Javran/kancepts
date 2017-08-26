@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { createStore } from 'redux'
 
 import { reducer } from './reducer'
@@ -41,8 +42,48 @@ setTimeout(() => {
 
   if (!searchString)
     return
-  const params = new URLSearchParams(searchString.substring(1))
-  console.log(params)
+
+  const params = new URLSearchParams(searchString)
+  // normalize: remove duplicated keys (only the first occurrence is kept)
+  const pairs = _.uniqBy(
+    [...params.entries()],
+    ([k]) => k
+  )
+
+  pairs.map(([kRaw,vRaw]) => {
+    const k = kRaw.toLowerCase()
+
+    if (k === 'sl') {
+      try {
+        const shipInfoRaw =
+          _.flatMap(
+            decodeURIComponent(vRaw).split(','),
+            // parse
+            raw => {
+              const parsed = /^\s*(r?)(\d+)\s*$/i.exec(raw)
+              if (parsed) {
+                const [_ignored, rFlag, rawShipId] = parsed
+                const ring = Boolean(rFlag)
+                const id = Number(rawShipId)
+                return [{ring,id}]
+              } else {
+                console.error(`invalid ship id: ${raw}`)
+                return []
+              }
+            }
+          ).map((x,ind) =>
+            // extend with rosterId
+            ({...x, rosterId: ind+1}))
+        // TODO: ready to replace actual shipList.
+        console.log(JSON.stringify(shipInfoRaw))
+      } catch (e) {
+        console.error('error while processing "sl" import params', e)
+      }
+      return
+    }
+
+    console.error(`unrecognized key: ${kRaw}`)
+  })
 })
 
 export { store }
