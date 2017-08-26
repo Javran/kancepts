@@ -4,6 +4,8 @@ import { createStore } from 'redux'
 import { reducer } from './reducer'
 import { loadPreparedState } from './persist'
 
+import { mapDispatchToProps as mdtpShipList } from './reducer/ship-list'
+
 const preloadedState = loadPreparedState()
 
 const store = createStore(reducer, preloadedState)
@@ -11,7 +13,7 @@ const store = createStore(reducer, preloadedState)
 window.getStore = store.getState
 
 /*
-   TODO: shiplist import format:
+   shiplist import format:
 
    '?sl=<encoded>'
 
@@ -55,7 +57,7 @@ setTimeout(() => {
 
     if (k === 'sl') {
       try {
-        const shipInfoRaw =
+        const newShipList =
           _.flatMap(
             decodeURIComponent(vRaw).split(','),
             // parse
@@ -74,8 +76,9 @@ setTimeout(() => {
           ).map((x,ind) =>
             // extend with rosterId
             ({...x, rosterId: ind+1}))
-        // TODO: ready to replace actual shipList.
-        console.log(JSON.stringify(shipInfoRaw))
+        // TODO: import message.
+        mdtpShipList(store.dispatch).modifyShipList(() =>
+          newShipList)
       } catch (e) {
         console.error('error while processing "sl" import params', e)
       }
