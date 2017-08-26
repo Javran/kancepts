@@ -38,7 +38,11 @@ setTimeout(() => {
   const {location, history} = window
   const searchString = location.search
   history.replaceState(null, '', location.pathname)
-  console.log(searchString)
+
+  if (!searchString)
+    return
+  const params = new URLSearchParams(searchString.substring(1))
+  console.log(params)
 })
 
 export { store }
