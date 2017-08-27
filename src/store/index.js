@@ -86,11 +86,6 @@ setTimeout(() => {
         // TODO: import message.
         mdtpShipList(store.dispatch).modifyShipList(() =>
           newShipList)
-        /*
-           TODO: exclude ships not in master data?
-           do not directly removing them from imports. as the master data might
-           be available later.
-         */
       } catch (e) {
         console.error('error while processing "sl" import params', e)
       }

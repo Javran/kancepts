@@ -51,6 +51,9 @@ const shipDetailListSelector = createSelector(
       const {ring, rosterId} = ship
       const masterId = ship.id
       const $ship = $ships[masterId]
+      if (!$ship)
+        return null
+
       const stype = $ship.api_stype
       const shipName = $ship.api_name
       const typeName = $shipTypes[stype].api_name
@@ -67,7 +70,7 @@ const shipDetailListSelector = createSelector(
         computeCost: shipResupplyCost({ring,maxFuel,maxAmmo}),
       }
     }
-    const shipDetailList = shipList.map(shipToDetail)
+    const shipDetailList = _.compact(shipList.map(shipToDetail))
     return shipDetailList
   })
 
