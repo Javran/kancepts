@@ -5,6 +5,7 @@ import { reducer } from './reducer'
 import { loadPreparedState } from './persist'
 
 import { mapDispatchToProps as mdtpShipList } from './reducer/ship-list'
+import { $ships } from '../master-data'
 
 const preloadedState = loadPreparedState()
 
@@ -80,10 +81,14 @@ setTimeout(() => {
                 return []
               }
             }
-          ).map((x,ind) =>
+          ).map((x,ind) => {
+            const {id} = x
+            if (_.isEmpty($ships[id])) {
+              console.warn(`Unknown ship id ${id} while importing ship list`)
+            }
             // extend with rosterId
-            ({...x, rosterId: ind+1}))
-        // TODO: import message.
+            return {...x, rosterId: ind+1}
+          })
         mdtpShipList(store.dispatch).modifyShipList(() =>
           newShipList)
       } catch (e) {
