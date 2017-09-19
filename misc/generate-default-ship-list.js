@@ -23,7 +23,9 @@ const masterData = readJsonSync('api_start2.json')
 const $ships = _.fromPairs(masterData.api_mst_ship.map(x => [x.api_id, x]))
 // const $shipTypes = _.fromPairs(masterData.api_mst_stype.map(x => [x.api_id,x]))
 
-const mstIds = Object.keys($ships).map(Number).filter(k => k < 1501)
+const mstIds = Object.keys($ships)
+  .map(Number)
+  .filter(k => k < 1501 && 'api_aftershipid' in $ships[k])
 const afterMstIdSet = new Set()
 
 mstIds.map(mstId => {
