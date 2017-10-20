@@ -89,6 +89,36 @@ const persistStateObserver = observer(
 // those specified paths
 const normalizePersistState = persistStateSelector
 
+const latestVersion = '0.1.2'
+
+const updatePersistState = kanceptsData => {
+  if (!kanceptsData || typeof kanceptsData !== 'object')
+    return {}
+
+  if (kanceptsData.version === latestVersion) {
+    return kanceptsData
+  }
+
+  let curKData = kanceptsData
+
+  // start updating logic
+  if (curKData.version === 1) {
+    // first version => '0.1.2'
+    // TODO: basically fill in default info about A1 A2 A3
+    curKData = {
+      ...curKData,
+      version: '0.1.2',
+    }
+  }
+
+  if (curKData.version === latestVersion) {
+    // TODO save
+    return curKData
+  }
+  console.error(`failed to update data file, the config is at version ${curKData.version}`)
+  return {}
+}
+
 const loadPreparedState = () => {
   try {
     const raw = localStorage.kancepts
@@ -96,11 +126,7 @@ const loadPreparedState = () => {
     if (typeof raw === 'undefined')
       return {}
 
-    const kanceptsData = JSON.parse(raw)
-    if (kanceptsData.version !== 1)
-      throw new Error(
-        `version mismatched: expecting 1 `+
-        `while getting ${kanceptsData.version}`)
+    const kanceptsData = updatePersistState(JSON.parse(raw))
     return normalizePersistState(kanceptsData.state)
   } catch (e) {
     console.error('error while loading preparedState from localStorage', e)
