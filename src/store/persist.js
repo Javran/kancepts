@@ -24,6 +24,7 @@ import { observer } from 'redux-observers'
 import { createSelector } from 'reselect'
 
 import { shallowEqual } from '../utils'
+import { defExpedConfig } from './reducer/exped-configs'
 
 const persistPaths = [
   'expedConfigs',
@@ -104,9 +105,20 @@ const updatePersistState = kanceptsData => {
   // start updating logic
   if (curKData.version === 1) {
     // first version => '0.1.2'
-    // TODO: basically fill in default info about A1 A2 A3
+    const {state: {expedConfigs}} = curKData
+    const newExpedConfigs = {...expedConfigs};
+    // basically fill in default info about A1 A2 A3
+    [100,101,102].map(eId => {
+      newExpedConfigs[eId] = defExpedConfig
+    })
+
+    // TODO: do we select them in planner by default?
+
     curKData = {
-      ...curKData,
+      state: {
+        ...curKData.state,
+        expedConfigs: newExpedConfigs,
+      },
       version: '0.1.2',
     }
   }

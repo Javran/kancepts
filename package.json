@@ -27,7 +27,8 @@
     "redux": "^3.7.1",
     "redux-observers": "^2.0.2",
     "reselect": "^3.0.1",
-    "shallowequal": "^1.0.1"
+    "shallowequal": "^1.0.1",
+    "subtender": "^0.12.1"
   },
   "devDependencies": {
     "eslint": "^4.5.0",

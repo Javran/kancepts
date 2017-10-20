@@ -48,4 +48,5 @@ const mapDispatchToProps = dispatch => ({
 export {
   reducer,
   mapDispatchToProps,
+  defExpedConfig,
 }

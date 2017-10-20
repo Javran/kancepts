@@ -2,7 +2,8 @@ import _ from 'lodash'
 import { enumFromTo } from '../utils'
 
 // an Array from 1 to 40, to be used as expedition ids
-const allExpedIdList = enumFromTo(1,40)
+const allExpedIdList =
+  [...enumFromTo(1,40), 100, 101, 102]
 
 const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
 

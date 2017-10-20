@@ -112,6 +112,14 @@ defineFleetCompo(
 defineFleetCompo(
   8, 6)
 
+// TODO: more details to be confirmed
+defineFleetCompo(
+  100, atLeast(4)(mkFleetCompo(4,'dd')))
+defineFleetCompo(
+  101, atLeast(4)(mkFleetCompo(4,'dd')))
+defineFleetCompo(
+  102, atLeast(5)(mkFleetCompo(1,'cl',4, 'dd')))
+
 // world 2
 defineFleetCompo(
   9, atLeast(4)(mkFleetCompo(1,'cl',2,'dd')))
