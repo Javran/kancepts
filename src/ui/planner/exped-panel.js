@@ -14,6 +14,9 @@ import {
   formatTime,
 } from '../../exped-info'
 
+// TODO: remove hacky stuff
+const allExpedIdList2 = allExpedIdList.filter(x => x < 100)
+
 class ExpedPanelImpl extends Component {
   static propTypes = {
     style: PTyp.object,
@@ -39,8 +42,9 @@ class ExpedPanelImpl extends Component {
           justifyContent: 'space-between',
         }}>
           {
-            _.chunk(allExpedIdList,8).map((expedIds,ind) => {
+            _.chunk(allExpedIdList2,8).map((expedIds1,ind) => {
               const world = ind+1
+              const expedIds = world === 1 ? [...expedIds1,100,101,102] : expedIds1
               return (
                 <div
                   key={world}
