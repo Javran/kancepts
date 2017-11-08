@@ -44,7 +44,12 @@ class ExpedPanelImpl extends Component {
           {
             _.chunk(allExpedIdList2,8).map((expedIds1,ind) => {
               const world = ind+1
-              const expedIds = world === 1 ? [...expedIds1,100,101,102] : expedIds1
+              /* eslint-disable indent */
+              const expedIds =
+                world === 1 ? [...expedIds1,100,101,102] :
+                world === 2 ? [...expedIds1,110] :
+                expedIds1
+              /* eslint-enable indent */
               return (
                 <div
                   key={world}
