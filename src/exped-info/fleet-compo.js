@@ -112,13 +112,12 @@ defineFleetCompo(
 defineFleetCompo(
   8, 6)
 
-// TODO: more details to be confirmed
 defineFleetCompo(
-  100, atLeast(4)(mkFleetCompo(4,'dd')))
+  100, atLeast(4)(mkFleetCompo(3,'dd')))
 defineFleetCompo(
   101, atLeast(4)(mkFleetCompo(4,'dd')))
 defineFleetCompo(
-  102, atLeast(5)(mkFleetCompo(1,'cl',4, 'dd')))
+  102, atLeast(5)(mkFleetCompo(1,'cl',3,'dd')))
 
 // world 2
 defineFleetCompo(
@@ -137,6 +136,8 @@ defineFleetCompo(
   15, full(mkFleetCompo(2,'cv-like',2,'dd')))
 defineFleetCompo(
   16, full(mkFleetCompo(1,'cl',2,'dd')))
+defineFleetCompo(
+  110, full(mkFleetCompo(1,'cl',1,'av',2,'dd')))
 
 // world 3
 defineFleetCompo(
