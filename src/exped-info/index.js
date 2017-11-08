@@ -119,8 +119,12 @@ const itemIdToName = x =>
 const expedInfoList = expedInfoListRaw.map(raw => {
   const id = raw.api_id
   const $mission = $missions[id]
+
   const name = $mission.api_name
   const time = $mission.api_time
+  const areaId = $mission.api_maparea_id
+  const dispNum = $mission.api_disp_no
+
   const resourceArr = raw.resource
   const [fuel,ammo,steel,bauxite] = resourceArr
   const resourceSum = _.sum(resourceArr)
@@ -134,7 +138,7 @@ const expedInfoList = expedInfoListRaw.map(raw => {
   const minCompo = minimalFleetCompos[id]
   const resource = {fuel, ammo, steel, bauxite}
   return {
-    id, name, time,
+    id, name, time, areaId, dispNum,
     resource,
     resourceSum,
     // itemProb: item obtainable randomly from expedition
@@ -144,6 +148,10 @@ const expedInfoList = expedInfoListRaw.map(raw => {
     cost: {fuelPercent, ammoPercent},
   }
 })
+
+const getExpedInfo = _.memoize(expedId =>
+  expedInfoList.find(i => i.id === expedId)
+)
 
 const formatTime = minutes => {
   const mm = minutes % 60
@@ -181,6 +189,7 @@ export {
   resourceColor,
   allExpedIdList,
   expedInfoList,
+  getExpedInfo,
   resourceProperties,
   emptyResource,
   plusResource,

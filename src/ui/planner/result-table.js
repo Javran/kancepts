@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from 'react-bootstrap'
 
-import { resourceProperties } from '../../exped-info'
+import { resourceProperties, getExpedInfo } from '../../exped-info'
 import { ItemIcon } from '../item-icon'
 import { plannerResultsSelector, translateSelector } from '../../selectors'
 import { PTyp } from '../../ptyp'
@@ -71,7 +71,11 @@ class ResultTableImpl extends Component {
                     }
                   >
                     <tr>
-                      <td key="eids">{expedIds.join(', ')}</td>
+                      <td key="eids">
+                        {
+                          expedIds.map(expedId => getExpedInfo(expedId).dispNum).join(', ')
+                        }
+                      </td>
                       {
                         resourceProperties.map(rp => (
                           <td key={rp}>

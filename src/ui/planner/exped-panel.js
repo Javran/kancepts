@@ -10,7 +10,7 @@ import { translateSelector } from '../../selectors'
 import { PTyp } from '../../ptyp'
 import {
   allExpedIdList,
-  expedInfoList,
+  getExpedInfo,
   formatTime,
 } from '../../exped-info'
 
@@ -57,8 +57,7 @@ class ExpedPanelImpl extends Component {
                 >
                   {
                     expedIds.map(expedId => {
-                      const info =
-                        expedInfoList.find(i => i.id === expedId)
+                      const info = getExpedInfo(expedId)
                       const flag = expedFlags[expedId]
                       return (
                         <Button
@@ -81,7 +80,7 @@ class ExpedPanelImpl extends Component {
                                 paddingRight: '0.2em',
                               }}
                             >
-                              {`${expedId} ${info.name}`}
+                              {`${info.dispNum} ${info.name}`}
                             </div>
                             <div style={{
                               alignSelf: 'flex-right',

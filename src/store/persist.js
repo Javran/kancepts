@@ -26,6 +26,8 @@ import { createSelector } from 'reselect'
 import { shallowEqual } from '../utils'
 import { defExpedConfig } from './reducer/exped-configs'
 
+const latestVersion = '0.1.2'
+
 const persistPaths = [
   'expedConfigs',
   'shipList',
@@ -54,14 +56,14 @@ const persistStateSelector = state => persistPaths
 const encodedPersistStateSelector = createSelector(
   persistStateSelector,
   pState => JSON.stringify({
-    version: 1,
+    version: latestVersion,
     state: pState,
   }))
 
 const saveToLocalStorageImpl = state =>
   setTimeout(() => {
     const kanceptsData = {
-      version: 1,
+      version: latestVersion,
       state,
     }
     localStorage.kancepts = JSON.stringify(kanceptsData)
@@ -90,8 +92,6 @@ const persistStateObserver = observer(
 // those specified paths
 const normalizePersistState = persistStateSelector
 
-const latestVersion = '0.1.2'
-
 const updatePersistState = kanceptsData => {
   if (!kanceptsData || typeof kanceptsData !== 'object')
     return {}
@@ -107,9 +107,11 @@ const updatePersistState = kanceptsData => {
     // first version => '0.1.2'
     const {state: {expedConfigs}} = curKData
     const newExpedConfigs = {...expedConfigs};
-    // basically fill in default info about A1 A2 A3
-    [100,101,102].map(eId => {
-      newExpedConfigs[eId] = defExpedConfig
+    // basically fill in default info about A1 A2 A3 B1
+    [100,101,102,110].map(eId => {
+      if (! (eId in newExpedConfigs)) {
+        newExpedConfigs[eId] = defExpedConfig
+      }
     })
 
     // TODO: do we select them in planner by default?
@@ -124,7 +126,7 @@ const updatePersistState = kanceptsData => {
   }
 
   if (curKData.version === latestVersion) {
-    // TODO save
+    saveToLocalStorage(curKData.state)
     return curKData
   }
   console.error(`failed to update data file, the config is at version ${curKData.version}`)

@@ -29,7 +29,7 @@ const presets = [
     allExpedIdList.filter(id => !recommendedBlacklist.includes(id))),
   makePreset(
     'Buckets',
-    [2,4,9,10,11,13,14,18,24,26,36,39,40]),
+    [2,4,9,10,11,13,14,18,24,26,36,39,40,101,102,110]),
   makePreset(
     'None',
     []),

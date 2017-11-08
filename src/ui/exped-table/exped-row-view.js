@@ -42,7 +42,7 @@ class ExpedRowViewImpl extends Component {
       resupplyInfo,
     } = expedInfoView
     const {
-      id, name, time,
+      id, name, time, dispNum,
       itemProb, itemGS,
     } = info
     const {
@@ -55,7 +55,7 @@ class ExpedRowViewImpl extends Component {
           display: 'flex', alignItems: 'baseline',
           width: '20%', marginRight: 10,
         }}>
-          <div style={{width: '2em', marginRight: 8}}>{id}</div>
+          <div style={{width: '2em', marginRight: 8}}>{dispNum}</div>
           <div style={{
             flex: 1,
             width: 'auto',

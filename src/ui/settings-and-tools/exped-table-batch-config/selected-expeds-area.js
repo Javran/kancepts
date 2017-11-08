@@ -15,6 +15,7 @@ import { PTyp } from '../../../ptyp'
 import { modifyObject } from '../../../utils'
 import { ExpedDetail } from './exped-detail'
 import { translateSelector } from '../../../selectors'
+import { getExpedInfo } from '../../../exped-info'
 
 class SelectedExpedsAreaImpl extends Component {
   static propTypes = {
@@ -60,7 +61,7 @@ class SelectedExpedsAreaImpl extends Component {
                   alignItems: 'center',
                 }}>
                   <div style={{width: '3em'}}>
-                    {id}
+                    {getExpedInfo(id).dispNum}
                   </div>
                   <Button
                     onClick={this.handleRemoveExped(id)}

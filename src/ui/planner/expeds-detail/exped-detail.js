@@ -12,7 +12,6 @@ import { pprTime } from '../../../utils'
 
 class ExpedDetailImpl extends Component {
   static propTypes = {
-    id: PTyp.number.isRequired,
     info: PTyp.object.isRequired,
     config: PTyp.object.isRequired,
     expedIncome: PTyp.object.isRequired,
@@ -20,8 +19,8 @@ class ExpedDetailImpl extends Component {
   }
 
   render() {
-    const {id, info, config, expedIncome, tr} = this.props
-    const {name, time} = info
+    const {info, config, expedIncome, tr} = this.props
+    const {name, time, dispNum} = info
     const textStyle = {textAlign: 'left'}
     const {gross, resupplyInfo} = expedIncome
     const {cost, compo} = resupplyInfo
@@ -33,7 +32,7 @@ class ExpedDetailImpl extends Component {
         <div style={{display: 'flex', marginLeft: '2em'}}>
           <div
             style={{...textStyle, width: '8em'}}>
-            {tr('Expedition')} #{id}
+            {tr('Expedition')} {dispNum}
           </div>
           <div
             style={{...textStyle, width: '11em'}}>
