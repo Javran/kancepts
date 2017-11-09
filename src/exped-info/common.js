@@ -1,9 +1,11 @@
 import _ from 'lodash'
-import { enumFromTo } from '../utils'
+import { $missions } from '../master-data'
 
-// an Array from 1 to 40, to be used as expedition ids (TODO: comment)
+/*
+   all expedition ids, excluding those event expeditions
+ */
 const allExpedIdList =
-  [...enumFromTo(1,40), 100, 101, 102, 110]
+  Object.keys($missions).map(Number).sort((x,y) => x-y).filter(x => x < 300)
 
 const resourceProperties = ['fuel', 'ammo', 'steel', 'bauxite']
 
