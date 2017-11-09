@@ -14,8 +14,11 @@ import {
   formatTime,
 } from '../../exped-info'
 
-// TODO: remove hacky stuff
-const allExpedIdList2 = allExpedIdList.filter(x => x < 100)
+const grouppedExpedIds = _.toPairs(
+  _.groupBy(allExpedIdList, eId => getExpedInfo(eId).areaId)
+).map(([areaIdStr, expedIds]) =>
+  [Number(areaIdStr), expedIds.sort((x,y) => x-y)]
+).sort(([k1,_v1],[k2,_v2]) => k1-k2)
 
 class ExpedPanelImpl extends Component {
   static propTypes = {
@@ -42,59 +45,50 @@ class ExpedPanelImpl extends Component {
           justifyContent: 'space-between',
         }}>
           {
-            _.chunk(allExpedIdList2,8).map((expedIds1,ind) => {
-              const world = ind+1
-              /* eslint-disable indent */
-              const expedIds =
-                world === 1 ? [...expedIds1,100,101,102] :
-                world === 2 ? [...expedIds1,110] :
-                expedIds1
-              /* eslint-enable indent */
-              return (
-                <div
-                  key={world}
-                  style={{width: '19%', marginRight: 2, marginLeft: 2}}
-                >
-                  {
-                    expedIds.map(expedId => {
-                      const info = getExpedInfo(expedId)
-                      const flag = expedFlags[expedId]
-                      return (
-                        <Button
-                          key={expedId}
-                          bsStyle={flag ? 'primary' : 'default'}
-                          style={flag ? {} : {opacity: .5}}
-                          bsSize="small"
-                          onClick={onToggleExped(expedId)}
-                          block>
-                          <div style={{
-                            width: '100%',
-                            display: 'flex', alignItems: 'baseline'}}>
-                            <div
-                              style={{
-                                flex: 1,
-                                textAlign: 'left',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                                paddingRight: '0.2em',
-                              }}
-                            >
-                              {`${info.dispNum} ${info.name}`}
-                            </div>
-                            <div style={{
-                              alignSelf: 'flex-right',
-                              textAlign: 'right'}}>
-                              {formatTime(info.time)}
-                            </div>
+            grouppedExpedIds.map(([areaId, expedIds]) => (
+              <div
+                key={areaId}
+                style={{width: '19%', marginRight: 2, marginLeft: 2}}
+              >
+                {
+                  expedIds.map(expedId => {
+                    const info = getExpedInfo(expedId)
+                    const flag = expedFlags[expedId]
+                    return (
+                      <Button
+                        key={expedId}
+                        bsStyle={flag ? 'primary' : 'default'}
+                        style={flag ? {} : {opacity: .5}}
+                        bsSize="small"
+                        onClick={onToggleExped(expedId)}
+                        block>
+                        <div style={{
+                          width: '100%',
+                          display: 'flex', alignItems: 'baseline'}}>
+                          <div
+                            style={{
+                              flex: 1,
+                              textAlign: 'left',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              paddingRight: '0.2em',
+                            }}
+                          >
+                            {`${info.dispNum} ${info.name}`}
                           </div>
-                        </Button>
-                      )
-                    })
-                  }
-                </div>
-              )
-            })
+                          <div style={{
+                            alignSelf: 'flex-right',
+                            textAlign: 'right'}}>
+                            {formatTime(info.time)}
+                          </div>
+                        </div>
+                      </Button>
+                    )
+                  })
+                }
+              </div>
+            ))
           }
         </div>
       </Panel>
