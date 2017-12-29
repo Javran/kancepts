@@ -185,7 +185,7 @@
         "Desc": "This tool can apply \"Great Success\" configs on multiple expeditions at once.",
         "Filter": "Filter",
         "ExpedTimeMoreThan": "Expedition Time ≥",
-        "SumOfRawResourceMoreThan": "Expedition Time ≥",
+        "SumOfRawResourceMoreThan": "Sum of Raw Resources ≥",
         "SelectedExpeds": "Selected Expeditions",
         "Options": "Options",
         "MsgExecuted": "Executed at %s",
