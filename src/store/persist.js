@@ -26,7 +26,7 @@ import { createSelector } from 'reselect'
 import { shallowEqual } from '../utils'
 import { defExpedConfig } from './reducer/exped-configs'
 
-const latestVersion = '0.1.2'
+const latestVersion = '0.1.2a'
 
 const persistPaths = [
   'expedConfigs',
@@ -122,6 +122,24 @@ const updatePersistState = kanceptsData => {
         expedConfigs: newExpedConfigs,
       },
       version: '0.1.2',
+    }
+  }
+
+  if (curKData.version === '0.1.2') {
+    const {state: {expedConfigs}} = curKData
+    const newExpedConfigs = {...expedConfigs};
+
+    [111].map(eId => {
+      if (! (eId in newExpedConfigs)) {
+        newExpedConfigs[eId] = defExpedConfig
+      }
+    })
+    curKData = {
+      state: {
+        ...curKData.state,
+        expedConfigs: newExpedConfigs,
+      },
+      version: '0.1.2a',
     }
   }
 

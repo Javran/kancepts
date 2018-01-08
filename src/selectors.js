@@ -11,6 +11,7 @@ import {
   resourceProperties,
   allExpedIdList,
 } from './exped-info'
+import { defExpedConfig } from './store/reducer/exped-configs'
 
 import { i18nInstances } from './i18n'
 
@@ -228,7 +229,8 @@ const makeExpedIncomeSelector = expedId => createSelector(
     const {cost} = info
     const costModelPartial = costModel(cost)
     const basic = info.resource
-    const config = expedConfigs[expedId]
+    // TODO: serves as a tmp fix
+    const config = expedConfigs[expedId] || defExpedConfig
     const gross =
       applyIncomeModifier(config.modifier)(basic)
     const resupplyInfo =
