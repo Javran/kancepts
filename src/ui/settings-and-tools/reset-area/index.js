@@ -8,7 +8,8 @@ import Markdown from 'react-remarkable'
 
 import {
   mergeMapDispatchToProps,
-} from '../../../utils'
+} from 'subtender'
+
 import { PTyp } from '../../../ptyp'
 
 import {

@@ -1,9 +1,9 @@
 import _ from 'lodash'
 import React, { PureComponent } from 'react'
+import { enumFromTo } from 'subtender'
 import Slider from 'rc-slider'
 
 import { PTyp } from '../../ptyp'
-import { enumFromTo } from '../../utils'
 import { ItemIcon } from '../item-icon'
 
 const marks = _.fromPairs(

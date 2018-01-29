@@ -7,12 +7,12 @@ import {
   OverlayTrigger,
   Tooltip,
 } from 'react-bootstrap'
+import { modifyObject } from 'subtender'
 
 import { dlcLabUISelector, translateSelector } from '../../selectors'
 import { dlcResultsSelector } from './selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 import { PTyp } from '../../ptyp'
-import { modifyObject } from '../../utils'
 
 class ResultsTableImpl extends Component {
   static propTypes = {

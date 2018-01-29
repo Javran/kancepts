@@ -8,6 +8,7 @@ import {
   Button,
   FormControl,
 } from 'react-bootstrap'
+import { modifyObject } from 'subtender'
 
 import { EquipmentTable } from './equipment-table'
 import { NewEquipmentPanel } from './new-equipment-panel'
@@ -15,7 +16,6 @@ import { ResultsTable } from './results-table'
 import { dlcLabUISelector, translateSelector } from '../../selectors'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 import { PTyp } from '../../ptyp'
-import { modifyObject } from '../../utils'
 
 class DlcLabImpl extends Component {
   static propTypes = {

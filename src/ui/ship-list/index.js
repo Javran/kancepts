@@ -6,6 +6,7 @@ import {
   ButtonGroup, Button,
   Table,
 } from 'react-bootstrap'
+import { modifyArray, modifyObject, mergeMapDispatchToProps } from 'subtender'
 
 import {
   translateSelector,
@@ -22,7 +23,7 @@ import { CostPicker } from '../cost-picker'
 import { filters } from '../../ship-filters'
 import { mapDispatchToProps as shipListMdtp } from '../../store/reducer/ship-list'
 import { mapDispatchToProps as shipListUIMdtp } from '../../store/reducer/ui/ship-list'
-import { modifyArray, modifyObject, mergeMapDispatchToProps } from '../../utils'
+
 import { SearchAndAdd } from './search-and-add'
 
 const WrappedTd = ({content}) => (

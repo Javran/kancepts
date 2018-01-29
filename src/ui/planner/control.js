@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { modifyObject } from 'subtender'
 
 import {
   plannerConfigSelector,
@@ -9,7 +10,6 @@ import {
   mapDispatchToProps,
 } from '../../store/reducer/ui/planner/config'
 
-import { modifyObject } from '../../utils'
 import { PTyp } from '../../ptyp'
 
 import { ExpedPanel } from './exped-panel'

@@ -8,11 +8,11 @@ import {
   OverlayTrigger,
   Tooltip,
 } from 'react-bootstrap'
+import { modifyObject } from 'subtender'
 
 import { selectedExpedsSelector } from './selectors'
 import { mapDispatchToProps } from '../../../store/reducer/ui/settings/exped-table-batch-config'
 import { PTyp } from '../../../ptyp'
-import { modifyObject } from '../../../utils'
 import { ExpedDetail } from './exped-detail'
 import { translateSelector } from '../../../selectors'
 import { getExpedInfo } from '../../../exped-info'

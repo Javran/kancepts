@@ -7,6 +7,11 @@ import {
   DropdownButton, ButtonGroup, ButtonToolbar,
   Button, MenuItem,
 } from 'react-bootstrap'
+import {
+  modifyObject,
+  mergeMapDispatchToProps,
+  mergeMapStateToProps,
+} from 'subtender'
 
 import { ItemIcon } from '../item-icon'
 import { PTyp } from '../../ptyp'
@@ -14,11 +19,6 @@ import { searchAndAddUISelector } from './selectors'
 import { translateSelector } from '../../selectors'
 import { mapDispatchToProps as shipListUIMdtp } from '../../store/reducer/ui/ship-list'
 import { mapDispatchToProps as shipListMdtp } from '../../store/reducer/ship-list'
-import {
-  modifyObject,
-  mergeMapDispatchToProps,
-  mergeMapStateToProps,
-} from '../../utils'
 import {
   $shipTypeArray,
   $ships,

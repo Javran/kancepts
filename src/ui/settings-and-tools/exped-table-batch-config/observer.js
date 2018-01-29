@@ -3,7 +3,7 @@ import { observer } from 'redux-observers'
 import {
   filterStateSelector,
 } from './selectors'
-import { modifyObject } from '../../../utils'
+import { modifyObject } from 'subtender'
 import { expedInfoList } from '../../../exped-info'
 import {
   mapDispatchToProps,

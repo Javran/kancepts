@@ -7,9 +7,9 @@ import {
   FormGroup,
   FormControl,
 } from 'react-bootstrap'
+import { modifyObject, mergeMapStateToProps } from 'subtender'
 
 import { PTyp } from '../../../ptyp'
-import { modifyObject, mergeMapStateToProps } from '../../../utils'
 import {
   mapDispatchToProps,
 } from '../../../store/reducer/ui/settings/exped-table-batch-config'

@@ -5,6 +5,8 @@ import Slider from 'rc-slider'
 import {
   DropdownButton, MenuItem, Grid, Row, Col, Panel,
 } from 'react-bootstrap'
+import { enumFromTo, mergeMapStateToProps } from 'subtender'
+
 import {
   translateSelector,
   costPickerSelector,
@@ -17,7 +19,6 @@ import { mapDispatchToProps } from '../store/reducer/ui/cost-picker'
 import expedCostGrouping from '../assets/exped-cost-grouping.json'
 
 import { PTyp } from '../ptyp'
-import { enumFromTo, mergeMapStateToProps } from '../utils'
 
 const percents = enumFromTo(0,100,x => x+10)
 

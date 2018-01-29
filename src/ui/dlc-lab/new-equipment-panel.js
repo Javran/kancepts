@@ -13,9 +13,10 @@ import {
   FormControl,
   MenuItem,
 } from 'react-bootstrap'
+import { enumFromTo, modifyObject } from 'subtender'
 
 import { PTyp } from '../../ptyp'
-import { enumFromTo, modifyObject, improvementToText } from '../../utils'
+import { improvementToText } from '../../utils'
 import { mapDispatchToProps } from '../../store/reducer/ui/dlc-lab'
 import { dlcList } from '../../master-data'
 

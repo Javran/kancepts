@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
 import {
   ListGroup, ListGroupItem,
 } from 'react-bootstrap'
@@ -27,23 +26,15 @@ class ExpedTableImpl extends Component {
 
   constructor(props) {
     super(props)
+
     const expanded = _.fromPairs(
-      allExpedIdList.map(expedId => [expedId, false]))
+      allExpedIdList.map(expedId => [expedId, false])
+    )
 
     this.state = {
       expanded,
     }
   }
-
-  handleToggleEditComponent = eId => () =>
-    this.setState(state => {
-      const expanded = [...state.expanded]
-      expanded[eId] = !expanded[eId]
-      return {
-        ...state,
-        expanded,
-      }
-    })
 
   handleModifyConfig = expedId => modifier => {
     const {modifyExpedConfig} = this.props

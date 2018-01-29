@@ -1,10 +1,11 @@
 import { observer, observe } from 'redux-observers'
+import shallowEqual from 'shallowequal'
+
 import {
   plannerConfigSelector,
 } from './selectors'
 
 import { store } from './store'
-import { shallowEqual } from './utils'
 import { mapDispatchToProps } from './store/reducer/ui/planner/results'
 import { computePlannerResults } from './compute-planner-results'
 import { persistStateObserver } from './store/persist'

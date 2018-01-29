@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table } from 'react-bootstrap'
+import { enumFromTo } from 'subtender'
 
-import { enumFromTo } from '../../utils'
 import { filters } from '../../ship-filters'
 
 import { PTyp } from '../../ptyp'

@@ -22,8 +22,7 @@
 import _ from 'lodash'
 import { observer } from 'redux-observers'
 import { createSelector } from 'reselect'
-
-import { shallowEqual } from '../utils'
+import shallowEqual from 'shallowequal'
 import { defExpedConfig } from './reducer/exped-configs'
 
 const latestVersion = '0.1.2a'

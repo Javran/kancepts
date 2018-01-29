@@ -4,9 +4,10 @@ import { connect } from 'react-redux'
 import {
   Table,
 } from 'react-bootstrap'
+import { enumFromTo } from 'subtender'
+
 import { PTyp } from '../../ptyp'
 import { dlcLabUISelector, translateSelector } from '../../selectors'
-import { enumFromTo } from '../../utils'
 import { dlcList } from '../../master-data'
 import { EquipmentTableRow } from './equipment-table-row'
 

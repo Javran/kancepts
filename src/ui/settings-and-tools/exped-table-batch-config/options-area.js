@@ -4,9 +4,9 @@ import {
   Grid, Col, Row,
   FormControl,
 } from 'react-bootstrap'
+import { enumFromTo, modifyObject, mergeMapStateToProps } from 'subtender'
 
 import { ItemIcon } from '../../item-icon'
-import { enumFromTo, modifyObject, mergeMapStateToProps } from '../../../utils'
 import { PTyp } from '../../../ptyp'
 import {
   mapDispatchToProps,
