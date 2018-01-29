@@ -124,8 +124,7 @@ defineFleetCompo(14, full(mkFleetCompo(1,'cl',3,'dd')))
 defineFleetCompo(15, full(mkFleetCompo(2,'cv-like',2,'dd')))
 defineFleetCompo(16, full(mkFleetCompo(1,'cl',2,'dd')))
 defineFleetCompo(110, full(mkFleetCompo(1,'cl',1,'av',2,'dd')))
-// TODO: B2 needs more verification and confirmation
-defineFleetCompo(111, full(mkFleetCompo(1,'ca',1,'cl',4,'dd')))
+defineFleetCompo(111, full(mkFleetCompo(1,'ca',1,'cl',3,'dd')))
 
 // world 3
 defineFleetCompo(17, full(mkFleetCompo(1,'cl',3,'dd')))
