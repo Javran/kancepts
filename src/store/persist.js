@@ -42,8 +42,8 @@ const persistPaths = [
 ]
 
 // get non-undefined path values and merge them into another Object
-const persistStateSelector = state => persistPaths
-  .reduce(
+const persistStateSelector = state =>
+  persistPaths.reduce(
     (curObj,path) => {
       const pathVal = _.get(state,path)
       if (typeof pathVal !== 'undefined') {
@@ -51,7 +51,8 @@ const persistStateSelector = state => persistPaths
       }
       return curObj
     },
-    {})
+    {}
+  )
 
 const encodedPersistStateSelector = createSelector(
   persistStateSelector,
@@ -93,11 +94,9 @@ const persistStateObserver = observer(
 const normalizePersistState = persistStateSelector
 
 const updatePersistState = kanceptsData => {
-  if (!kanceptsData || typeof kanceptsData !== 'object')
-    return {}
-
-  if (kanceptsData.version === latestVersion) {
-    return kanceptsData
+  if (_.isEmpty(kanceptsData) || typeof kanceptsData !== 'object') {
+    console.error(`Invalid kancepts data`, kanceptsData)
+    return null
   }
 
   let curKData = kanceptsData
@@ -107,14 +106,12 @@ const updatePersistState = kanceptsData => {
     // first version => '0.1.2'
     const {state: {expedConfigs}} = curKData
     const newExpedConfigs = {...expedConfigs};
-    // basically fill in default info about A1 A2 A3 B1
+    // basically fill in default info about A1 A2 A3 B1 if it's missing.
     [100,101,102,110].map(eId => {
-      if (! (eId in newExpedConfigs)) {
+      if (!(eId in newExpedConfigs)) {
         newExpedConfigs[eId] = defExpedConfig
       }
     })
-
-    // TODO: do we select them in planner by default?
 
     curKData = {
       state: {
@@ -128,9 +125,9 @@ const updatePersistState = kanceptsData => {
   if (curKData.version === '0.1.2') {
     const {state: {expedConfigs}} = curKData
     const newExpedConfigs = {...expedConfigs};
-
+    // filling B2
     [111].map(eId => {
-      if (! (eId in newExpedConfigs)) {
+      if (!(eId in newExpedConfigs)) {
         newExpedConfigs[eId] = defExpedConfig
       }
     })
@@ -144,11 +141,13 @@ const updatePersistState = kanceptsData => {
   }
 
   if (curKData.version === latestVersion) {
-    saveToLocalStorage(curKData.state)
+    if (curKData !== kanceptsData)
+      saveToLocalStorage(curKData.state)
     return curKData
   }
+
   console.error(`failed to update data file, the config is at version ${curKData.version}`)
-  return {}
+  return null
 }
 
 const loadPreparedState = () => {
