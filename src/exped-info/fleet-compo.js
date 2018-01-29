@@ -71,8 +71,7 @@ const applyWildcard = stypeWildcard => fleetCompo => {
   if (typeof fleetCompo.any === 'undefined')
     return fleetCompo
   const countAny = fleetCompo.any
-  const newFleetCompo = {...fleetCompo}
-  delete newFleetCompo.any
+  const {any: _ignored, ...newFleetCompo} = fleetCompo
 
   const count =
     typeof fleetCompo[stypeWildcard] === 'undefined' ?
@@ -84,6 +83,13 @@ const applyWildcard = stypeWildcard => fleetCompo => {
   }
 }
 
+/*
+   defineFleetCompo(<expedId>, <fleetCompo or int>):
+
+   - when int is used, it means a fleet of at least that many of ships
+   - otherwise it's an Object of fleetCompo
+
+ */
 const defineFleetCompo = (id, fleetCompoOrAtLeastNum) => {
   if (_.isInteger(fleetCompoOrAtLeastNum)) {
     const atLeastNum = fleetCompoOrAtLeastNum
@@ -95,106 +101,61 @@ const defineFleetCompo = (id, fleetCompoOrAtLeastNum) => {
 }
 
 // world 1
-defineFleetCompo(
-  1, 2)
-defineFleetCompo(
-  2, 4)
-defineFleetCompo(
-  3, 3)
-defineFleetCompo(
-  4, mkFleetCompo(1,'cl',2,'dd'))
-defineFleetCompo(
-  5, atLeast(4)(mkFleetCompo(1,'cl',2,'dd')))
-defineFleetCompo(
-  6, 4)
-defineFleetCompo(
-  7, 6)
-defineFleetCompo(
-  8, 6)
+defineFleetCompo(1, 2)
+defineFleetCompo(2, 4)
+defineFleetCompo(3, 3)
+defineFleetCompo(4, mkFleetCompo(1,'cl',2,'dd'))
+defineFleetCompo(5, atLeast(4)(mkFleetCompo(1,'cl',2,'dd')))
+defineFleetCompo(6, 4)
+defineFleetCompo(7, 6)
+defineFleetCompo(8, 6)
 
-defineFleetCompo(
-  100, atLeast(4)(mkFleetCompo(3,'dd')))
-defineFleetCompo(
-  101, atLeast(4)(mkFleetCompo(4,'dd')))
-defineFleetCompo(
-  102, atLeast(5)(mkFleetCompo(1,'cl',3,'dd')))
+defineFleetCompo(100, atLeast(4)(mkFleetCompo(3,'dd')))
+defineFleetCompo(101, atLeast(4)(mkFleetCompo(4,'dd')))
+defineFleetCompo(102, atLeast(5)(mkFleetCompo(1,'cl',3,'dd')))
 
 // world 2
-defineFleetCompo(
-  9, atLeast(4)(mkFleetCompo(1,'cl',2,'dd')))
-defineFleetCompo(
-  10, atLeast(3)(mkFleetCompo(2,'cl')))
-defineFleetCompo(
-  11, atLeast(4)(mkFleetCompo(2,'dd')))
-defineFleetCompo(
-  12, atLeast(4)(mkFleetCompo(2,'dd')))
-defineFleetCompo(
-  13, full(mkFleetCompo(1,'cl',4,'dd')))
-defineFleetCompo(
-  14, full(mkFleetCompo(1,'cl',3,'dd')))
-defineFleetCompo(
-  15, full(mkFleetCompo(2,'cv-like',2,'dd')))
-defineFleetCompo(
-  16, full(mkFleetCompo(1,'cl',2,'dd')))
-defineFleetCompo(
-  110, full(mkFleetCompo(1,'cl',1,'av',2,'dd')))
+defineFleetCompo(9, atLeast(4)(mkFleetCompo(1,'cl',2,'dd')))
+defineFleetCompo(10, atLeast(3)(mkFleetCompo(2,'cl')))
+defineFleetCompo(11, atLeast(4)(mkFleetCompo(2,'dd')))
+defineFleetCompo(12, atLeast(4)(mkFleetCompo(2,'dd')))
+defineFleetCompo(13, full(mkFleetCompo(1,'cl',4,'dd')))
+defineFleetCompo(14, full(mkFleetCompo(1,'cl',3,'dd')))
+defineFleetCompo(15, full(mkFleetCompo(2,'cv-like',2,'dd')))
+defineFleetCompo(16, full(mkFleetCompo(1,'cl',2,'dd')))
+defineFleetCompo(110, full(mkFleetCompo(1,'cl',1,'av',2,'dd')))
 // TODO: B2 needs more verification and confirmation
-defineFleetCompo(
-  111, full(mkFleetCompo(1,'ca',1,'cl',4,'dd')))
+defineFleetCompo(111, full(mkFleetCompo(1,'ca',1,'cl',4,'dd')))
 
 // world 3
-defineFleetCompo(
-  17, full(mkFleetCompo(1,'cl',3,'dd')))
-defineFleetCompo(
-  18, full(mkFleetCompo(3,'cv-like',2,'dd')))
-defineFleetCompo(
-  19, full(mkFleetCompo(2,'bbv',2,'dd')))
-defineFleetCompo(
-  20, mkFleetCompo(1,'ss-like',1,'cl'))
-defineFleetCompo(
-  21, mkFleetCompo(1,'cl',4,'dd'))
-defineFleetCompo(
-  22, full(mkFleetCompo(1,'ca',1,'cl',2,'dd')))
-defineFleetCompo(
-  23, full(mkFleetCompo(2,'bbv',2,'dd')))
-defineFleetCompo(
-  24, full(mkFleetCompo(1,'cl',4,'dd')))
+defineFleetCompo(17, full(mkFleetCompo(1,'cl',3,'dd')))
+defineFleetCompo(18, full(mkFleetCompo(3,'cv-like',2,'dd')))
+defineFleetCompo(19, full(mkFleetCompo(2,'bbv',2,'dd')))
+defineFleetCompo(20, mkFleetCompo(1,'ss-like',1,'cl'))
+defineFleetCompo(21, mkFleetCompo(1,'cl',4,'dd'))
+defineFleetCompo(22, full(mkFleetCompo(1,'ca',1,'cl',2,'dd')))
+defineFleetCompo(23, full(mkFleetCompo(2,'bbv',2,'dd')))
+defineFleetCompo(24, full(mkFleetCompo(1,'cl',4,'dd')))
 
 // world 4
-defineFleetCompo(
-  25, mkFleetCompo(2,'ca',2,'dd'))
-defineFleetCompo(
-  26, mkFleetCompo(1,'cv-like',1,'cl',2,'dd'))
-defineFleetCompo(
-  27, mkFleetCompo(2,'ss-like'))
-defineFleetCompo(
-  28, mkFleetCompo(3,'ss-like'))
-defineFleetCompo(
-  29, mkFleetCompo(3,'ss-like'))
-defineFleetCompo(
-  30, mkFleetCompo(4,'ss-like'))
-defineFleetCompo(
-  31, mkFleetCompo(4,'ss-like'))
-defineFleetCompo(
-  32, mkFleetCompo(1,'ct',2,'dd'))
+defineFleetCompo(25, mkFleetCompo(2,'ca',2,'dd'))
+defineFleetCompo(26, mkFleetCompo(1,'cv-like',1,'cl',2,'dd'))
+defineFleetCompo(27, mkFleetCompo(2,'ss-like'))
+defineFleetCompo(28, mkFleetCompo(3,'ss-like'))
+defineFleetCompo(29, mkFleetCompo(3,'ss-like'))
+defineFleetCompo(30, mkFleetCompo(4,'ss-like'))
+defineFleetCompo(31, mkFleetCompo(4,'ss-like'))
+defineFleetCompo(32, mkFleetCompo(1,'ct',2,'dd'))
 
 // world 5
-defineFleetCompo(
-  33, mkFleetCompo(2,'dd'))
-defineFleetCompo(
-  34, mkFleetCompo(2,'dd'))
-defineFleetCompo(
-  35, full(mkFleetCompo(2,'cv-like',1,'ca',1,'dd')))
-defineFleetCompo(
-  36, full(mkFleetCompo(2,'av',1,'cl',1,'dd')))
-defineFleetCompo(
-  37, mkFleetCompo(1,'cl',5,'dd'))
-defineFleetCompo(
-  38, full(mkFleetCompo(5,'dd')))
-defineFleetCompo(
-  39, mkFleetCompo(1,'as',4,'ss-like'))
-defineFleetCompo(
-  40, full(mkFleetCompo(1,'cl',2,'av',2,'dd')))
+defineFleetCompo(33, mkFleetCompo(2,'dd'))
+defineFleetCompo(34, mkFleetCompo(2,'dd'))
+defineFleetCompo(35, full(mkFleetCompo(2,'cv-like',1,'ca',1,'dd')))
+defineFleetCompo(36, full(mkFleetCompo(2,'av',1,'cl',1,'dd')))
+defineFleetCompo(37, mkFleetCompo(1,'cl',5,'dd'))
+defineFleetCompo(38, full(mkFleetCompo(5,'dd')))
+defineFleetCompo(39, mkFleetCompo(1,'as',4,'ss-like'))
+defineFleetCompo(40, full(mkFleetCompo(1,'cl',2,'av',2,'dd')))
 
 export {
   minimalFleetCompos,
