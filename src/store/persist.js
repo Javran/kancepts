@@ -158,7 +158,7 @@ const loadPreparedState = () => {
       return {}
 
     const kanceptsData = updatePersistState(JSON.parse(raw))
-    return normalizePersistState(kanceptsData.state)
+    return normalizePersistState(kanceptsData && kanceptsData.state)
   } catch (e) {
     console.error('error while loading preparedState from localStorage', e)
     return {}
