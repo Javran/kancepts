@@ -15,6 +15,17 @@ import { isValidFilterId } from '../ship-filters'
 
 const minimalFleetCompos = {}
 
+/*
+   should be clear enough of what this function does by examples:
+
+   - mkFleetCompo(2, 'dd') => {dd: 2}
+   - mkFleetCompo(2,'cv-like',1,'ca',1,'dd') => {'cv-like': 2, 'ca': 1, 'dd': 1}
+   - mkFleetCompo(2, 'dd', 3, 'dd') => {dd: 5}
+
+   as already demonstratated by the last example,
+   the function deals with duplicated inputs properly.
+
+ */
 const mkFleetCompo = (...args) => {
   if (args.length % 2 !== 0) {
     return console.error('expecting even number of arguments')
@@ -65,8 +76,10 @@ const atLeast = n => fleetCompo => {
 
 const full = atLeast(6)
 
-// to apply a wildcard type on a fleet composition
-// means to replace 'any' with that concrete wildcard type.
+/*
+   to apply a wildcard type on a fleet composition
+   means to replace 'any' with a specified concrete wildcard type.
+ */
 const applyWildcard = stypeWildcard => fleetCompo => {
   if (typeof fleetCompo.any === 'undefined')
     return fleetCompo
