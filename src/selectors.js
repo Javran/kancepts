@@ -274,7 +274,7 @@ const expedInfoViewListSelector = createSelector(
     const divideMethod = tableControl.view.divide
     const expedInfoViewList = expedInfoList.map(info => {
       const {id} = info
-      const config = expedConfigs[id]
+      const config = expedConfigs[id] || defExpedConfig
       const expedIncome = expedIncomes[id]
       const {resupplyInfo} = expedIncome
       const showResourceTotal =
