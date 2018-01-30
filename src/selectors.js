@@ -226,6 +226,11 @@ const makeExpedIncomeSelector = expedId => createSelector(
   (expedConfigs, costModel) => {
     const id = expedId
     const info = expedInfoList.find(ei => ei.id === id)
+    if (!info) {
+      return {
+        basic: null, gross: null, net: null, resupplyInfo: null,
+      }
+    }
     const {cost} = info
     const costModelPartial = costModel(cost)
     const basic = info.resource

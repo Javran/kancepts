@@ -15,7 +15,10 @@ import {
 } from '../../exped-info'
 
 const grouppedExpedIds = _.toPairs(
-  _.groupBy(allExpedIdList, eId => getExpedInfo(eId).areaId)
+  _.groupBy(
+    allExpedIdList.filter(eId => getExpedInfo(eId)),
+    eId => getExpedInfo(eId).areaId
+  )
 ).map(([areaIdStr, expedIds]) =>
   [Number(areaIdStr), expedIds.sort((x,y) => x-y)]
 ).sort(([k1,_v1],[k2,_v2]) => k1-k2)

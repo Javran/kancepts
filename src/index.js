@@ -29,6 +29,8 @@ import { store } from './store'
       - (TODO) we'll switch to use master data some day.
       - update `src/exped-info/fleet-compo.js`
 
+   - gen exped-cost-grouping?
+
 */
 
 ReactDOM.render(
