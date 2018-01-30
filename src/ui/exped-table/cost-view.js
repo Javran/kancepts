@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import {
   OverlayTrigger,
@@ -85,13 +86,27 @@ class CostView extends Component {
     resupplyInfo: PTyp.shape({
       cost: PTyp.object,
       compo: PTyp.object,
-    }).isRequired,
+    }),
     numeric: PTyp.bool.isRequired,
     tr: PTyp.func.isRequired,
   }
 
+  static defaultProps = {
+    resupplyInfo: null,
+  }
+
   render() {
     const {style, cost, prefix, resupplyInfo, numeric, tr} = this.props
+    if (resupplyInfo === null) {
+      return (
+        <div
+          style={{width: '100%', textAlign: 'center'}}
+        >
+          {tr('Table.NotAva')}
+        </div>
+      )
+    }
+
     const {compo} = resupplyInfo
     const generalCost = resupplyInfo.cost
     if (generalCost === null) {
@@ -117,11 +132,13 @@ class CostView extends Component {
           (numeric || cost.type === 'custom') ?
             renderCustom(
               generalCost.fuel,generalCost.ammo,
-              compo,prefix) :
+              compo,prefix
+            ) :
           cost.type === 'cost-model' ?
             renderCostModel(
               cost.wildcard,cost.count,
-              compo,generalCost,prefix,tr) :
+              compo,generalCost,prefix,tr
+            ) :
           null
           /* eslint-enable indent */
         }

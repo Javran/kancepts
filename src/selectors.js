@@ -235,9 +235,10 @@ const makeExpedIncomeSelector = expedId => createSelector(
       applyIncomeModifier(config.modifier)(basic)
     const resupplyInfo =
       computeResupplyInfo(config.cost)(info,costModelPartial)
+
     const applyResupply = (val, rp) => {
       if (rp === 'fuel' || rp === 'ammo') {
-        if (resupplyInfo.cost === null)
+        if (!resupplyInfo || resupplyInfo.cost === null)
           return null
         return val - resupplyInfo.cost[rp]
       } else {

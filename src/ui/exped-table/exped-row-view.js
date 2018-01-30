@@ -69,7 +69,7 @@ class ExpedRowViewImpl extends Component {
         <div style={{display: 'flex', flex: 1, width: '45%'}}>
           {
             resourceProperties.map(rp => {
-              const resourceVal = showResource[rp]
+              const resourceVal = _.get(showResource,rp,null)
               /* eslint-disable indent */
               const resourceText =
                 resourceVal === null ? tr('Table.NotAva') :

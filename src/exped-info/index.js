@@ -74,6 +74,8 @@ const computeResupplyInfo = costConfig => {
     const {wildcard, count} = costConfig
     return (expedInfo, costModelPartial) => {
       const {minCompo} = expedInfo
+      if (!minCompo)
+        return null
       // composition that satisfies user-specified length
       const abstractCompo = atLeast(count)(minCompo)
       const compo = applyWildcard(wildcard)(abstractCompo)
@@ -135,7 +137,7 @@ const expedInfoList = expedInfoListRaw.map(raw => {
   const itemGS = fromRawItem($mission.api_win_item2)
   const fuelPercent = Math.round($mission.api_use_fuel * 100)
   const ammoPercent = Math.round($mission.api_use_bull * 100)
-  const minCompo = minimalFleetCompos[id]
+  const minCompo = minimalFleetCompos[id] || null
   const resource = {fuel, ammo, steel, bauxite}
   return {
     id, name, time, areaId, dispNum,
