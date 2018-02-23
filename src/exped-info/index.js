@@ -108,14 +108,14 @@ const computeResupplyInfo = costConfig => {
 
 /* eslint-disable indent */
 const itemIdToName = x =>
-    x === 0 ? null
-  : x === 1 ? 'bucket'
-  : x === 2 ? 'instant-build'
-  : x === 3 ? 'dev-mat'
-  : x === 10 ? 'coin-small'
-  : x === 11 ? 'coin-medium'
-  : x === 12 ? 'coin-large'
-  : console.error(`unknown item id: ${x}`)
+  x === 0 ? null :
+  x === 1 ? 'bucket' :
+  x === 2 ? 'instant-build' :
+  x === 3 ? 'dev-mat' :
+  x === 10 ? 'coin-small' :
+  x === 11 ? 'coin-medium' :
+  x === 12 ? 'coin-large' :
+  console.error(`unknown item id: ${x}`)
 /* eslint-enable indent */
 
 const expedInfoList = expedInfoListRaw.map(raw => {

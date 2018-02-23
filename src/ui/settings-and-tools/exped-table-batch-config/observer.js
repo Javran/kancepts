@@ -1,9 +1,11 @@
 import _ from 'lodash'
 import { observer } from 'redux-observers'
+import { modifyObject } from 'subtender'
+
 import {
   filterStateSelector,
 } from './selectors'
-import { modifyObject } from 'subtender'
+
 import { expedInfoList } from '../../../exped-info'
 import {
   mapDispatchToProps,
