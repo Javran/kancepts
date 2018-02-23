@@ -14,6 +14,7 @@ import {
   formatTime,
 } from '../../exped-info'
 
+// TODO: replace
 const grouppedExpedIds = _.toPairs(
   _.groupBy(
     allExpedIdList.filter(eId => getExpedInfo(eId)),

@@ -5,6 +5,7 @@ import {
   resourceProperties,
   emptyResource,
   liftBinaryToResource,
+  grouppedExpedIds,
 } from './common'
 
 import { $missions } from '../master-data'
@@ -189,6 +190,7 @@ const pprIncomePercent = v => {
 
 export {
   resourceColor,
+  grouppedExpedIds,
   allExpedIdList,
   expedInfoList,
   getExpedInfo,
