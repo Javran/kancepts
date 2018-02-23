@@ -22,7 +22,8 @@ const computeTokuFactor = (normalCount, tokuCount) => {
   /* eslint-enable indent */
 }
 
-// TODO: utils
+// NOTE: unlike _.capitalize, we need to preserve rest of the content instead of
+// turning them into lower ones
 const capFirst = s => {
   if (typeof s !== 'string' || s.length === 0)
     return s
