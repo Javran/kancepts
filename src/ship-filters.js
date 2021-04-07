@@ -24,6 +24,8 @@ defineFilter('cve', 'CVE', s =>
   [521, 526, 380, 529].includes(s.masterId))
 defineFilter('av', 'AV', s =>
   s.stype === 16)
+defineFilter('cvl', 'CVL', s =>
+  s.stype === 7)
 defineFilter('cv-like', 'CV(*)', s =>
   [11,7,16,18].includes(s.stype))
 defineFilter('bbv', 'BBV', s =>
