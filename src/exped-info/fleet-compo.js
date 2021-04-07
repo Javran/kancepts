@@ -122,10 +122,13 @@ defineFleetCompo(5, atLeast(4)(mkFleetCompo(1,'cl',2,'dd')))
 defineFleetCompo(6, 4)
 defineFleetCompo(7, 6)
 defineFleetCompo(8, 6)
-
 defineFleetCompo(100, atLeast(4)(mkFleetCompo(3,'dd')))
 defineFleetCompo(101, atLeast(4)(mkFleetCompo(4,'dd')))
 defineFleetCompo(102, atLeast(5)(mkFleetCompo(1,'cl',3,'dd')))
+
+defineFleetCompo(103, atLeast(5)(mkFleetCompo(1,'cl',2,'dd')))
+defineFleetCompo(104, atLeast(5)(mkFleetCompo(1,'cl',3,'dd')))
+defineFleetCompo(105, full(mkFleetCompo(1,'cl',3,'dd')))
 
 // world 2
 defineFleetCompo(9, atLeast(4)(mkFleetCompo(1,'cl',2,'dd')))
@@ -137,7 +140,12 @@ defineFleetCompo(14, full(mkFleetCompo(1,'cl',3,'dd')))
 defineFleetCompo(15, full(mkFleetCompo(2,'cv-like',2,'dd')))
 defineFleetCompo(16, full(mkFleetCompo(1,'cl',2,'dd')))
 defineFleetCompo(110, full(mkFleetCompo(1,'cl',1,'av',2,'dd')))
+
 defineFleetCompo(111, full(mkFleetCompo(1,'ca',1,'cl',3,'dd')))
+defineFleetCompo(112, mkFleetCompo(1,'av',1,'cl',4,'dd'))
+defineFleetCompo(113, mkFleetCompo(2,'ca',1,'cl',2,'dd',1,'ss-like'))
+defineFleetCompo(114, full(mkFleetCompo(1,'av',1,'cl',2,'dd')))
+defineFleetCompo(115, mkFleetCompo(1,'cl',5,'dd'))
 
 // world 3
 defineFleetCompo(17, full(mkFleetCompo(1,'cl',3,'dd')))
@@ -149,6 +157,12 @@ defineFleetCompo(22, full(mkFleetCompo(1,'ca',1,'cl',2,'dd')))
 defineFleetCompo(23, full(mkFleetCompo(2,'bbv',2,'dd')))
 defineFleetCompo(24, full(mkFleetCompo(1,'cl',4,'dd')))
 
+// world 7
+defineFleetCompo(42, atLeast(4)(mkFleetCompo(1,'cl',2,'dd')))
+defineFleetCompo(43, full(mkFleetCompo(1,'cve',2,'dd')))
+defineFleetCompo(44, full(mkFleetCompo(1,'cv-like',1,'av',1,'cl',2,'dd')))
+defineFleetCompo(46, mkFleetCompo(2,'ca',1,'cl',2,'dd'))
+
 // world 4
 defineFleetCompo(25, mkFleetCompo(2,'ca',2,'dd'))
 defineFleetCompo(26, mkFleetCompo(1,'cv-like',1,'cl',2,'dd'))
@@ -159,6 +173,9 @@ defineFleetCompo(30, mkFleetCompo(4,'ss-like'))
 defineFleetCompo(31, mkFleetCompo(4,'ss-like'))
 defineFleetCompo(32, mkFleetCompo(1,'ct',2,'dd'))
 
+defineFleetCompo(132, atLeast(5)(mkFleetCompo(1,'as',3,'ss-like')))
+defineFleetCompo(133, atLeast(5)(mkFleetCompo(1,'as',3,'ss-like')))
+
 // world 5
 defineFleetCompo(33, mkFleetCompo(2,'dd'))
 defineFleetCompo(34, mkFleetCompo(2,'dd'))
@@ -168,6 +185,9 @@ defineFleetCompo(37, mkFleetCompo(1,'cl',5,'dd'))
 defineFleetCompo(38, full(mkFleetCompo(5,'dd')))
 defineFleetCompo(39, mkFleetCompo(1,'as',4,'ss-like'))
 defineFleetCompo(40, full(mkFleetCompo(1,'cl',2,'av',2,'dd')))
+
+defineFleetCompo(141, full(mkFleetCompo(1,'ca',1,'cl',3,'dd')))
+defineFleetCompo(142, mkFleetCompo(5,'dd'))
 
 export {
   minimalFleetCompos,

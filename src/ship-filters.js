@@ -21,7 +21,12 @@ defineFilter('ca', 'CA', s =>
 defineFilter('as', 'AS', s =>
   s.stype === 20)
 defineFilter('cve', 'CVE', s =>
-  [521, 526, 380, 529].includes(s.masterId))
+  [
+    526, 380, 529, // 大鷹
+    534, 381, 536, // 神鷹
+    544, 396,      // Gambier Bay
+    560,           // 瑞鳳改二乙
+  ].includes(s.masterId))
 defineFilter('av', 'AV', s =>
   s.stype === 16)
 defineFilter('cv-like', 'CV(*)', s =>
