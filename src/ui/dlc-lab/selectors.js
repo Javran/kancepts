@@ -78,8 +78,8 @@ const dlcResultsSelector = createSelector(
     createRow(
       'aveImp',
       aveImp, aveImpTooltip)
-    const [normalCount,t89Count,t2Count,tokuCount] =
-      [68,166,167,193].map(id => {
+    const [normalCount,t89Count,t2Count,tokuCount,abCount,busoCount] =
+      [68,166,167,193,408,409].map(id => {
         const equipment = equipments[id] || {}
         return _.sum(_.compact(Object.values(equipment)))
       })
@@ -87,7 +87,9 @@ const dlcResultsSelector = createSelector(
 
     const b1BeforeCap =
       0.05 * (normalCount + tokuCount + spShipCount) +
-      0.02 * t89Count + 0.01 * t2Count
+      0.03 * busoCount +
+      0.02 * (t89Count + abCount) +
+      0.01 * t2Count
     const b1 = Math.min(0.2, b1BeforeCap)
     const bStar = b1 * aveImp / 100
     const dlcBonus = Math.floor(basicIncome * (b1 + bStar))
