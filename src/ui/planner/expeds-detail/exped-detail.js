@@ -28,6 +28,7 @@ class ExpedDetailImpl extends Component {
     return (
       <div style={{
         marginBottom: 6,
+        color: '#ffffff',
       }}>
         <div style={{display: 'flex', marginLeft: '2em'}}>
           <div
@@ -49,6 +50,7 @@ class ExpedDetailImpl extends Component {
             width: '30em',
             marginBottom: 0,
             marginTop: 5,
+            color: '#ffffff',
           }}
           condensed bordered>
           <tbody>
